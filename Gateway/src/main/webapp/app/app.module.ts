@@ -3,7 +3,7 @@ import './vendor.ts';
 import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Ng2Webstorage, LocalStorageService, SessionStorageService  } from 'ngx-webstorage';
+import { Ng2Webstorage, LocalStorageService, SessionStorageService } from 'ngx-webstorage';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
@@ -11,7 +11,7 @@ import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interc
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
 import { GatewaySharedModule, UserRouteAccessService } from './shared';
-import { GatewayAppRoutingModule} from './app-routing.module';
+import { GatewayAppRoutingModule } from './app-routing.module';
 import { GatewayHomeModule } from './home/home.module';
 import { GatewayAdminModule } from './admin/admin.module';
 import { GatewayAccountModule } from './account/account.module';
@@ -29,12 +29,13 @@ import { FlightsPageComponent } from './flights-page/flights-page.component';
 import { FlightsPageModule } from './flights-page';
 import { SeatsConfigurePageModule } from './seats-configure-page';
 import { PaymentPageModule } from './payment-page';
+import { DataService } from './data.service';
 
 @NgModule({
     imports: [
         BrowserModule,
         GatewayAppRoutingModule,
-        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
+        Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         GatewaySharedModule,
         GatewayHomeModule,
         GatewayAdminModule,
@@ -52,6 +53,7 @@ import { PaymentPageModule } from './payment-page';
         FooterComponent
     ],
     providers: [
+        DataService,
         ProfileService,
         PaginationConfig,
         UserRouteAccessService,
@@ -89,6 +91,6 @@ import { PaymentPageModule } from './payment-page';
             ]
         }
     ],
-    bootstrap: [ JhiMainComponent ]
+    bootstrap: [JhiMainComponent]
 })
-export class GatewayAppModule {}
+export class GatewayAppModule { }
