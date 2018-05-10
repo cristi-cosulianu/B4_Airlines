@@ -5,7 +5,7 @@ import { DataService } from '../data.service';
 @Component({
   selector: 'jhi-seats-configure-page',
   templateUrl: './seats-configure-page.component.html',
-  styles: []
+  styleUrls: ['seats-configure-page.css']
 })
 export class SeatsConfigurePageComponent implements OnInit {
   public ticket = new TicketModel();
