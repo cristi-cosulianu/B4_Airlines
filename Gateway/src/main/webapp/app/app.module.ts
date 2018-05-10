@@ -27,6 +27,8 @@ import {
 } from './layouts';
 import { FlightsPageComponent } from './flights-page/flights-page.component';
 import { FlightsPageModule } from './flights-page';
+import { SeatsConfigurePageModule } from './seats-configure-page';
+import { PaymentPageModule } from './payment-page';
 
 @NgModule({
     imports: [
@@ -38,7 +40,9 @@ import { FlightsPageModule } from './flights-page';
         GatewayAdminModule,
         GatewayAccountModule,
         GatewayEntityModule,
-        FlightsPageModule
+        FlightsPageModule,
+        SeatsConfigurePageModule,
+        PaymentPageModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
