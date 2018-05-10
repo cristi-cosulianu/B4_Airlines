@@ -25,6 +25,8 @@ import {
     ProfileService,
     ErrorComponent
 } from './layouts';
+import { FlightsPageComponent } from './flights-page/flights-page.component';
+import { FlightsPageModule } from './flights-page';
 
 @NgModule({
     imports: [
@@ -36,6 +38,7 @@ import {
         GatewayAdminModule,
         GatewayAccountModule,
         GatewayEntityModule,
+        FlightsPageModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

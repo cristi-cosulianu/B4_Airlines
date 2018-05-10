@@ -19,6 +19,9 @@
                 <span>You don't have an account yet?</span>
                 <a class="alert-link" routerLink="register">Register a new account</a>
             </div>
+            <div *ngSwitchCase="true">
+                <button routerLink="flights-page">Next page</button>
+            </div>
         </div>
     </div>
 </div>
