@@ -1,5 +1,12 @@
 .seats{
     height: 25px;
     width: 25px;
-    background-color: blue;
+    background-color: green;
+}
+
+.id1{
+    background-color: green;
+}
+.id2{
+    background-color: green;
 }
