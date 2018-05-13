@@ -1,6 +1,110 @@
 <p>
     seats-configure-page works!
 </p>
+
+
+<div *ngFor="let number of numbers1to6">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers7to12">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers13to18">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers19to24">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers25to30">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers31to36">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers37to42">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers43to48">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers49to54">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers55to60">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers61to66">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers67to72">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers73to78">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers79to84">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers85to90">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers91to96">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers97to102">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+<br>
+<br>
+<div *ngFor="let number of numbers103to108">
+    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+</div>
+
+<div> {{checkOccupiedSeats()}}</div>
+
+<br>
+<br>
+<br>
+
+<p>Seats selected:</p>
+
+<div style="float: left;" *ngFor="let number of chosenSeats">
+        <p>{{number}}&nbsp;&nbsp;</p>    
+</div>
+<br>
+<br>
 <button routerLink="/payment-page">
     Next page
 </button>
