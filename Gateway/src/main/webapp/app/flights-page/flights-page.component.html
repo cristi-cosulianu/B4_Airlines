@@ -1,6 +1,109 @@
-<p>
-  flights-page works!
-</p>
+
+<div id="flightSelector" class="container">
+  <form action="/action_page.php">
+    <ul>
+      <li class="form-group ">
+        <label class="inputLabel d-inline" for="departure">Departure:</label>
+        <input id="departure" type="departure" class="form-control d-inline" placeholder="Enter departure" name="departure" required>
+      </li>
+      <li class="form-group">
+        <label class="inputLabel d-inline" for="destination">Arrival:</label>
+        <input id="destination" type="destination" class="form-control d-inline" placeholder="Enter destination" name="destination" required>
+      </li>
+      <li class="form-group">
+        <button type="submit" class="btn btn-primary" (click)="sendSubmision()">Submit</button>
+      </li>
+    </ul>
+  </form>
+</div>
+
+
+<table class="table table-hover table-striped">
+
+  <thead>                                   <!-- table head -->
+    <tr>                                    <!-- table row -->
+      <th>Flight number</th>                          <!-- table head cell -->
+      <th>Departure</th>
+      <th>Destination</th>
+      <th>Price</th>
+      <th>Available seats</th>
+      <th>Company</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+
+  <tbody>                                   <!-- table body -->
+    <tr>       
+      <td>12314</td>                
+      <td>Londra</td>
+      <td>Bucuresti</td>
+
+      <td>100$</td>
+      <td>31</td>
+      <td>BlueAir</td>
+      <td>3.5</td>
+
+    </tr>
+    <tr>       
+      <td>12314</td>                
+      <td>Londra</td>
+      <td>Bucuresti</td>
+
+      <td>100$</td>
+      <td>31</td>
+      <td>BlueAir</td>
+      <td>3.5</td>
+
+    </tr>
+    <tr>       
+      <td>12314</td>                
+      <td>Londra</td>
+      <td>Bucuresti</td>
+
+      <td>100$</td>
+      <td>31</td>
+      <td>BlueAir</td>
+      <td>3.5</td>
+
+    </tr>
+    <tr>       
+      <td>12314</td>                
+      <td>Londra</td>
+      <td>Bucuresti</td>
+
+      <td>100$</td>
+      <td>31</td>
+      <td>BlueAir</td>
+      <td>3.5</td>
+
+    </tr>
+    <tr>       
+      <td>12314</td>                
+      <td>Londra</td>
+      <td>Bucuresti</td>
+
+      <td>100$</td>
+      <td>31</td>
+      <td>BlueAir</td>
+      <td>3.5</td>
+
+    </tr>
+    <tr>       
+      <td>12314</td>                
+      <td>Londra</td>
+      <td>Bucuresti</td>
+
+      <td>100$</td>
+      <td>31</td>
+      <td>BlueAir</td>
+      <td>3.5</td>
+
+    </tr>
+  </tbody>
+
+</table>
+
+
 <button routerLink="/seats-configure-page">
   Next page
 </button>
