@@ -1,0 +1,30 @@
+#flightSelector{
+    width: 40%; 
+}
+
+#flightSelector ul{
+    list-style-type: none;
+}
+
+#flightSelector ul li{
+    height: 5vh;
+    text-align: center;
+}
+
+#flightSelector ul li label{
+    margin: 0.375rem 0;
+}
+
+.form-group{
+    margin-bottom: 0;
+}
+
+.form-control{
+    width: 70%;
+    float: right;
+}
+
+.inputLabel{
+    width: 30%;
+    float: left;
+}
