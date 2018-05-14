@@ -3,12 +3,13 @@ Navbar
 ========================================================================== */
 .navbar-version {
     font-size: 10px;
-    color: #ccc
+    color: #ccc;
 }
 
 .jh-navbar {
-    background-color: #353d47;
+    background-color: #ffffff;
     padding: .2em 1em;
+    border: 1px solid #ebebeb;
 }
 
 .jh-navbar .profile-image {
@@ -16,6 +17,11 @@ Navbar
     height: 40px;
     width: 40px;
     border-radius: 50%;
+}
+
+.dropdown-menu {
+    border: none;
+    box-shadow: 1px 1px 2px #ebebeb,-1px 1px 2px #ebebeb;
 }
 
 .jh-navbar .dropdown-item.active, .jh-navbar .dropdown-item.active:focus, .jh-navbar .dropdown-item.active:hover {
@@ -36,6 +42,10 @@ Navbar
 
 .jh-navbar a.nav-link {
     font-weight: 400;
+}
+
+.jh-navbar a.nav-link:hover {
+    color: #5648db;
 }
 
 .jh-navbar .jh-navbar-toggler {
@@ -63,6 +73,9 @@ Navbar
 .navbar-title {
     display: inline-block;
     vertical-align: middle;
+    font-size: 24px;
+    letter-spacing: 0.8px;
+    font-family: "Basis Grotesque Pro Light";
 }
 
 /* ==========================================================================
@@ -73,7 +86,7 @@ Logo styles
 }
 
 .logo .logo-img {
-    height: 45px;
+    height: 60px;
     display: inline-block;
     vertical-align: middle;
     width: 70px;

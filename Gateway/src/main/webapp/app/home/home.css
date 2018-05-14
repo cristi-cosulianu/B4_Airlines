@@ -4,10 +4,12 @@ Main page styles
 
 .hipster {
     display: inline-block;
-    width: 347px;
+    width: 332px;
     height: 497px;
-    background: url("../../content/images/plane.jpg") no-repeat center top;
+    background: url("../../content/images/front-image.jpg") no-repeat center top;
     background-size: contain;
+    border-radius: 10px;
+    border: 1px solid #ebebeb;
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
@@ -19,8 +21,14 @@ only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
     .hipster {
-        background: url("../../content/images/plane2x.jpg") no-repeat center top;
+        background: url("../../content/images/front-image.jpg") no-repeat center top;
         background-size: contain;
     }
 }
 
+.main-title {
+    font-family: "Basis Grotesque Pro Light", "Roboto", serif;
+    font-size: 3.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}

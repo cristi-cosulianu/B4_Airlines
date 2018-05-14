@@ -2,16 +2,32 @@
 Bootstrap tweaks
 ===============================================================*/
 
+@font-face {
+    font-family: "Basis Grotesque Pro";
+    src: url('../webfonts/BasisGrotesquePro-Regular.ttf');
+}
+
+@font-face {
+    font-family: "Basis Grotesque Pro Light";
+    src: url('../webfonts/BasisGrotesquePro-Light.ttf');
+}
+
+@font-face {
+    font-family: "Basis Grotesque Pro Bold";
+    src: url('../webfonts/BasisGrotesquePro-Bold.ttf');
+}
+
 body, h1, h2, h3, h4 {
+    font-family: "Basis Grotesque Pro", "Roboto", serif;
     font-weight: 300;
 }
 
 body {
-    background: #e4e5e6;
+    background-color: #f8f7f8;
 }
 
 a {
-    color: #533f03;
+    color: #000;
     font-weight: bold;
 }
 
@@ -49,6 +65,7 @@ Generic styles
     padding: 1.5%;
     margin-top: 20px;
     border: none;
+    border: 1px solid #ebebeb;
 }
 
 .error {
@@ -210,3 +227,21 @@ ui bootstrap tweaks
  }
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
+
+
+/* ==========================================================================
+alert
+========================================================================== */
+
+.alert-warning {
+    color: #000;
+    border: none;
+    box-shadow: 1px 1px 2px #ebebeb,-1px 1px 2px #ebebeb;
+}
+.alert-link {
+    color: #000;
+}
+
+.alert-link:hover {
+    color: #5648db;
+}
