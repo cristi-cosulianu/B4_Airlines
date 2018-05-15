@@ -8,7 +8,7 @@ Main page styles
     height: 497px;
     background: url("../../content/images/front-image.jpg") no-repeat center top;
     background-size: contain;
-    border-radius: 10px;
+    border-radius: 4px;
     border: 1px solid #ebebeb;
 }
 

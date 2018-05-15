@@ -32,7 +32,7 @@ a {
 }
 
 a:hover {
-    color: #533f03;
+    color: #5648db;
     font-weight: bold;
 }
 
@@ -51,12 +51,12 @@ Generic styles
 ========================================================================== */
 
 /* Error highlight on input fields */
-.ng-valid[required], .ng-valid.required  {
-  border-left: 5px solid green;
+.ng-valid[required], .ng-valid.required {
+    border-left: 5px solid green;
 }
 
-.ng-invalid:not(form)  {
-  border-left: 5px solid red;
+.ng-invalid:not(form) {
+    border-left: 5px solid red;
 }
 
 /* other generic styles */
@@ -64,7 +64,6 @@ Generic styles
 .jh-card {
     padding: 1.5%;
     margin-top: 20px;
-    border: none;
     border: 1px solid #ebebeb;
 }
 
@@ -87,7 +86,7 @@ Generic styles
 
 .break {
     white-space: normal;
-    word-break:break-all;
+    word-break: break-all;
 }
 
 .readonly {
@@ -96,7 +95,7 @@ Generic styles
 }
 
 .footer {
-    border-top: 1px solid rgba(0,0,0,.125);
+    border-top: 1px solid rgba(0, 0, 0, .125);
     text-align: center;
 }
 
@@ -104,7 +103,7 @@ Generic styles
 make sure browsers use the pointer cursor for anchors, even with no href
 ========================================================================== */
 a:hover {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .hand, [jhisortby] {
@@ -114,10 +113,11 @@ a:hover {
 /* ==========================================================================
 Custom alerts for notification
 ========================================================================== */
-.alerts .alert{
+.alerts .alert {
     text-overflow: ellipsis;
 }
-.alert pre{
+
+.alert pre {
     background: none;
     border: none;
     font: inherit;
@@ -162,25 +162,41 @@ entity tables helpers
 ========================================================================== */
 /* Remove Bootstrap padding from the element
    http://stackoverflow.com/questions/19562903/remove-padding-from-columns-in-bootstrap-3 */
-.no-padding-left { padding-left: 0 !important; }
-.no-padding-right { padding-right: 0 !important; }
-.no-padding-top { padding-top: 0 !important; }
-.no-padding-bottom { padding-bottom: 0 !important; }
-.no-padding { padding: 0 !important; }
+.no-padding-left {
+    padding-left: 0 !important;
+}
+
+.no-padding-right {
+    padding-right: 0 !important;
+}
+
+.no-padding-top {
+    padding-top: 0 !important;
+}
+
+.no-padding-bottom {
+    padding-bottom: 0 !important;
+}
+
+.no-padding {
+    padding: 0 !important;
+}
 
 /* bootstrap 3 input-group 100% width
    http://stackoverflow.com/questions/23436430/bootstrap-3-input-group-100-width */
-.width-min { width: 1% !important; }
+.width-min {
+    width: 1% !important;
+}
 
 /* Makes toolbar not wrap on smaller screens
  http://www.sketchingwithcss.com/samplechapter/cheatsheet.html#right */
 .flex-btn-group-container {
-   display: -webkit-flex;
-   display: flex;
-   -webkit-flex-direction: row;
-   flex-direction: row;
-   -webkit-justify-content: flex-end;
-   justify-content: flex-end;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: flex-end;
+    justify-content: flex-end;
 }
 
 /* ==========================================================================
@@ -210,12 +226,12 @@ ui bootstrap tweaks
 }
 
 .datetime-picker-dropdown > li.date-picker-menu div > table .btn-secondary,
-.uib-datepicker-popup  > li > div.uib-datepicker > table .btn-secondary {
+.uib-datepicker-popup > li > div.uib-datepicker > table .btn-secondary {
     border: 0;
 }
 
 .datetime-picker-dropdown > li.date-picker-menu div > table:focus,
-.uib-datepicker-popup  > li > div.uib-datepicker > table:focus {
+.uib-datepicker-popup > li > div.uib-datepicker > table:focus {
     outline: none;
 }
 
@@ -224,10 +240,31 @@ ui bootstrap tweaks
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
- }
+}
+
+.dropdown-item:hover, #login:hover {
+    font-weight: 400;
+    color: #5648db;
+    background-color: #f8f7f8;
+}
+
+.btn {
+    transition: all .3s ease 0s;
+    background-color: #5648db;
+    border-color: #5648db;
+}
+
+.btn:hover {
+    background-color: #4e67ee;
+    border-color: #4e67ee;
+}
+
+.modal-content {
+    border: 1px solid #ebebeb;
+    border-radius: 4px;
+}
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
-
 
 /* ==========================================================================
 alert
@@ -236,12 +273,16 @@ alert
 .alert-warning {
     color: #000;
     border: none;
-    box-shadow: 1px 1px 2px #ebebeb,-1px 1px 2px #ebebeb;
+    background-color: #f8f7f8;
+    box-shadow: 1px 1px 2px #ebebeb, -1px 1px 2px #ebebeb;
 }
+
 .alert-link {
-    color: #000;
+    color: #5648db !important;
+    font-weight: 400;
 }
 
 .alert-link:hover {
-    color: #5648db;
+    text-decoration: underline !important;
+    font-weight: 400;
 }
