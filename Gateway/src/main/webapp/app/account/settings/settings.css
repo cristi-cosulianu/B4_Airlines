@@ -1,0 +1,15 @@
+.options {
+    float:left;
+}
+
+.option-item {
+    list-style-type: none;
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 2rem;
+}
+
+.option-item:hover {
+    color: #5648db;
+    text-decoration: underline;
+}
