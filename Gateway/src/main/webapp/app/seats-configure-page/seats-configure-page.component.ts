@@ -27,27 +27,26 @@ export class SeatsConfigurePageComponent implements OnInit {
   public numbers91to96: Array<number> = new Array<number>();
   public numbers97to102: Array<number> = new Array<number>();
   public numbers103to108: Array<number> = new Array<number>();
-  public numbers1to108: Array<number> = new Array<number>(); 
+  public numbers1to108: Array<number> = new Array<number>();
 
   private chosenSeats: Array<number> = new Array<number>();
-  private occupiedSeats: Array<number> = [1, 7 ,13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 103];
+  private occupiedSeats: Array<number> = [1, 7, 13, 19, 25, 31, 37, 43, 49, 55, 61, 67, 73, 79, 85, 91, 97, 103];
   public ticket = new TicketModel();
-  public indexSeat=1;
+  public indexSeat = 1;
   constructor(private data: DataService) {
 
   }
 
-  checkOccupiedSeats(){
-    for(let id=1; id<=108; id++){
-      var identifier1 = 'id' + id;
-      var shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
-      if( this.occupiedSeats.indexOf(id) > -1) 
-      {
+  checkOccupiedSeats() {
+    for (let id = 1; id <= 108; id++) {
+      const identifier1 = 'id' + id;
+      const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
+      if (this.occupiedSeats.indexOf(id) > -1) {
         shand[0].style.backgroundColor = ' red ';
       }
-      
+
     }
-    console.log("Salut!");
+    console.log('Salut!');
   }
 
   ngOnInit() {
@@ -97,7 +96,7 @@ export class SeatsConfigurePageComponent implements OnInit {
     for (let i = 73; i <= 78; i++) {
       this.numbers73to78.push(i);
     }
-    for (let i =79; i <= 84; i++) {
+    for (let i = 79; i <= 84; i++) {
       this.numbers79to84.push(i);
     }
     for (let i = 85; i <= 90; i++) {
@@ -118,18 +117,15 @@ export class SeatsConfigurePageComponent implements OnInit {
     console.log(id + 'was clicked');
     const identifier1 = 'id' + id;
     const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
-    if( shand[0].style.backgroundColor != 'orange' && this.occupiedSeats.indexOf(id) < 0) 
-    {
+    if (shand[0].style.backgroundColor !== 'orange' && this.occupiedSeats.indexOf(id) < 0) {
       shand[0].style.backgroundColor = ' orange ';
       this.chosenSeats.push(id);
-    }
-    else 
-    {
+    } else {
       shand[0].style.backgroundColor = ' green ';
-      var index = this.chosenSeats.indexOf(id, 0);
+      const index = this.chosenSeats.indexOf(id, 0);
       if (index > -1) {
         this.chosenSeats.splice(index, 1);
-        }
+      }
     }
     for (let i = 0; i < this.chosenSeats.length; i++) {
       console.log(this.chosenSeats[i]);

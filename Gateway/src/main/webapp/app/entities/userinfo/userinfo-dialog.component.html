@@ -1,0 +1,207 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myUserinfoLabel">Create or edit a Userinfo</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!userinfo.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="userinfo.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_uid">Uid</label>
+            <input type="text" class="form-control" name="uid" id="field_uid"
+                [(ngModel)]="userinfo.uid" required minlength="18" maxlength="18"/>
+            <div [hidden]="!(editForm.controls.uid?.dirty && editForm.controls.uid?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.uid?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.uid?.errors?.minlength">
+                   This field is required to be at least 18 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.uid?.errors?.maxlength">
+                   This field cannot be longer than 18 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_cnp">Cnp</label>
+            <input type="text" class="form-control" name="cnp" id="field_cnp"
+                [(ngModel)]="userinfo.cnp" required minlength="13"/>
+            <div [hidden]="!(editForm.controls.cnp?.dirty && editForm.controls.cnp?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.cnp?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.cnp?.errors?.minlength">
+                   This field is required to be at least 13 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="userinfo.name" required minlength="3" maxlength="20"/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.minlength">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.maxlength">
+                   This field cannot be longer than 20 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_prenume">Prenume</label>
+            <input type="text" class="form-control" name="prenume" id="field_prenume"
+                [(ngModel)]="userinfo.prenume" required minlength="3" maxlength="60"/>
+            <div [hidden]="!(editForm.controls.prenume?.dirty && editForm.controls.prenume?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.prenume?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.prenume?.errors?.minlength">
+                   This field is required to be at least 3 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.prenume?.errors?.maxlength">
+                   This field cannot be longer than 60 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
+            <div class="input-group">
+                <input id="field_dateOfBirth" type="text" class="form-control" name="dateOfBirth" ngbDatepicker  #dateOfBirthDp="ngbDatepicker" [(ngModel)]="userinfo.dateOfBirth"
+                required/>
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.dateOfBirth?.dirty && editForm.controls.dateOfBirth?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.dateOfBirth?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_adress">Adress</label>
+            <input type="text" class="form-control" name="adress" id="field_adress"
+                [(ngModel)]="userinfo.adress" required/>
+            <div [hidden]="!(editForm.controls.adress?.dirty && editForm.controls.adress?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.adress?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_phoneNumber">Phone Number</label>
+            <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber"
+                [(ngModel)]="userinfo.phoneNumber" required minlength="5"/>
+            <div [hidden]="!(editForm.controls.phoneNumber?.dirty && editForm.controls.phoneNumber?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.phoneNumber?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.phoneNumber?.errors?.minlength">
+                   This field is required to be at least 5 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_idType">Id Type</label>
+            <input type="text" class="form-control" name="idType" id="field_idType"
+                [(ngModel)]="userinfo.idType" required/>
+            <div [hidden]="!(editForm.controls.idType?.dirty && editForm.controls.idType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.idType?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_serialNumber">Serial Number</label>
+            <input type="text" class="form-control" name="serialNumber" id="field_serialNumber"
+                [(ngModel)]="userinfo.serialNumber" required minlength="3"/>
+            <div [hidden]="!(editForm.controls.serialNumber?.dirty && editForm.controls.serialNumber?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.serialNumber?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.serialNumber?.errors?.minlength">
+                   This field is required to be at least 3 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_emittingCountry">Emitting Country</label>
+            <input type="text" class="form-control" name="emittingCountry" id="field_emittingCountry"
+                [(ngModel)]="userinfo.emittingCountry" required/>
+            <div [hidden]="!(editForm.controls.emittingCountry?.dirty && editForm.controls.emittingCountry?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.emittingCountry?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_expiringDate">Expiring Date</label>
+            <div class="input-group">
+                <input id="field_expiringDate" type="text" class="form-control" name="expiringDate" ngbDatepicker  #expiringDateDp="ngbDatepicker" [(ngModel)]="userinfo.expiringDate"
+                required/>
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="expiringDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.expiringDate?.dirty && editForm.controls.expiringDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.expiringDate?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_loginid">Loginid</label>
+            <input type="text" class="form-control" name="loginid" id="field_loginid"
+                [(ngModel)]="userinfo.loginid" required minlength="1"/>
+            <div [hidden]="!(editForm.controls.loginid?.dirty && editForm.controls.loginid?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.loginid?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.loginid?.errors?.minlength">
+                   This field is required to be at least 1 characters.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
