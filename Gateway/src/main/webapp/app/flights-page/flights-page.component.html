@@ -1,109 +1,198 @@
-
-<div id="flightSelector" class="container">
-  <form action="/action_page.php">
-    <ul>
-      <li class="form-group ">
-        <label class="inputLabel d-inline" for="departure">Departure:</label>
-        <input id="departure" type="departure" class="form-control d-inline" placeholder="Enter departure" name="departure" required>
-      </li>
-      <li class="form-group">
-        <label class="inputLabel d-inline" for="destination">Arrival:</label>
-        <input id="destination" type="destination" class="form-control d-inline" placeholder="Enter destination" name="destination" required>
-      </li>
-      <li class="form-group">
-        <button type="submit" class="btn btn-primary" (click)="sendSubmision()">Submit</button>
-      </li>
-    </ul>
-  </form>
+<div id="flights-select" class="row"> 
+  
+  <!-- DEPARTURE & ARRIVAL FORM -->
+  <div class="col-md-5 offset-md-2">
+    <h1>Book your flight</h1>
+    <img src="flight.jpg" class="img-fluid" alt="Plane image">
+  </div>
+  <div id="flightSelector" class="col-md-3">
+    <form action="/action_page.php">
+      <div class="form-group">
+        <label for="departure">From:</label>
+        <select id="departure" class="form-control" type="text" name="departure" required>
+          <option selected>Select departure</option>
+          <option>Bucharest</option>
+          <option>London</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="destination">To:</label>
+        <select id="destination" class="form-control" type="text" name="destination" required>
+          <option selected>Select destination</option>
+          <option>Bucharest</option>
+          <option>London</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" (click)="sendSubmision()">Book now!</button>
+    </form>
+  </div>
 </div>
 
+<!-- FLIGHTS TABLE -->
+<div id="flights-table" class="table-responsive">
+  <table class="table table-hover table-striped">
+    <thead>
+      <tr>
+        <th>Flight number</th>
+        <th>Departure</th>
+        <th>Destination</th>
+        <th>Price</th>
+        <th>Available seats</th>
+        <th>Company</th>
+        <th>Rating</th>
+        <th>Reviews</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>       
+        <td>12314</td>                
+        <td>London</td>
+        <td>Bucharest</td>
+        <td>100 <span class="price">$</span></td>
+        <td>31</td>
+        <td>BlueAir</td>
+        <td>
+          <div class="star-rating">
+            <span class="fa fa-star" data-rating="1"></span>
+            <span class="fa fa-star" data-rating="2"></span>
+            <span class="fa fa-star" data-rating="3"></span>
+            <span class="fa fa-star-o" data-rating="4"></span>
+            <span class="fa fa-star-o" data-rating="5"></span>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false" aria-controls="collapseReview">
+            View
+          </button>
+        </td>
+      </tr>
 
-<table class="table table-hover table-striped">
+      <!-- COLLAPSE -->
+      <!-- <div class="collapse" id="collapseReview">
+        <div class="card card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+        </div>
+      </div> -->
 
-  <thead>                                   <!-- table head -->
-    <tr>                                    <!-- table row -->
-      <th>Flight number</th>                          <!-- table head cell -->
-      <th>Departure</th>
-      <th>Destination</th>
-      <th>Price</th>
-      <th>Available seats</th>
-      <th>Company</th>
-      <th>Rating</th>
-    </tr>
-  </thead>
-
-  <tbody>                                   <!-- table body -->
-    <tr>       
-      <td>12314</td>                
-      <td>Londra</td>
-      <td>Bucuresti</td>
-
-      <td>100$</td>
-      <td>31</td>
-      <td>BlueAir</td>
-      <td>3.5</td>
-
-    </tr>
-    <tr>       
-      <td>12314</td>                
-      <td>Londra</td>
-      <td>Bucuresti</td>
-
-      <td>100$</td>
-      <td>31</td>
-      <td>BlueAir</td>
-      <td>3.5</td>
-
-    </tr>
-    <tr>       
-      <td>12314</td>                
-      <td>Londra</td>
-      <td>Bucuresti</td>
-
-      <td>100$</td>
-      <td>31</td>
-      <td>BlueAir</td>
-      <td>3.5</td>
-
-    </tr>
-    <tr>       
-      <td>12314</td>                
-      <td>Londra</td>
-      <td>Bucuresti</td>
-
-      <td>100$</td>
-      <td>31</td>
-      <td>BlueAir</td>
-      <td>3.5</td>
-
-    </tr>
-    <tr>       
-      <td>12314</td>                
-      <td>Londra</td>
-      <td>Bucuresti</td>
-
-      <td>100$</td>
-      <td>31</td>
-      <td>BlueAir</td>
-      <td>3.5</td>
-
-    </tr>
-    <tr>       
-      <td>12314</td>                
-      <td>Londra</td>
-      <td>Bucuresti</td>
-
-      <td>100$</td>
-      <td>31</td>
-      <td>BlueAir</td>
-      <td>3.5</td>
-
-    </tr>
-  </tbody>
-
-</table>
-
+      <tr>       
+        <td>12314</td>                
+        <td>London</td>
+        <td>Bucharest</td>
+        <td>100 <span class="price">$</span></td>
+        <td>31</td>
+        <td>BlueAir</td>
+        <td>
+          <div class="star-rating">
+            <span class="fa fa-star" data-rating="1"></span>
+            <span class="fa fa-star" data-rating="2"></span>
+            <span class="fa fa-star" data-rating="3"></span>
+            <span class="fa fa-star-o" data-rating="4"></span>
+            <span class="fa fa-star-o" data-rating="5"></span>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            View
+          </button>
+        </td>
+      </tr>
+      <tr>       
+        <td>12314</td>                
+        <td>London</td>
+        <td>Bucharest</td>
+        <td>100 <span class="price">$</span></td>
+        <td>31</td>
+        <td>BlueAir</td>
+        <td>
+          <div class="star-rating">
+            <span class="fa fa-star" data-rating="1"></span>
+            <span class="fa fa-star" data-rating="2"></span>
+            <span class="fa fa-star" data-rating="3"></span>
+            <span class="fa fa-star-o" data-rating="4"></span>
+            <span class="fa fa-star-o" data-rating="5"></span>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            View
+          </button>
+        </td>
+      </tr>
+      <tr>       
+        <td>12314</td>                
+        <td>London</td>
+        <td>Bucharest</td>
+        <td>100 <span class="price">$</span></td>
+        <td>31</td>
+        <td>BlueAir</td>
+        <td>
+          <div class="star-rating">
+            <span class="fa fa-star" data-rating="1"></span>
+            <span class="fa fa-star" data-rating="2"></span>
+            <span class="fa fa-star" data-rating="3"></span>
+            <span class="fa fa-star-o" data-rating="4"></span>
+            <span class="fa fa-star-o" data-rating="5"></span>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            View
+          </button>
+        </td>
+      </tr>
+      <tr>       
+        <td>12314</td>                
+        <td>London</td>
+        <td>Bucharest</td>
+        <td>100 <span class="price">$</span></td>
+        <td>31</td>
+        <td>BlueAir</td>
+        <td>
+          <div class="star-rating">
+            <span class="fa fa-star" data-rating="1"></span>
+            <span class="fa fa-star" data-rating="2"></span>
+            <span class="fa fa-star" data-rating="3"></span>
+            <span class="fa fa-star-o" data-rating="4"></span>
+            <span class="fa fa-star-o" data-rating="5"></span>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            View
+          </button>
+        </td>
+      </tr>
+      <tr>       
+        <td>12314</td>                
+        <td>London</td>
+        <td>Bucharest</td>
+        <td>100 <span class="price">$</span></td>
+        <td>31</td>
+        <td>BlueAir</td>
+        <td>
+          <div class="star-rating">
+            <span class="fa fa-star" data-rating="1"></span>
+            <span class="fa fa-star" data-rating="2"></span>
+            <span class="fa fa-star" data-rating="3"></span>
+            <span class="fa fa-star-o" data-rating="4"></span>
+            <span class="fa fa-star-o" data-rating="5"></span>
+          </div>
+        </td>
+        <td>
+          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            View
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 <button routerLink="/seats-configure-page">
   Next page
 </button>
+
+<!-- COLLAPSE -->
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
