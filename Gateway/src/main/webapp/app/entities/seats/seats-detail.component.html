@@ -1,0 +1,34 @@
+
+<div *ngIf="seats">
+    <h2><span>Seats</span> {{seats.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Seat Index</span></dt>
+        <dd>
+            <span>{{seats.seat_index}}</span>
+        </dd>
+        <dt><span>Id Flight</span></dt>
+        <dd>
+            <span>{{seats.id_flight}}</span>
+        </dd>
+        <dt><span>Type</span></dt>
+        <dd>
+            <span>{{seats.type}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'seats/'+ seats.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>
