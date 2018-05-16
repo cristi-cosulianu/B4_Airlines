@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { TicketModel } from '../models/ticket-model';
+import {HttpClient , HttpHeaders} from '@angular/common/http';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -11,10 +12,9 @@ import { TicketModel } from '../models/ticket-model';
 })
 export class FlightsPageComponent implements OnInit {
   public ticket = new TicketModel();
-  constructor(private data: DataService) {
+  constructor(private data: DataService , private http: HttpClient) {
 
   }
-
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
@@ -23,7 +23,8 @@ export class FlightsPageComponent implements OnInit {
   sendSubmision() {
     const departure = (<HTMLInputElement>document.getElementById('departure')).value;
     const destination = (<HTMLInputElement>document.getElementById('destination')).value;
-    console.log(departure);
-    console.log(destination);
+	this.http.get('http://localhost:8050/flights/' + departure + '/' + destination).subscribe(data => {
+      console.log(data);
+    });
   }
 }
