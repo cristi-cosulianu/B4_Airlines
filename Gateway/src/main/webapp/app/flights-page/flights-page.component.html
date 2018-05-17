@@ -11,22 +11,30 @@
         <label for="departure">From:</label>
         <select id="departure" class="form-control" type="text" name="departure" required>
           <option selected>Select departure</option>
-          <option>Bucharest</option>
-          <option>London</option>
+          <option>Iasi</option>
+          <option>Londra</option>
         </select>
       </div>
       <div class="form-group">
         <label for="destination">To:</label>
         <select id="destination" class="form-control" type="text" name="destination" required>
           <option selected>Select destination</option>
-          <option>Bucharest</option>
-          <option>London</option>
+          <option>Bucuresti</option>
+          <option>Roma</option>
+          <option>Suceava</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary" (click)="sendSubmision()">Book now!</button>
     </form>
   </div>
 </div>
+
+<!-- COLLAPSE -->
+      <!-- <div class="collapse" id="collapseReview">
+        <div class="card card-body">
+          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+        </div>
+      </div> -->
 
 <!-- FLIGHTS TABLE -->
 <div id="flights-table" class="table-responsive">
@@ -43,11 +51,11 @@
         <th>Reviews</th>
       </tr>
     </thead>
-    <tbody>
-      <tr>       
+    <tbody id="tableBody">
+      <tr class="tableRow">       
         <td>12314</td>                
-        <td>London</td>
-        <td>Bucharest</td>
+        <td>London 16:30</td>
+        <td>Bucharest 18:30</td>
         <td>100 <span class="price">$</span></td>
         <td>31</td>
         <td>BlueAir</td>
@@ -62,124 +70,6 @@
         </td>
         <td>
           <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false" aria-controls="collapseReview">
-            View
-          </button>
-        </td>
-      </tr>
-
-      <!-- COLLAPSE -->
-      <!-- <div class="collapse" id="collapseReview">
-        <div class="card card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-        </div>
-      </div> -->
-
-      <tr>       
-        <td>12314</td>                
-        <td>London</td>
-        <td>Bucharest</td>
-        <td>100 <span class="price">$</span></td>
-        <td>31</td>
-        <td>BlueAir</td>
-        <td>
-          <div class="star-rating">
-            <span class="fa fa-star" data-rating="1"></span>
-            <span class="fa fa-star" data-rating="2"></span>
-            <span class="fa fa-star" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-          </div>
-        </td>
-        <td>
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            View
-          </button>
-        </td>
-      </tr>
-      <tr>       
-        <td>12314</td>                
-        <td>London</td>
-        <td>Bucharest</td>
-        <td>100 <span class="price">$</span></td>
-        <td>31</td>
-        <td>BlueAir</td>
-        <td>
-          <div class="star-rating">
-            <span class="fa fa-star" data-rating="1"></span>
-            <span class="fa fa-star" data-rating="2"></span>
-            <span class="fa fa-star" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-          </div>
-        </td>
-        <td>
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            View
-          </button>
-        </td>
-      </tr>
-      <tr>       
-        <td>12314</td>                
-        <td>London</td>
-        <td>Bucharest</td>
-        <td>100 <span class="price">$</span></td>
-        <td>31</td>
-        <td>BlueAir</td>
-        <td>
-          <div class="star-rating">
-            <span class="fa fa-star" data-rating="1"></span>
-            <span class="fa fa-star" data-rating="2"></span>
-            <span class="fa fa-star" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-          </div>
-        </td>
-        <td>
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            View
-          </button>
-        </td>
-      </tr>
-      <tr>       
-        <td>12314</td>                
-        <td>London</td>
-        <td>Bucharest</td>
-        <td>100 <span class="price">$</span></td>
-        <td>31</td>
-        <td>BlueAir</td>
-        <td>
-          <div class="star-rating">
-            <span class="fa fa-star" data-rating="1"></span>
-            <span class="fa fa-star" data-rating="2"></span>
-            <span class="fa fa-star" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-          </div>
-        </td>
-        <td>
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-            View
-          </button>
-        </td>
-      </tr>
-      <tr>       
-        <td>12314</td>                
-        <td>London</td>
-        <td>Bucharest</td>
-        <td>100 <span class="price">$</span></td>
-        <td>31</td>
-        <td>BlueAir</td>
-        <td>
-          <div class="star-rating">
-            <span class="fa fa-star" data-rating="1"></span>
-            <span class="fa fa-star" data-rating="2"></span>
-            <span class="fa fa-star" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-          </div>
-        </td>
-        <td>
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
             View
           </button>
         </td>
