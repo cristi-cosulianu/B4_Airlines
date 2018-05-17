@@ -78,7 +78,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   buttonClick(id) {
     const identifier1 = 'id' + id;
     const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
-    if (this.occupiedSeats.indexOf(id) < 0) { //daca nu este deja rezervat
+    if (this.occupiedSeats.indexOf(id) < 0) { // daca nu este deja rezervat
       if (this.chosenSeats.indexOf(id) < 0) { // daca nu a fost selectat anterior
         shand[0].style.backgroundColor = '#3199DA';
         this.chosenSeats.push(id);
