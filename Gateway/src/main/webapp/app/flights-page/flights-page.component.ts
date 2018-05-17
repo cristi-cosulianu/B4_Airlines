@@ -19,7 +19,7 @@ export class FlightsPageComponent implements OnInit {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
     this.http.get('http://localhost:8050/flights').subscribe((data) => {
-      console.log(data);
+      this.createRowsUsingData(data,"some");
     });
   }
 
@@ -28,7 +28,7 @@ export class FlightsPageComponent implements OnInit {
     const destination = (<HTMLInputElement>document.getElementById('destination')).value;
     this.http.get('http://localhost:8050/flights/' + departure + '/' + destination).subscribe((data) => {
       this.removeAllRows();
-      this.createRowsUsingData(data);
+      this.createRowsUsingData(data,"all");
     });
   }
 
@@ -44,12 +44,19 @@ export class FlightsPageComponent implements OnInit {
     }
   }
 
-  createRowsUsingData(data){
+  createRowsUsingData(data, howMany){
     // Get parent container <tbody>.
     const tableBody = document.getElementById('tableBody');
 
+      let size;
+      if(howMany === "some"){
+        size = 10;
+      } else {
+        size = Object.keys(data).length;
+      }
+
       // Iterate through server response.
-      for (let iterator = 0;iterator < Object.keys(data).length; iterator++){
+      for (let iterator = 0;iterator < size; iterator++){
         // Select one element.
         const obj = data[iterator];
 
