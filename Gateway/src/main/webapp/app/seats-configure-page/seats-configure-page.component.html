@@ -1,36 +1,32 @@
-<p>
-    seats-configure-page works!
-</p>
+<div class="emptyLine"></div>
 
 <div class="loadingDiv" [hidden]="!shouldShowLoading">
         <!-- <div class="loadingDiv"> -->
     <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
-<div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
-    <div *ngIf="modulo6(number)"><br><br></div>
-    <!-- <div *ngIf="spacing(number)"><br><br></div> -->
-    <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 35px; height: 35px;font-size: 7.5pt; border-radius: 10%;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+<div class="seatsContainer">
+	<div [hidden]="shouldShowLoading" class='bigDiv' >
+	    <div *ngIf="modulo6(number)"><br><br></div>
+	    <!-- <div *ngIf="spacing(number)"><br><br></div> -->
+	    <button *ngFor="let number of numbers0to107"
+	    class= "id{{number}}" id="button@{{number}}" (click)="buttonClick(number)">{{number}}</button>
+	</div>
 </div>
 
+<div class="controls">
+	<p>Seats selected:</p>
 
-<!-- <div> {{checkOccupiedSeats()}}</div> -->
+	<div class="chosen-seats">
+		<span *ngFor="let number of chosenSeats">
+	    	{{number}}
+		</span>
+	</div>
 
-<br>
-<br>
-<br>
+	<button (click)="saveSeats()">
+	    Save!
+	</button>
 
-<p>Seats selected:</p>
-
-<div style="float: left;" *ngFor="let number of chosenSeats">
-        <p>{{number}}&nbsp;&nbsp;</p>    
+	<button routerLink="/payment-page">
+	    Next page
+	</button>
 </div>
-<br>
-<br>
-
-<button (click)="saveSeats()">
-    Save!
-</button>
-
-<button routerLink="/payment-page">
-    Next page
-</button>
