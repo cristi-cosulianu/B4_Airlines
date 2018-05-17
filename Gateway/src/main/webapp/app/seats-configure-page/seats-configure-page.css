@@ -10,3 +10,25 @@
 .id2{
     background-color: green;
 }
+
+.bigDiv{
+    margin-left: auto;
+    margin-right: auto;
+    width: 280px;
+    /* background-color: #3199DA; */
+}
+
+.loadingDiv{
+    margin: 0 auto;
+    /* width: 300px; */
+    display: block;
+    background-color: #3199DA;
+}
+
+.loadingImg{
+    height: auto; 
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

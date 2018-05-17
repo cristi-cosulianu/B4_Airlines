@@ -19,8 +19,9 @@ export class SeatsConfigurePageComponent implements OnInit {
   private id_flight: String = '123mv';
   // private planeType: number = 1;
   private seat: Seats;
+  private shouldShowLoading: boolean;
   constructor(private data: DataService, private service: SeatsService) {
-
+    this.shouldShowLoading = false;
   }
 
   modulo6(index) {
@@ -31,12 +32,18 @@ export class SeatsConfigurePageComponent implements OnInit {
     }
   }
 
+  // spacing(index) {
+  //   if (index === 29 || index === 65) {
+  //     return true;
+  //   }
+  // }
+
   checkOccupiedSeats() {
     for (let id = 0; id <= 107; id++) {
       const identifier1 = 'id' + id;
       const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
       if (this.occupiedSeats.indexOf(id) > -1) {
-        shand[0].style.backgroundColor = ' red ';
+        shand[0].style.backgroundColor = '#D24D57';
       }
     }
   }
@@ -48,14 +55,15 @@ export class SeatsConfigurePageComponent implements OnInit {
     for (let i = 0; i <= 107; i++) {
       this.numbers0to107.push(i);
     }
-
+    this.shouldShowLoading = true;
     this.service.query({ id_flight: this.id_flight }).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
         this.occupiedSeats.push(data.body[i].seat_index);
       }
+      this.checkOccupiedSeats();
+      this.shouldShowLoading = false;
     });
-    // this.createSpaces();
   }
 
   // createSpaces() {
@@ -70,11 +78,11 @@ export class SeatsConfigurePageComponent implements OnInit {
   buttonClick(id) {
     const identifier1 = 'id' + id;
     const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
-    if (shand[0].style.backgroundColor !== 'orange' && this.occupiedSeats.indexOf(id) < 0) {
-      shand[0].style.backgroundColor = ' orange ';
+    if (this.occupiedSeats.indexOf(id) < 0 && this.chosenSeats.indexOf(id) < 0) {
+      shand[0].style.backgroundColor = '#3199DA';
       this.chosenSeats.push(id);
-    } else {
-      shand[0].style.backgroundColor = ' green ';
+    } else /*if (shand[0].style.backgroundColor === '#3199DA')*/ {
+      shand[0].style.backgroundColor = '#A1CFEE';
       const index = this.chosenSeats.indexOf(id, 0);
       if (index > -1) {
         this.chosenSeats.splice(index, 1);
@@ -86,6 +94,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   saveSeats() {
+    // this.seat = new Seats();
     // this.seat = new Seats();
     // this.seat.id_flight = '123mv';
     // this.seat.type = 3;

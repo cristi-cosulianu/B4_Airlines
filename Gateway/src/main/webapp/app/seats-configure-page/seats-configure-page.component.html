@@ -2,12 +2,18 @@
     seats-configure-page works!
 </p>
 
-<div *ngFor="let number of numbers0to107">
+<div class="loadingDiv" [hidden]="!shouldShowLoading">
+        <!-- <div class="loadingDiv"> -->
+    <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
+</div>
+<div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
     <div *ngIf="modulo6(number)"><br><br></div>
-    <button class= id{{number}} style="background-color: green; float: left; width: 45px; height: 45px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+    <!-- <div *ngIf="spacing(number)"><br><br></div> -->
+    <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 35px; height: 35px;font-size: 7.5pt; border-radius: 10%;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
 </div>
 
-<div> {{checkOccupiedSeats()}}</div>
+
+<!-- <div> {{checkOccupiedSeats()}}</div> -->
 
 <br>
 <br>
