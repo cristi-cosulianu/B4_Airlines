@@ -1,0 +1,43 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "userId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "18",
+            "fieldValidateRulesMaxlength": "18"
+        },
+        {
+            "fieldName": "flightId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "5",
+            "fieldValidateRulesMaxlength": "1000"
+        }
+    ],
+    "changelogDate": "20180517160748",
+    "dto": "mapstruct",
+    "service": "serviceImpl",
+    "entityTableName": "review",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination",
+    "microserviceName": "reviewapp",
+    "searchEngine": false
+}
