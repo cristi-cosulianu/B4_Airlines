@@ -18,7 +18,7 @@ export class FlightsPageComponent implements OnInit {
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
-    this.http.get('http://localhost:8050/flights').subscribe((data) => {
+    this.http.get('http://localhost:8050/api/flights').subscribe((data) => {
       this.createRowsUsingData(data, 'some');
     });
   }
@@ -26,7 +26,9 @@ export class FlightsPageComponent implements OnInit {
   sendSubmision() {
     const departure = (<HTMLInputElement>document.getElementById('departure')).value;
     const destination = (<HTMLInputElement>document.getElementById('destination')).value;
-    this.http.get('http://localhost:8050/flights/' + departure + '/' + destination).subscribe((data) => {
+
+    this.http.get('http://localhost:8050/api/flights/' + departure + '/' + destination).subscribe((data) => {
+      console.log(data);
       this.removeAllRows();
       this.createRowsUsingData(data, 'all');
     });
@@ -35,11 +37,9 @@ export class FlightsPageComponent implements OnInit {
   removeAllRows() {
     // Get parent container <tbody>.
     const tableBody = document.getElementById('tableBody');
-    // Get all rows.
-    const rows = document.getElementsByClassName('tableRow');
-    for (let iterator = 0; iterator < rows.length; iterator++) {
-      // Remove row by row.
-      tableBody.removeChild(rows[iterator]);
+    // Remove all rows.
+    while (tableBody.firstChild) {
+      tableBody.removeChild(tableBody.firstChild);
     }
   }
 
