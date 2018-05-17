@@ -1,36 +1,34 @@
-<p>
-    seats-configure-page works!
-</p>
-
-<div class="loadingDiv" [hidden]="!shouldShowLoading">
-        <!-- <div class="loadingDiv"> -->
-    <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
+<!--<div class="loadingDiv" [hidden]="!shouldShowLoading">-->
+    <!-- <div class="loadingDiv"> -->
+<!--    <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
-<div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
-    <div *ngIf="modulo6(number)"><br><br></div>
+<div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">-->
+<div class='bigDiv' *ngFor="let number of numbers0to107">
+    <div *ngIf="modulo3(number)">
+        <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
+            id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+    </div>
+    <div *ngIf="!modulo3(number)">
+        <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"
+            id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+    </div>
+    <div *ngIf="modulo6(number)">
+        <br>
+        <br>
+    </div>
     <!-- <div *ngIf="spacing(number)"><br><br></div> -->
-    <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 35px; height: 35px;font-size: 7.5pt; border-radius: 10%;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+    <!--<button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 35px; height: 35px;font-size: 7.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>-->
 </div>
-
-
-<!-- <div> {{checkOccupiedSeats()}}</div> -->
-
 <br>
 <br>
 <br>
-
 <p>Seats selected:</p>
-
 <div style="float: left;" *ngFor="let number of chosenSeats">
-        <p>{{number}}&nbsp;&nbsp;</p>    
+    <p>{{number}}&nbsp;&nbsp;</p>
 </div>
 <br>
 <br>
 
-<button (click)="saveSeats()">
-    Save!
-</button>
-
-<button routerLink="/payment-page">
+<button (click)="saveSeats()" routerLink="/payment-page">
     Next page
 </button>
