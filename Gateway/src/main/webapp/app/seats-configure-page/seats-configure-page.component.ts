@@ -78,16 +78,19 @@ export class SeatsConfigurePageComponent implements OnInit {
   buttonClick(id) {
     const identifier1 = 'id' + id;
     const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
-    if (this.occupiedSeats.indexOf(id) < 0 && this.chosenSeats.indexOf(id) < 0) {
-      shand[0].style.backgroundColor = '#3199DA';
-      this.chosenSeats.push(id);
-    } else /*if (shand[0].style.backgroundColor === '#3199DA')*/ {
-      shand[0].style.backgroundColor = '#A1CFEE';
-      const index = this.chosenSeats.indexOf(id, 0);
-      if (index > -1) {
-        this.chosenSeats.splice(index, 1);
+    if (this.occupiedSeats.indexOf(id) < 0) { //daca nu este deja rezervat
+      if (this.chosenSeats.indexOf(id) < 0) { // daca nu a fost selectat anterior
+        shand[0].style.backgroundColor = '#3199DA';
+        this.chosenSeats.push(id);
+      } else { //  else if(this.occupiedSeats.indexOf(id) < 0 && this.chosenSeats.indexOf(id) > 0) /*if (shand[0].style.backgroundColor === '#3199DA')*/ {
+        shand[0].style.backgroundColor = '#A1CFEE';
+        const index = this.chosenSeats.indexOf(id, 0);
+        if (index > -1) {
+          this.chosenSeats.splice(index, 1);
+        }
       }
     }
+
     for (let i = 0; i < this.chosenSeats.length; i++) {
       console.log(this.chosenSeats[i]);
     }
