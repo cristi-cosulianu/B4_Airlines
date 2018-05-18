@@ -30,10 +30,10 @@ public class UserinfoDTO implements Serializable {
     private String prenume;
 
     @NotNull
-    private LocalDate dateOfBirth;
+    private String adress;
 
     @NotNull
-    private String adress;
+    private LocalDate dateOfBirth;
 
     @NotNull
     @Size(min = 5)
@@ -51,6 +51,9 @@ public class UserinfoDTO implements Serializable {
 
     @NotNull
     private LocalDate expiringDate;
+
+    @NotNull
+    private String loginid;
 
     public Long getId() {
         return id;
@@ -92,20 +95,20 @@ public class UserinfoDTO implements Serializable {
         this.prenume = prenume;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public String getAdress() {
         return adress;
     }
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getPhoneNumber() {
@@ -148,6 +151,14 @@ public class UserinfoDTO implements Serializable {
         this.expiringDate = expiringDate;
     }
 
+    public String getLoginid() {
+        return loginid;
+    }
+
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -177,13 +188,14 @@ public class UserinfoDTO implements Serializable {
             ", cnp='" + getCnp() + "'" +
             ", name='" + getName() + "'" +
             ", prenume='" + getPrenume() + "'" +
-            ", dateOfBirth='" + getDateOfBirth() + "'" +
             ", adress='" + getAdress() + "'" +
+            ", dateOfBirth='" + getDateOfBirth() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
             ", idType='" + getIdType() + "'" +
             ", serialNumber='" + getSerialNumber() + "'" +
             ", emittingCountry='" + getEmittingCountry() + "'" +
             ", expiringDate='" + getExpiringDate() + "'" +
+            ", loginid='" + getLoginid() + "'" +
             "}";
     }
 }

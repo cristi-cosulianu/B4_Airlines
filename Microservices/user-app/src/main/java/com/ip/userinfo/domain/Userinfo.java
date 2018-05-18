@@ -43,12 +43,12 @@ public class Userinfo implements Serializable {
     private String prenume;
 
     @NotNull
-    @Column(name = "date_of_birth", nullable = false)
-    private LocalDate dateOfBirth;
-
-    @NotNull
     @Column(name = "adress", nullable = false)
     private String adress;
+
+    @NotNull
+    @Column(name = "date_of_birth", nullable = false)
+    private LocalDate dateOfBirth;
 
     @NotNull
     @Size(min = 5)
@@ -71,6 +71,10 @@ public class Userinfo implements Serializable {
     @NotNull
     @Column(name = "expiring_date", nullable = false)
     private LocalDate expiringDate;
+
+    @NotNull
+    @Column(name = "loginid", nullable = false)
+    private String loginid;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -133,19 +137,6 @@ public class Userinfo implements Serializable {
         this.prenume = prenume;
     }
 
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public Userinfo dateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-        return this;
-    }
-
-    public void setDateOfBirth(LocalDate dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
     public String getAdress() {
         return adress;
     }
@@ -157,6 +148,19 @@ public class Userinfo implements Serializable {
 
     public void setAdress(String adress) {
         this.adress = adress;
+    }
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Userinfo dateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+        return this;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getPhoneNumber() {
@@ -223,6 +227,19 @@ public class Userinfo implements Serializable {
     public void setExpiringDate(LocalDate expiringDate) {
         this.expiringDate = expiringDate;
     }
+
+    public String getLoginid() {
+        return loginid;
+    }
+
+    public Userinfo loginid(String loginid) {
+        this.loginid = loginid;
+        return this;
+    }
+
+    public void setLoginid(String loginid) {
+        this.loginid = loginid;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -253,13 +270,14 @@ public class Userinfo implements Serializable {
             ", cnp='" + getCnp() + "'" +
             ", name='" + getName() + "'" +
             ", prenume='" + getPrenume() + "'" +
-            ", dateOfBirth='" + getDateOfBirth() + "'" +
             ", adress='" + getAdress() + "'" +
+            ", dateOfBirth='" + getDateOfBirth() + "'" +
             ", phoneNumber='" + getPhoneNumber() + "'" +
             ", idType='" + getIdType() + "'" +
             ", serialNumber='" + getSerialNumber() + "'" +
             ", emittingCountry='" + getEmittingCountry() + "'" +
             ", expiringDate='" + getExpiringDate() + "'" +
+            ", loginid='" + getLoginid() + "'" +
             "}";
     }
 }

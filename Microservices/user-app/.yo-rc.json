@@ -3,7 +3,7 @@
     "promptValues": {
       "packageName": "com.ip.userinfo"
     },
-    "jhipsterVersion": "4.14.4",
+    "jhipsterVersion": "4.14.3",
     "baseName": "userinfo",
     "packageName": "com.ip.userinfo",
     "packageFolder": "com/ip/userinfo",
@@ -20,7 +20,7 @@
     "buildTool": "maven",
     "enableSocialSignIn": false,
     "enableSwaggerCodegen": false,
-    "jwtSecretKey": "cd19a7f25e068ba2e55ebcc9c6def6eb0fd6b713",
+    "jwtSecretKey": "2d1cedc4cf55459733327b7b11d851609fc8dda7",
     "enableTranslation": false,
     "applicationType": "microservice",
     "testFrameworks": [],

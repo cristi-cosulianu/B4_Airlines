@@ -55,11 +55,11 @@ public class UserinfoResourceIntTest {
     private static final String DEFAULT_PRENUME = "AAAAAAAAAA";
     private static final String UPDATED_PRENUME = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_DATE_OF_BIRTH = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE_OF_BIRTH = LocalDate.now(ZoneId.systemDefault());
-
     private static final String DEFAULT_ADRESS = "AAAAAAAAAA";
     private static final String UPDATED_ADRESS = "BBBBBBBBBB";
+
+    private static final LocalDate DEFAULT_DATE_OF_BIRTH = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_DATE_OF_BIRTH = LocalDate.now(ZoneId.systemDefault());
 
     private static final String DEFAULT_PHONE_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_PHONE_NUMBER = "BBBBBBBBBB";
@@ -75,6 +75,9 @@ public class UserinfoResourceIntTest {
 
     private static final LocalDate DEFAULT_EXPIRING_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_EXPIRING_DATE = LocalDate.now(ZoneId.systemDefault());
+
+    private static final String DEFAULT_LOGINID = "AAAAAAAAAA";
+    private static final String UPDATED_LOGINID = "BBBBBBBBBB";
 
     @Autowired
     private UserinfoRepository userinfoRepository;
@@ -124,13 +127,14 @@ public class UserinfoResourceIntTest {
             .cnp(DEFAULT_CNP)
             .name(DEFAULT_NAME)
             .prenume(DEFAULT_PRENUME)
-            .dateOfBirth(DEFAULT_DATE_OF_BIRTH)
             .adress(DEFAULT_ADRESS)
+            .dateOfBirth(DEFAULT_DATE_OF_BIRTH)
             .phoneNumber(DEFAULT_PHONE_NUMBER)
             .idType(DEFAULT_ID_TYPE)
             .serialNumber(DEFAULT_SERIAL_NUMBER)
             .emittingCountry(DEFAULT_EMITTING_COUNTRY)
-            .expiringDate(DEFAULT_EXPIRING_DATE);
+            .expiringDate(DEFAULT_EXPIRING_DATE)
+            .loginid(DEFAULT_LOGINID);
         return userinfo;
     }
 
@@ -159,13 +163,14 @@ public class UserinfoResourceIntTest {
         assertThat(testUserinfo.getCnp()).isEqualTo(DEFAULT_CNP);
         assertThat(testUserinfo.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testUserinfo.getPrenume()).isEqualTo(DEFAULT_PRENUME);
-        assertThat(testUserinfo.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
         assertThat(testUserinfo.getAdress()).isEqualTo(DEFAULT_ADRESS);
+        assertThat(testUserinfo.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
         assertThat(testUserinfo.getPhoneNumber()).isEqualTo(DEFAULT_PHONE_NUMBER);
         assertThat(testUserinfo.getIdType()).isEqualTo(DEFAULT_ID_TYPE);
         assertThat(testUserinfo.getSerialNumber()).isEqualTo(DEFAULT_SERIAL_NUMBER);
         assertThat(testUserinfo.getEmittingCountry()).isEqualTo(DEFAULT_EMITTING_COUNTRY);
         assertThat(testUserinfo.getExpiringDate()).isEqualTo(DEFAULT_EXPIRING_DATE);
+        assertThat(testUserinfo.getLoginid()).isEqualTo(DEFAULT_LOGINID);
     }
 
     @Test
@@ -266,10 +271,10 @@ public class UserinfoResourceIntTest {
 
     @Test
     @Transactional
-    public void checkDateOfBirthIsRequired() throws Exception {
+    public void checkAdressIsRequired() throws Exception {
         int databaseSizeBeforeTest = userinfoRepository.findAll().size();
         // set the field null
-        userinfo.setDateOfBirth(null);
+        userinfo.setAdress(null);
 
         // Create the Userinfo, which fails.
         UserinfoDTO userinfoDTO = userinfoMapper.toDto(userinfo);
@@ -285,10 +290,10 @@ public class UserinfoResourceIntTest {
 
     @Test
     @Transactional
-    public void checkAdressIsRequired() throws Exception {
+    public void checkDateOfBirthIsRequired() throws Exception {
         int databaseSizeBeforeTest = userinfoRepository.findAll().size();
         // set the field null
-        userinfo.setAdress(null);
+        userinfo.setDateOfBirth(null);
 
         // Create the Userinfo, which fails.
         UserinfoDTO userinfoDTO = userinfoMapper.toDto(userinfo);
@@ -399,6 +404,25 @@ public class UserinfoResourceIntTest {
 
     @Test
     @Transactional
+    public void checkLoginidIsRequired() throws Exception {
+        int databaseSizeBeforeTest = userinfoRepository.findAll().size();
+        // set the field null
+        userinfo.setLoginid(null);
+
+        // Create the Userinfo, which fails.
+        UserinfoDTO userinfoDTO = userinfoMapper.toDto(userinfo);
+
+        restUserinfoMockMvc.perform(post("/api/userinfos")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(userinfoDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Userinfo> userinfoList = userinfoRepository.findAll();
+        assertThat(userinfoList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllUserinfos() throws Exception {
         // Initialize the database
         userinfoRepository.saveAndFlush(userinfo);
@@ -412,13 +436,14 @@ public class UserinfoResourceIntTest {
             .andExpect(jsonPath("$.[*].cnp").value(hasItem(DEFAULT_CNP.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].prenume").value(hasItem(DEFAULT_PRENUME.toString())))
-            .andExpect(jsonPath("$.[*].dateOfBirth").value(hasItem(DEFAULT_DATE_OF_BIRTH.toString())))
             .andExpect(jsonPath("$.[*].adress").value(hasItem(DEFAULT_ADRESS.toString())))
+            .andExpect(jsonPath("$.[*].dateOfBirth").value(hasItem(DEFAULT_DATE_OF_BIRTH.toString())))
             .andExpect(jsonPath("$.[*].phoneNumber").value(hasItem(DEFAULT_PHONE_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].idType").value(hasItem(DEFAULT_ID_TYPE.toString())))
             .andExpect(jsonPath("$.[*].serialNumber").value(hasItem(DEFAULT_SERIAL_NUMBER.toString())))
             .andExpect(jsonPath("$.[*].emittingCountry").value(hasItem(DEFAULT_EMITTING_COUNTRY.toString())))
-            .andExpect(jsonPath("$.[*].expiringDate").value(hasItem(DEFAULT_EXPIRING_DATE.toString())));
+            .andExpect(jsonPath("$.[*].expiringDate").value(hasItem(DEFAULT_EXPIRING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].loginid").value(hasItem(DEFAULT_LOGINID.toString())));
     }
 
     @Test
@@ -436,13 +461,14 @@ public class UserinfoResourceIntTest {
             .andExpect(jsonPath("$.cnp").value(DEFAULT_CNP.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.prenume").value(DEFAULT_PRENUME.toString()))
-            .andExpect(jsonPath("$.dateOfBirth").value(DEFAULT_DATE_OF_BIRTH.toString()))
             .andExpect(jsonPath("$.adress").value(DEFAULT_ADRESS.toString()))
+            .andExpect(jsonPath("$.dateOfBirth").value(DEFAULT_DATE_OF_BIRTH.toString()))
             .andExpect(jsonPath("$.phoneNumber").value(DEFAULT_PHONE_NUMBER.toString()))
             .andExpect(jsonPath("$.idType").value(DEFAULT_ID_TYPE.toString()))
             .andExpect(jsonPath("$.serialNumber").value(DEFAULT_SERIAL_NUMBER.toString()))
             .andExpect(jsonPath("$.emittingCountry").value(DEFAULT_EMITTING_COUNTRY.toString()))
-            .andExpect(jsonPath("$.expiringDate").value(DEFAULT_EXPIRING_DATE.toString()));
+            .andExpect(jsonPath("$.expiringDate").value(DEFAULT_EXPIRING_DATE.toString()))
+            .andExpect(jsonPath("$.loginid").value(DEFAULT_LOGINID.toString()));
     }
 
     @Test
@@ -469,13 +495,14 @@ public class UserinfoResourceIntTest {
             .cnp(UPDATED_CNP)
             .name(UPDATED_NAME)
             .prenume(UPDATED_PRENUME)
-            .dateOfBirth(UPDATED_DATE_OF_BIRTH)
             .adress(UPDATED_ADRESS)
+            .dateOfBirth(UPDATED_DATE_OF_BIRTH)
             .phoneNumber(UPDATED_PHONE_NUMBER)
             .idType(UPDATED_ID_TYPE)
             .serialNumber(UPDATED_SERIAL_NUMBER)
             .emittingCountry(UPDATED_EMITTING_COUNTRY)
-            .expiringDate(UPDATED_EXPIRING_DATE);
+            .expiringDate(UPDATED_EXPIRING_DATE)
+            .loginid(UPDATED_LOGINID);
         UserinfoDTO userinfoDTO = userinfoMapper.toDto(updatedUserinfo);
 
         restUserinfoMockMvc.perform(put("/api/userinfos")
@@ -491,13 +518,14 @@ public class UserinfoResourceIntTest {
         assertThat(testUserinfo.getCnp()).isEqualTo(UPDATED_CNP);
         assertThat(testUserinfo.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testUserinfo.getPrenume()).isEqualTo(UPDATED_PRENUME);
-        assertThat(testUserinfo.getDateOfBirth()).isEqualTo(UPDATED_DATE_OF_BIRTH);
         assertThat(testUserinfo.getAdress()).isEqualTo(UPDATED_ADRESS);
+        assertThat(testUserinfo.getDateOfBirth()).isEqualTo(UPDATED_DATE_OF_BIRTH);
         assertThat(testUserinfo.getPhoneNumber()).isEqualTo(UPDATED_PHONE_NUMBER);
         assertThat(testUserinfo.getIdType()).isEqualTo(UPDATED_ID_TYPE);
         assertThat(testUserinfo.getSerialNumber()).isEqualTo(UPDATED_SERIAL_NUMBER);
         assertThat(testUserinfo.getEmittingCountry()).isEqualTo(UPDATED_EMITTING_COUNTRY);
         assertThat(testUserinfo.getExpiringDate()).isEqualTo(UPDATED_EXPIRING_DATE);
+        assertThat(testUserinfo.getLoginid()).isEqualTo(UPDATED_LOGINID);
     }
 
     @Test

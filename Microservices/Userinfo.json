@@ -45,15 +45,15 @@
             "fieldValidateRulesMaxlength": "60"
         },
         {
-            "fieldName": "adress",
-            "fieldType": "String",
+            "fieldName": "dateOfBirth",
+            "fieldType": "LocalDate",
             "fieldValidateRules": [
                 "required"
             ]
         },
         {
-            "fieldName": "dateOfBirth",
-            "fieldType": "LocalDate",
+            "fieldName": "adress",
+            "fieldType": "String",
             "fieldValidateRules": [
                 "required"
             ]
@@ -105,7 +105,7 @@
             ]
         }
     ],
-    "changelogDate": "20180518004044",
+    "changelogDate": "20180518001420",
     "dto": "mapstruct",
     "service": "serviceImpl",
     "entityTableName": "userinfo",

@@ -2,11 +2,11 @@
     <div class="options">
         <ul>
             <li class="option-item" (click)="setSettingsOption('Account')">Account details</li>
+            <li class="option-item" (click)="setSettingsOption('Personal')">Personal Details</li>
             <li class="option-item" (click)="setSettingsOption('Password')">Change password</li>
             <li class="option-item" (click)="setSettingsOption('Active')">Active tickets</li>
             <li class="option-item" (click)="setSettingsOption('History')">Ticket history</li>
             <li class="option-item" (click)="setSettingsOption('Reviews')">My reviews</li>
-            <li class="option-item" (click)="setSettingsOption('Personal')">Personal Details</li>
         </ul>
     </div>
 
@@ -14,7 +14,7 @@
         <div class="row justify-content-center" *ngSwitchCase="'Account'">
             <div class="col-md-8">
                 <h2 *ngIf="settingsAccount">User settings for [
-                    <b>{{settingsAccount.login}}</b>]</h2>
+                    <b>{{settingsAccount.login}} </b> ]</h2>
 
                 <div class="alert alert-success" *ngIf="success">
                     <strong>Settings saved!</strong>
@@ -96,8 +96,7 @@
             <p>Reviews page is working.</p>
         </div>
         <div class="row justify-content-center" *ngSwitchCase="'Personal'">
-            <form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm"></form>
-            <div class="col-md-8">
+            <form style="width: 80%" name="editForm" role="form" novalidate (ngSubmit)="personalSave()" #editForm="ngForm">
                 <div class="form-group">
                     <label class="form-control-label" for="field_cnp">Cnp</label>
                     <input type="text" class="form-control" name="cnp" id="field_cnp" [(ngModel)]="userinfo.cnp" required minlength="13" />
@@ -134,7 +133,7 @@
                         <small class="form-text text-danger" [hidden]="!editForm.controls.prenume?.errors?.required">
                             This field is required.
                         </small>
-                        <small class="form-text t   ext-danger" [hidden]="!editForm.controls.prenume?.errors?.minlength">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.prenume?.errors?.minlength">
                             This field is required to be at least 3 characters.
                         </small>
                         <small class="form-text text-danger" [hidden]="!editForm.controls.prenume?.errors?.maxlength">
@@ -229,12 +228,11 @@
                             This field is required.
                         </small>
                     </div>
-                    <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
-                        <span class="fa fa-save"></span>&nbsp;
-                        <span>Save</span>
-                    </button>
                 </div>
-            </div>
+                <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+                    <span class="fa fa-save"></span>&nbsp;
+                    <span>Save</span>
+                </button>
             </form>
         </div>
     </div>
