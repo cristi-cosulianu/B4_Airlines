@@ -1,20 +1,7 @@
-.seats{
-    height: 25px;
-    width: 25px;
-    background-color: green;
-}
-
-.id1{
-    background-color: green;
-}
-.id2{
-    background-color: green;
-}
-
 .bigDiv{
-    margin-left: auto;
+    margin-left: 35%;
     margin-right: auto;
-    width: 280px;
+    /*width: 280px;*/
     /* background-color: #3199DA; */
 }
 
@@ -31,4 +18,30 @@
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+.chosen-seats span {
+    border: 1px solid lightgrey;
+    padding: 3px;
+}
+
+.controls {
+    display: inline-block;
+    width: 35%;
+    float: right;
+    border: 1px solid #A1CFEE;
+    padding: 7px;
+    border-radius: 5px;
+    position: fixed;
+}
+
+.controls button {
+    margin-top: 10px;
+}
+
+.emptyLine {
+    display: block;
+    position: relative;
+    height: 30px;
+    width: 100%;
 }
