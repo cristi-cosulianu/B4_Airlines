@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!--<div class="loadingDiv" [hidden]="!shouldShowLoading">-->
     <!-- <div class="loadingDiv"> -->
 <!--    <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
@@ -32,3 +33,37 @@
 <button (click)="saveSeats()" routerLink="/payment-page">
     Next page
 </button>
+=======
+<div class="emptyLine"></div>
+
+<div class="loadingDiv" [hidden]="!shouldShowLoading">
+        <!-- <div class="loadingDiv"> -->
+    <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
+</div>
+<div class="seatsContainer">
+	<div [hidden]="shouldShowLoading" class='bigDiv' >
+	    <div *ngIf="modulo6(number)"><br><br></div>
+	    <!-- <div *ngIf="spacing(number)"><br><br></div> -->
+	    <button *ngFor="let number of numbers0to107"
+	    class= "id{{number}}" id="button@{{number}}" (click)="buttonClick(number)">{{number}}</button>
+	</div>
+</div>
+
+<div class="controls">
+	<p>Seats selected:</p>
+
+	<div class="chosen-seats">
+		<span *ngFor="let number of chosenSeats">
+	    	{{number}}
+		</span>
+	</div>
+
+	<button (click)="saveSeats()">
+	    Save!
+	</button>
+
+	<button routerLink="/payment-page">
+	    Next page
+	</button>
+</div>
+>>>>>>> origin/master
