@@ -1,41 +1,7 @@
-<<<<<<< HEAD
 .bigDiv{
     margin-left: 35%;
     margin-right: auto;
     /*width: 280px;*/
-=======
-.seats{
-    height: 25px;
-    width: 25px;
-    background-color: green;
-}
-
-button[class^='id'] {
-    background-color: #A1CFEE;
-    border: 3px #3199DA;
-    margin: 3px;
-    float: left;
-    width: 35px; 
-    height: 35px;
-    font-size: 7.5pt; 
-    border-radius: 10%;
-}
-
-.seatsContainer {
-    display: inline-block;
-    width: 60%;
-}
-
-.bigDiv button:nth-of-type(6n + 3) {
-    margin-right: 30px;
-}
-
-
-.seatsContainer .bigDiv {
-    margin: 0 auto;
-    width: 300px;
-    height: 100%;
->>>>>>> origin/master
     /* background-color: #3199DA; */
 }
 
