@@ -5,6 +5,7 @@ import { Userinfo, UserinfoService } from '../../entities/userinfo';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { JhiEventManager } from 'ng-jhipster';
+import { Review, ReviewService } from '../../entities/review';
 
 @Component({
     selector: 'jhi-settings',
@@ -19,12 +20,14 @@ export class SettingsComponent implements OnInit {
     languages: any[];
     settingsOption: string;
     userinfo: Userinfo;
+    reviews: Review[];
 
     constructor(
         private account: AccountService,
         private principal: Principal,
         private eventManager: JhiEventManager,
-        private userService: UserinfoService
+        private userService: UserinfoService,
+        private reviewService: ReviewService
     ) {
     }
 
@@ -101,6 +104,10 @@ export class SettingsComponent implements OnInit {
 
     setSettingsOption(option: string) {
         this.settingsOption = option;
+        if (option === 'Reviews') {
+            this.reviewService.query(`userid=aa1111111111111111`).subscribe(
+                (res: HttpResponse<Review[]>) => { this.reviews = res.body ; });
+        }
     }
 
     builduserid() {

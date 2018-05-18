@@ -92,9 +92,13 @@
             <p>History page is working.</p>
         </div>
 
-        <div *ngSwitchCase="'Reviews'">
-            <p>Reviews page is working.</p>
+        <div class="review-main" *ngSwitchCase="'Reviews'">
+            <div class="review-item" *ngFor="let review of reviews">
+                <h2>{{review.flightId}}</h2>
+                <span>{{review.description}}</span>
+            </div>
         </div>
+
         <div class="row justify-content-center" *ngSwitchCase="'Personal'">
             <form style="width: 80%" name="editForm" role="form" novalidate (ngSubmit)="personalSave()" #editForm="ngForm">
                 <div class="form-group">
