@@ -13,3 +13,16 @@
     color: #5648db;
     text-decoration: underline;
 }
+
+.review-main {
+    position: relative;
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.review-item {
+    padding: 5px 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
