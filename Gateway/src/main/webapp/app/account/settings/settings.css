@@ -26,3 +26,50 @@
     border-radius: 10px;
     margin-bottom: 20px;
 }
+
+
+.ticket-main {
+    position: relative;
+    overflow: hidden;
+    font-size: 14pt;
+}
+
+.ticket-item-active,
+.ticket-item-expired {
+    padding: 5pt 10pt;
+    border: 1px solid black;
+    border-radius: 10pt;
+    margin-bottom: 10pt;
+    margin-left: 4%;
+    width: 45%;
+    float: left;
+}
+
+.ticket-item-active {
+    background-color: #f0f0ff;
+}
+.ticket-item-expired {
+    background-color: #fff0f0;
+}
+
+.ticket-trip {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.ticket-info-left {
+    width: 50%;
+    float: left;
+}
+.ticket-info-left div {
+    display: block;
+}
+
+.ticket-info-right {
+    width: 50%;
+    float: right;
+}
+.ticket-info-right div {
+    clear: both;
+    float: right;
+}
