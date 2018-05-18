@@ -5,4 +5,6 @@ export class TicketModel {
     public ticket_flightID: number;
     // the seats he reserved
     public ticket_seats: Array<number> = new Array<number>();
+    // the type of the plane
+    public ticket_planeType: number;
 }

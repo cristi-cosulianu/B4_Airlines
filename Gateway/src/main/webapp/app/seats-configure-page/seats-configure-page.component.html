@@ -2,21 +2,80 @@
     <!-- <div class="loadingDiv"> -->
     <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
-<div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
-    <div *ngIf="modulo3(number)">
-        <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
-            id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+
+<div [ngSwitch]="getPlaneType()">
+    <!--Type 1-->
+    <div *ngSwitchCase="1">
+        <h3>Type 1</h3>
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+            <div *ngIf="modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="!modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="modulo6(number)">
+                <br>
+                <br>
+            </div>
+        </div>
     </div>
-    <div *ngIf="!modulo3(number)">
-        <button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"
-            id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+    <!--Type 2-->
+    <div *ngSwitchCase="2">
+        <h3>Type 2</h3>
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+            <div *ngIf="modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="!modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="modulo6(number)">
+                <br>
+                <br>
+            </div>
+        </div>
     </div>
-    <div *ngIf="modulo6(number)">
-        <br>
-        <br>
+    <!--Type 3-->
+    <div *ngSwitchCase="3">
+        <h3>Type 3</h3>
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+            <div *ngIf="modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="!modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="modulo6(number)">
+                <br>
+                <br>
+            </div>
+        </div>
     </div>
-    <!-- <div *ngIf="spacing(number)"><br><br></div> -->
-    <!--<button class= id{{number}} style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 35px; height: 35px;font-size: 7.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;" id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>-->
+    <!--Type 4-->
+    <div *ngSwitchCase="4">
+        <h3>Type 3</h3>
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+            <div *ngIf="modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="!modulo3(number)">
+                <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"
+                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            </div>
+            <div *ngIf="modulo6(number)">
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
 </div>
 <br>
 <br>

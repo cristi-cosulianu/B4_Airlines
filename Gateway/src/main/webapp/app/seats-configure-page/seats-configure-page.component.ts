@@ -41,6 +41,10 @@ export class SeatsConfigurePageComponent implements OnInit {
     }
   }
 
+  getPlaneType() {
+    return this.planeType;
+  }
+
   // spacing(index) {
   //   if (index === 29 || index === 65) {
   //     return true;
@@ -68,15 +72,16 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    // this.planeType = this.ticket.ticket_planeType;           // decomenteaza asta cand ticket_planeType este adaugat la ticket
+    // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
+    this.planeType = 4;             // this is hard coding for now
+    this.id_flight = '123mv';       // this is hard coding for now
+
     if (this.ticket.ticket_seats.length > 0) {
       for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
         this.chosenSeats.push(this.ticket.ticket_seats[i]);
       }
     }
-    this.planeType = 1;             // this is hard coding for now
-    this.id_flight = '123mv';       // this is hard coding for now
   }
 
   ngOnInit() {
@@ -105,8 +110,8 @@ export class SeatsConfigurePageComponent implements OnInit {
   buttonClick(id) {
     const identifier1 = 'id' + id;
     const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
-    if (this.occupiedSeats.indexOf(id) < 0) { // daca nu este deja rezervat
-      if (this.chosenSeats.indexOf(id) < 0) { // daca nu a fost selectat anterior
+    if (this.occupiedSeats.indexOf(id) < 0) {
+      if (this.chosenSeats.indexOf(id) < 0) {
         shand[0].style.backgroundColor = '#3199DA';
         this.chosenSeats.push(id);
       } else {
@@ -134,7 +139,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   post_seats() {
     this.data.ticketInfo.subscribe((_data) => this.ticketForPost = _data);
     this.seat = new Seats();
-    // this.seat.type = this.ticketForPost.ticket_planeType;    // decomenteaza asta cand ticket_planeType este adaugat la ticket
+    this.seat.type = this.ticketForPost.ticket_planeType;
     this.seat.id_flight = this.id_flight;
     for (let i = 0; i < this.ticketForPost.ticket_seats.length; i++) {
       this.seat.seat_index = this.ticketForPost.ticket_seats[i];
