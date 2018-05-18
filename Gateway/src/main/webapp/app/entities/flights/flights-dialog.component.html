@@ -1,0 +1,172 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myFlightsLabel">Create or edit a Flights</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!flights.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="flights.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_departure">Departure</label>
+            <input type="text" class="form-control" name="departure" id="field_departure"
+                [(ngModel)]="flights.departure" required/>
+            <div [hidden]="!(editForm.controls.departure?.dirty && editForm.controls.departure?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.departure?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_arrival">Arrival</label>
+            <input type="text" class="form-control" name="arrival" id="field_arrival"
+                [(ngModel)]="flights.arrival" required/>
+            <div [hidden]="!(editForm.controls.arrival?.dirty && editForm.controls.arrival?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.arrival?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_departureTime">Departure Time</label>
+            <input type="text" class="form-control" name="departureTime" id="field_departureTime"
+                [(ngModel)]="flights.departureTime" required minlength="5" maxlength="5"/>
+            <div [hidden]="!(editForm.controls.departureTime?.dirty && editForm.controls.departureTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.departureTime?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.departureTime?.errors?.minlength">
+                   This field is required to be at least 5 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.departureTime?.errors?.maxlength">
+                   This field cannot be longer than 5 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_arrivalTime">Arrival Time</label>
+            <input type="text" class="form-control" name="arrivalTime" id="field_arrivalTime"
+                [(ngModel)]="flights.arrivalTime" required minlength="5" maxlength="5"/>
+            <div [hidden]="!(editForm.controls.arrivalTime?.dirty && editForm.controls.arrivalTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.arrivalTime?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.arrivalTime?.errors?.minlength">
+                   This field is required to be at least 5 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.arrivalTime?.errors?.maxlength">
+                   This field cannot be longer than 5 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_priceRangeMin">Price Range Min</label>
+            <input type="number" class="form-control" name="priceRangeMin" id="field_priceRangeMin"
+                [(ngModel)]="flights.priceRangeMin" required min="0"/>
+            <div [hidden]="!(editForm.controls.priceRangeMin?.dirty && editForm.controls.priceRangeMin?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.priceRangeMin?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.priceRangeMin?.errors?.min">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.priceRangeMin?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_priceRangeMax">Price Range Max</label>
+            <input type="number" class="form-control" name="priceRangeMax" id="field_priceRangeMax"
+                [(ngModel)]="flights.priceRangeMax" required min="1"/>
+            <div [hidden]="!(editForm.controls.priceRangeMax?.dirty && editForm.controls.priceRangeMax?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.priceRangeMax?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.priceRangeMax?.errors?.min">
+                    This field should be at least 1.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.priceRangeMax?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_company">Company</label>
+            <input type="text" class="form-control" name="company" id="field_company"
+                [(ngModel)]="flights.company" required/>
+            <div [hidden]="!(editForm.controls.company?.dirty && editForm.controls.company?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.company?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_rating">Rating</label>
+            <input type="number" class="form-control" name="rating" id="field_rating"
+                [(ngModel)]="flights.rating" required min="1" max="5"/>
+            <div [hidden]="!(editForm.controls.rating?.dirty && editForm.controls.rating?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.rating?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rating?.errors?.min">
+                    This field should be at least 1.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rating?.errors?.max">
+                    This field cannot be more than 5.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rating?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_planeType">Plane Type</label>
+            <input type="number" class="form-control" name="planeType" id="field_planeType"
+                [(ngModel)]="flights.planeType" required/>
+            <div [hidden]="!(editForm.controls.planeType?.dirty && editForm.controls.planeType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.planeType?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.planeType?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
