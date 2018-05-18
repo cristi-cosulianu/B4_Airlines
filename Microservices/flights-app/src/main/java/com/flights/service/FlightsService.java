@@ -1,7 +1,8 @@
 package com.flights.service;
 
-import com.flights.domain.Flights;
-import java.util.List;
+import com.flights.service.dto.FlightsDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service Interface for managing Flights.
@@ -11,17 +12,18 @@ public interface FlightsService {
     /**
      * Save a flights.
      *
-     * @param flights the entity to save
+     * @param flightsDTO the entity to save
      * @return the persisted entity
      */
-    Flights save(Flights flights);
+    FlightsDTO save(FlightsDTO flightsDTO);
 
     /**
      * Get all the flights.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
-    List<Flights> findAll();
+    Page<FlightsDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" flights.
@@ -29,7 +31,7 @@ public interface FlightsService {
      * @param id the id of the entity
      * @return the entity
      */
-    Flights findOne(Long id);
+    FlightsDTO findOne(Long id);
 
     /**
      * Delete the "id" flights.
@@ -38,5 +40,5 @@ public interface FlightsService {
      */
     void delete(Long id);
     
-    public List<Flights> findFlights(String departure , String arrival);
+    Page<FlightsDTO> findFlights(Pageable pageable , String departure , String arrival);
 }

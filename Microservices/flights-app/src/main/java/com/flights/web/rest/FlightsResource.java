@@ -1,13 +1,17 @@
 package com.flights.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.flights.domain.Flights;
 import com.flights.service.FlightsService;
 import com.flights.web.rest.errors.BadRequestAlertException;
 import com.flights.web.rest.util.HeaderUtil;
+import com.flights.web.rest.util.PaginationUtil;
+import com.flights.service.dto.FlightsDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,23 +43,23 @@ public class FlightsResource {
 	/**
 	 * POST /flights : Create a new flights.
 	 *
-	 * @param flights
-	 *            the flights to create
+	 * @param flightsDTO
+	 *            the flightsDTO to create
 	 * @return the ResponseEntity with status 201 (Created) and with body the new
-	 *         flights, or with status 400 (Bad Request) if the flights has already
-	 *         an ID
+	 *         flightsDTO, or with status 400 (Bad Request) if the flights has
+	 *         already an ID
 	 * @throws URISyntaxException
 	 *             if the Location URI syntax is incorrect
 	 */
-	@CrossOrigin(origins = "http://localhost:8070")
 	@PostMapping("/flights")
 	@Timed
-	public ResponseEntity<Flights> createFlights(@Valid @RequestBody Flights flights) throws URISyntaxException {
-		log.debug("REST request to save Flights : {}", flights);
-		if (flights.getId() != null) {
+	public ResponseEntity<FlightsDTO> createFlights(@Valid @RequestBody FlightsDTO flightsDTO)
+			throws URISyntaxException {
+		log.debug("REST request to save Flights : {}", flightsDTO);
+		if (flightsDTO.getId() != null) {
 			throw new BadRequestAlertException("A new flights cannot already have an ID", ENTITY_NAME, "idexists");
 		}
-		Flights result = flightsService.save(flights);
+		FlightsDTO result = flightsService.save(flightsDTO);
 		return ResponseEntity.created(new URI("/api/flights/" + result.getId()))
 				.headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
 	}
@@ -63,67 +67,68 @@ public class FlightsResource {
 	/**
 	 * PUT /flights : Updates an existing flights.
 	 *
-	 * @param flights
-	 *            the flights to update
+	 * @param flightsDTO
+	 *            the flightsDTO to update
 	 * @return the ResponseEntity with status 200 (OK) and with body the updated
-	 *         flights, or with status 400 (Bad Request) if the flights is not
-	 *         valid, or with status 500 (Internal Server Error) if the flights
+	 *         flightsDTO, or with status 400 (Bad Request) if the flightsDTO is not
+	 *         valid, or with status 500 (Internal Server Error) if the flightsDTO
 	 *         couldn't be updated
 	 * @throws URISyntaxException
 	 *             if the Location URI syntax is incorrect
 	 */
-	@CrossOrigin(origins = "http://localhost:8070")
 	@PutMapping("/flights")
 	@Timed
-	public ResponseEntity<Flights> updateFlights(@Valid @RequestBody Flights flights) throws URISyntaxException {
-		log.debug("REST request to update Flights : {}", flights);
-		if (flights.getId() == null) {
-			return createFlights(flights);
+	public ResponseEntity<FlightsDTO> updateFlights(@Valid @RequestBody FlightsDTO flightsDTO)
+			throws URISyntaxException {
+		log.debug("REST request to update Flights : {}", flightsDTO);
+		if (flightsDTO.getId() == null) {
+			return createFlights(flightsDTO);
 		}
-		Flights result = flightsService.save(flights);
-		return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, flights.getId().toString()))
-				.body(result);
+		FlightsDTO result = flightsService.save(flightsDTO);
+		return ResponseEntity.ok()
+				.headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, flightsDTO.getId().toString())).body(result);
 	}
 
 	/**
 	 * GET /flights : get all the flights.
 	 *
+	 * @param pageable
+	 *            the pagination information
 	 * @return the ResponseEntity with status 200 (OK) and the list of flights in
 	 *         body
 	 */
-	@CrossOrigin(origins = "http://localhost:8070")
 	@GetMapping("/flights")
 	@Timed
-	public List<Flights> getAllFlights() {
-		log.debug("REST request to get all Flights");
-		return flightsService.findAll();
+	public ResponseEntity<List<FlightsDTO>> getAllFlights(Pageable pageable) {
+		log.debug("REST request to get a page of Flights");
+		Page<FlightsDTO> page = flightsService.findAll(pageable);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/flights");
+		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 	}
 
 	/**
 	 * GET /flights/:id : get the "id" flights.
 	 *
 	 * @param id
-	 *            the id of the flights to retrieve
-	 * @return the ResponseEntity with status 200 (OK) and with body the flights, or
-	 *         with status 404 (Not Found)
+	 *            the id of the flightsDTO to retrieve
+	 * @return the ResponseEntity with status 200 (OK) and with body the flightsDTO,
+	 *         or with status 404 (Not Found)
 	 */
-	@CrossOrigin(origins = "http://localhost:8070")
 	@GetMapping("/flights/{id}")
 	@Timed
-	public ResponseEntity<Flights> getFlights(@PathVariable Long id) {
+	public ResponseEntity<FlightsDTO> getFlights(@PathVariable Long id) {
 		log.debug("REST request to get Flights : {}", id);
-		Flights flights = flightsService.findOne(id);
-		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(flights));
+		FlightsDTO flightsDTO = flightsService.findOne(id);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(flightsDTO));
 	}
 
 	/**
 	 * DELETE /flights/:id : delete the "id" flights.
 	 *
 	 * @param id
-	 *            the id of the flights to delete
+	 *            the id of the flightsDTO to delete
 	 * @return the ResponseEntity with status 200 (OK)
 	 */
-	@CrossOrigin(origins = "http://localhost:8070")
 	@DeleteMapping("/flights/{id}")
 	@Timed
 	public ResponseEntity<Void> deleteFlights(@PathVariable Long id) {
@@ -132,15 +137,13 @@ public class FlightsResource {
 		return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
 	}
 
-	@CrossOrigin(origins = "http://localhost:8070")
 	@GetMapping("/flights/{departure}/{arrival}")
 	@Timed
-	public ResponseEntity<List<Flights>> findFligths(@PathVariable String departure, @PathVariable String arrival) {
-		List<Flights> flights = flightsService.findFlights(departure, arrival);
-		if (flights.isEmpty()) {
-			return new ResponseEntity<List<Flights>>(HttpStatus.NOT_FOUND);
-		} else {
-			return new ResponseEntity<List<Flights>>(flights, HttpStatus.OK);
-		}
+	public ResponseEntity<List<FlightsDTO>> findFlights(Pageable pageable, @PathVariable String departure,
+			@PathVariable String arrival) {
+		Page<FlightsDTO> page = flightsService.findFlights(pageable, departure, arrival);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/flights/{departure}/{arrival}");
+		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+
 	}
 }

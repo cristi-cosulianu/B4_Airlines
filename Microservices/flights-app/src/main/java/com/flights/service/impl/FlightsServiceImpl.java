@@ -3,12 +3,15 @@ package com.flights.service.impl;
 import com.flights.service.FlightsService;
 import com.flights.domain.Flights;
 import com.flights.repository.FlightsRepository;
+import com.flights.service.dto.FlightsDTO;
+import com.flights.service.mapper.FlightsMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 /**
  * Service Implementation for managing Flights.
@@ -21,32 +24,39 @@ public class FlightsServiceImpl implements FlightsService {
 
     private final FlightsRepository flightsRepository;
 
-    public FlightsServiceImpl(FlightsRepository flightsRepository) {
+    private final FlightsMapper flightsMapper;
+
+    public FlightsServiceImpl(FlightsRepository flightsRepository, FlightsMapper flightsMapper) {
         this.flightsRepository = flightsRepository;
+        this.flightsMapper = flightsMapper;
     }
 
     /**
      * Save a flights.
      *
-     * @param flights the entity to save
+     * @param flightsDTO the entity to save
      * @return the persisted entity
      */
     @Override
-    public Flights save(Flights flights) {
-        log.debug("Request to save Flights : {}", flights);
-        return flightsRepository.save(flights);
+    public FlightsDTO save(FlightsDTO flightsDTO) {
+        log.debug("Request to save Flights : {}", flightsDTO);
+        Flights flights = flightsMapper.toEntity(flightsDTO);
+        flights = flightsRepository.save(flights);
+        return flightsMapper.toDto(flights);
     }
 
     /**
      * Get all the flights.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Flights> findAll() {
+    public Page<FlightsDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Flights");
-        return flightsRepository.findAll();
+        return flightsRepository.findAll(pageable)
+            .map(flightsMapper::toDto);
     }
 
     /**
@@ -57,9 +67,10 @@ public class FlightsServiceImpl implements FlightsService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Flights findOne(Long id) {
+    public FlightsDTO findOne(Long id) {
         log.debug("Request to get Flights : {}", id);
-        return flightsRepository.findOne(id);
+        Flights flights = flightsRepository.findOne(id);
+        return flightsMapper.toDto(flights);
     }
 
     /**
@@ -72,9 +83,10 @@ public class FlightsServiceImpl implements FlightsService {
         log.debug("Request to delete Flights : {}", id);
         flightsRepository.delete(id);
     }
-
+    
 	@Override
-	public List<Flights> findFlights(String departure, String arrival) {
-		return flightsRepository.findByDepartureAndArrival(departure , arrival);
+	public Page<FlightsDTO> findFlights(Pageable pageable , String departure, String arrival) {
+		Page<Flights> flights = flightsRepository.findByDepartureAndArrival(pageable , departure, arrival);
+		return flights.map(flightsMapper::toDto);
 	}
 }

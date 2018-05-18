@@ -5,6 +5,8 @@ import com.flights.FlightsApp;
 import com.flights.domain.Flights;
 import com.flights.repository.FlightsRepository;
 import com.flights.service.FlightsService;
+import com.flights.service.dto.FlightsDTO;
+import com.flights.service.mapper.FlightsMapper;
 import com.flights.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -51,14 +53,11 @@ public class FlightsResourceIntTest {
     private static final String DEFAULT_ARRIVAL_TIME = "AAAAA";
     private static final String UPDATED_ARRIVAL_TIME = "BBBBB";
 
-    private static final Double DEFAULT_PRICE_RANGE_MIN = 100D;
-    private static final Double UPDATED_PRICE_RANGE_MIN = 101D;
+    private static final Double DEFAULT_PRICE_RANGE_MIN = 0D;
+    private static final Double UPDATED_PRICE_RANGE_MIN = 1D;
 
-    private static final Double DEFAULT_PRICE_RANGE_MAX = 101D;
-    private static final Double UPDATED_PRICE_RANGE_MAX = 102D;
-
-    private static final Long DEFAULT_AVAIBLE_SEATS = 1L;
-    private static final Long UPDATED_AVAIBLE_SEATS = 2L;
+    private static final Double DEFAULT_PRICE_RANGE_MAX = 1D;
+    private static final Double UPDATED_PRICE_RANGE_MAX = 2D;
 
     private static final String DEFAULT_COMPANY = "AAAAAAAAAA";
     private static final String UPDATED_COMPANY = "BBBBBBBBBB";
@@ -66,8 +65,14 @@ public class FlightsResourceIntTest {
     private static final Integer DEFAULT_RATING = 1;
     private static final Integer UPDATED_RATING = 2;
 
+    private static final Integer DEFAULT_PLANE_TYPE = 1;
+    private static final Integer UPDATED_PLANE_TYPE = 2;
+
     @Autowired
     private FlightsRepository flightsRepository;
+
+    @Autowired
+    private FlightsMapper flightsMapper;
 
     @Autowired
     private FlightsService flightsService;
@@ -113,9 +118,9 @@ public class FlightsResourceIntTest {
             .arrivalTime(DEFAULT_ARRIVAL_TIME)
             .priceRangeMin(DEFAULT_PRICE_RANGE_MIN)
             .priceRangeMax(DEFAULT_PRICE_RANGE_MAX)
-            .avaibleSeats(DEFAULT_AVAIBLE_SEATS)
             .company(DEFAULT_COMPANY)
-            .rating(DEFAULT_RATING);
+            .rating(DEFAULT_RATING)
+            .planeType(DEFAULT_PLANE_TYPE);
         return flights;
     }
 
@@ -130,9 +135,10 @@ public class FlightsResourceIntTest {
         int databaseSizeBeforeCreate = flightsRepository.findAll().size();
 
         // Create the Flights
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Flights in the database
@@ -145,9 +151,9 @@ public class FlightsResourceIntTest {
         assertThat(testFlights.getArrivalTime()).isEqualTo(DEFAULT_ARRIVAL_TIME);
         assertThat(testFlights.getPriceRangeMin()).isEqualTo(DEFAULT_PRICE_RANGE_MIN);
         assertThat(testFlights.getPriceRangeMax()).isEqualTo(DEFAULT_PRICE_RANGE_MAX);
-        assertThat(testFlights.getAvaibleSeats()).isEqualTo(DEFAULT_AVAIBLE_SEATS);
         assertThat(testFlights.getCompany()).isEqualTo(DEFAULT_COMPANY);
         assertThat(testFlights.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testFlights.getPlaneType()).isEqualTo(DEFAULT_PLANE_TYPE);
     }
 
     @Test
@@ -157,11 +163,12 @@ public class FlightsResourceIntTest {
 
         // Create the Flights with an existing ID
         flights.setId(1L);
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         // Validate the Flights in the database
@@ -177,10 +184,11 @@ public class FlightsResourceIntTest {
         flights.setDeparture(null);
 
         // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         List<Flights> flightsList = flightsRepository.findAll();
@@ -195,10 +203,11 @@ public class FlightsResourceIntTest {
         flights.setArrival(null);
 
         // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         List<Flights> flightsList = flightsRepository.findAll();
@@ -213,10 +222,11 @@ public class FlightsResourceIntTest {
         flights.setDepartureTime(null);
 
         // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         List<Flights> flightsList = flightsRepository.findAll();
@@ -231,10 +241,11 @@ public class FlightsResourceIntTest {
         flights.setArrivalTime(null);
 
         // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         List<Flights> flightsList = flightsRepository.findAll();
@@ -249,10 +260,11 @@ public class FlightsResourceIntTest {
         flights.setPriceRangeMin(null);
 
         // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         List<Flights> flightsList = flightsRepository.findAll();
@@ -267,10 +279,68 @@ public class FlightsResourceIntTest {
         flights.setPriceRangeMax(null);
 
         // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         restFlightsMockMvc.perform(post("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Flights> flightsList = flightsRepository.findAll();
+        assertThat(flightsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkCompanyIsRequired() throws Exception {
+        int databaseSizeBeforeTest = flightsRepository.findAll().size();
+        // set the field null
+        flights.setCompany(null);
+
+        // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
+
+        restFlightsMockMvc.perform(post("/api/flights")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Flights> flightsList = flightsRepository.findAll();
+        assertThat(flightsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkRatingIsRequired() throws Exception {
+        int databaseSizeBeforeTest = flightsRepository.findAll().size();
+        // set the field null
+        flights.setRating(null);
+
+        // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
+
+        restFlightsMockMvc.perform(post("/api/flights")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Flights> flightsList = flightsRepository.findAll();
+        assertThat(flightsList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPlaneTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = flightsRepository.findAll().size();
+        // set the field null
+        flights.setPlaneType(null);
+
+        // Create the Flights, which fails.
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
+
+        restFlightsMockMvc.perform(post("/api/flights")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isBadRequest());
 
         List<Flights> flightsList = flightsRepository.findAll();
@@ -294,9 +364,9 @@ public class FlightsResourceIntTest {
             .andExpect(jsonPath("$.[*].arrivalTime").value(hasItem(DEFAULT_ARRIVAL_TIME.toString())))
             .andExpect(jsonPath("$.[*].priceRangeMin").value(hasItem(DEFAULT_PRICE_RANGE_MIN.doubleValue())))
             .andExpect(jsonPath("$.[*].priceRangeMax").value(hasItem(DEFAULT_PRICE_RANGE_MAX.doubleValue())))
-            .andExpect(jsonPath("$.[*].avaibleSeats").value(hasItem(DEFAULT_AVAIBLE_SEATS.intValue())))
             .andExpect(jsonPath("$.[*].company").value(hasItem(DEFAULT_COMPANY.toString())))
-            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)));
+            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)))
+            .andExpect(jsonPath("$.[*].planeType").value(hasItem(DEFAULT_PLANE_TYPE)));
     }
 
     @Test
@@ -316,9 +386,9 @@ public class FlightsResourceIntTest {
             .andExpect(jsonPath("$.arrivalTime").value(DEFAULT_ARRIVAL_TIME.toString()))
             .andExpect(jsonPath("$.priceRangeMin").value(DEFAULT_PRICE_RANGE_MIN.doubleValue()))
             .andExpect(jsonPath("$.priceRangeMax").value(DEFAULT_PRICE_RANGE_MAX.doubleValue()))
-            .andExpect(jsonPath("$.avaibleSeats").value(DEFAULT_AVAIBLE_SEATS.intValue()))
             .andExpect(jsonPath("$.company").value(DEFAULT_COMPANY.toString()))
-            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING));
+            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING))
+            .andExpect(jsonPath("$.planeType").value(DEFAULT_PLANE_TYPE));
     }
 
     @Test
@@ -333,8 +403,7 @@ public class FlightsResourceIntTest {
     @Transactional
     public void updateFlights() throws Exception {
         // Initialize the database
-        flightsService.save(flights);
-
+        flightsRepository.saveAndFlush(flights);
         int databaseSizeBeforeUpdate = flightsRepository.findAll().size();
 
         // Update the flights
@@ -348,13 +417,14 @@ public class FlightsResourceIntTest {
             .arrivalTime(UPDATED_ARRIVAL_TIME)
             .priceRangeMin(UPDATED_PRICE_RANGE_MIN)
             .priceRangeMax(UPDATED_PRICE_RANGE_MAX)
-            .avaibleSeats(UPDATED_AVAIBLE_SEATS)
             .company(UPDATED_COMPANY)
-            .rating(UPDATED_RATING);
+            .rating(UPDATED_RATING)
+            .planeType(UPDATED_PLANE_TYPE);
+        FlightsDTO flightsDTO = flightsMapper.toDto(updatedFlights);
 
         restFlightsMockMvc.perform(put("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(updatedFlights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isOk());
 
         // Validate the Flights in the database
@@ -367,9 +437,9 @@ public class FlightsResourceIntTest {
         assertThat(testFlights.getArrivalTime()).isEqualTo(UPDATED_ARRIVAL_TIME);
         assertThat(testFlights.getPriceRangeMin()).isEqualTo(UPDATED_PRICE_RANGE_MIN);
         assertThat(testFlights.getPriceRangeMax()).isEqualTo(UPDATED_PRICE_RANGE_MAX);
-        assertThat(testFlights.getAvaibleSeats()).isEqualTo(UPDATED_AVAIBLE_SEATS);
         assertThat(testFlights.getCompany()).isEqualTo(UPDATED_COMPANY);
         assertThat(testFlights.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testFlights.getPlaneType()).isEqualTo(UPDATED_PLANE_TYPE);
     }
 
     @Test
@@ -378,11 +448,12 @@ public class FlightsResourceIntTest {
         int databaseSizeBeforeUpdate = flightsRepository.findAll().size();
 
         // Create the Flights
+        FlightsDTO flightsDTO = flightsMapper.toDto(flights);
 
         // If the entity doesn't have an ID, it will be created instead of just being updated
         restFlightsMockMvc.perform(put("/api/flights")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(flights)))
+            .content(TestUtil.convertObjectToJsonBytes(flightsDTO)))
             .andExpect(status().isCreated());
 
         // Validate the Flights in the database
@@ -394,8 +465,7 @@ public class FlightsResourceIntTest {
     @Transactional
     public void deleteFlights() throws Exception {
         // Initialize the database
-        flightsService.save(flights);
-
+        flightsRepository.saveAndFlush(flights);
         int databaseSizeBeforeDelete = flightsRepository.findAll().size();
 
         // Get the flights
@@ -421,5 +491,28 @@ public class FlightsResourceIntTest {
         assertThat(flights1).isNotEqualTo(flights2);
         flights1.setId(null);
         assertThat(flights1).isNotEqualTo(flights2);
+    }
+
+    @Test
+    @Transactional
+    public void dtoEqualsVerifier() throws Exception {
+        TestUtil.equalsVerifier(FlightsDTO.class);
+        FlightsDTO flightsDTO1 = new FlightsDTO();
+        flightsDTO1.setId(1L);
+        FlightsDTO flightsDTO2 = new FlightsDTO();
+        assertThat(flightsDTO1).isNotEqualTo(flightsDTO2);
+        flightsDTO2.setId(flightsDTO1.getId());
+        assertThat(flightsDTO1).isEqualTo(flightsDTO2);
+        flightsDTO2.setId(2L);
+        assertThat(flightsDTO1).isNotEqualTo(flightsDTO2);
+        flightsDTO1.setId(null);
+        assertThat(flightsDTO1).isNotEqualTo(flightsDTO2);
+    }
+
+    @Test
+    @Transactional
+    public void testEntityFromId() {
+        assertThat(flightsMapper.fromId(42L).getId()).isEqualTo(42);
+        assertThat(flightsMapper.fromId(null)).isNull();
     }
 }
