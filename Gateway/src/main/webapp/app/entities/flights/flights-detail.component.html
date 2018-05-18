@@ -1,0 +1,58 @@
+
+<div *ngIf="flights">
+    <h2><span>Flights</span> {{flights.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Departure</span></dt>
+        <dd>
+            <span>{{flights.departure}}</span>
+        </dd>
+        <dt><span>Arrival</span></dt>
+        <dd>
+            <span>{{flights.arrival}}</span>
+        </dd>
+        <dt><span>Departure Time</span></dt>
+        <dd>
+            <span>{{flights.departureTime}}</span>
+        </dd>
+        <dt><span>Arrival Time</span></dt>
+        <dd>
+            <span>{{flights.arrivalTime}}</span>
+        </dd>
+        <dt><span>Price Range Min</span></dt>
+        <dd>
+            <span>{{flights.priceRangeMin}}</span>
+        </dd>
+        <dt><span>Price Range Max</span></dt>
+        <dd>
+            <span>{{flights.priceRangeMax}}</span>
+        </dd>
+        <dt><span>Company</span></dt>
+        <dd>
+            <span>{{flights.company}}</span>
+        </dd>
+        <dt><span>Rating</span></dt>
+        <dd>
+            <span>{{flights.rating}}</span>
+        </dd>
+        <dt><span>Plane Type</span></dt>
+        <dd>
+            <span>{{flights.planeType}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'flights/'+ flights.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

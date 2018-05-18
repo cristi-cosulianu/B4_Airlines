@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -33,11 +32,8 @@ public class DatabaseConfiguration {
 
     private final Environment env;
 
-    private final CacheManager cacheManager;
-
-    public DatabaseConfiguration(Environment env, CacheManager cacheManager) {
+    public DatabaseConfiguration(Environment env) {
         this.env = env;
-    this.cacheManager = cacheManager;
     }
 
     /**

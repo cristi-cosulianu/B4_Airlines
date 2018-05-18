@@ -6,19 +6,15 @@
             "fieldName": "departure",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "minlength"
-            ],
-            "fieldValidateRulesMinlength": "1"
+                "required"
+            ]
         },
         {
             "fieldName": "arrival",
             "fieldType": "String",
             "fieldValidateRules": [
-                "required",
-                "minlength"
-            ],
-            "fieldValidateRulesMinlength": "1"
+                "required"
+            ]
         },
         {
             "fieldName": "departureTime",
@@ -49,7 +45,7 @@
                 "required",
                 "min"
             ],
-            "fieldValidateRulesMin": "100"
+            "fieldValidateRulesMin": 0
         },
         {
             "fieldName": "priceRangeMax",
@@ -58,28 +54,40 @@
                 "required",
                 "min"
             ],
-            "fieldValidateRulesMin": "101"
-        },
-        {
-            "fieldName": "avaibleSeats",
-            "fieldType": "Long",
-            "fieldValidateRules": []
+            "fieldValidateRulesMin": "1"
         },
         {
             "fieldName": "company",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         },
         {
             "fieldName": "rating",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": "1",
+            "fieldValidateRulesMax": "5"
+        },
+        {
+            "fieldName": "planeType",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
-    "changelogDate": "20180517184126",
-    "dto": "no",
+    "changelogDate": "20180518115109",
+    "dto": "mapstruct",
     "service": "serviceImpl",
     "entityTableName": "flights",
     "jpaMetamodelFiltering": false,
-    "pagination": "no",
+    "pagination": "pagination",
     "microserviceName": "flights",
     "searchEngine": false
 }

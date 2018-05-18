@@ -1,0 +1,82 @@
+<div>
+    <h2>
+        <span>Flights</span>
+        <button class="btn btn-primary float-right jh-create-entity create-flights" [routerLink]="['/', { outlets: { popup: ['flights-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Flights
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="flights">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="departure"><span>Departure</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="arrival"><span>Arrival</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="departureTime"><span>Departure Time</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="arrivalTime"><span>Arrival Time</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="priceRangeMin"><span>Price Range Min</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="priceRangeMax"><span>Price Range Max</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="company"><span>Company</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="rating"><span>Rating</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="planeType"><span>Plane Type</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let flights of flights ;trackBy: trackId">
+                <td><a [routerLink]="['../flights', flights.id ]">{{flights.id}}</a></td>
+                <td>{{flights.departure}}</td>
+                <td>{{flights.arrival}}</td>
+                <td>{{flights.departureTime}}</td>
+                <td>{{flights.arrivalTime}}</td>
+                <td>{{flights.priceRangeMin}}</td>
+                <td>{{flights.priceRangeMax}}</td>
+                <td>{{flights.company}}</td>
+                <td>{{flights.rating}}</td>
+                <td>{{flights.planeType}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../flights', flights.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'flights/'+ flights.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'flights/'+ flights.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="flights && flights.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
