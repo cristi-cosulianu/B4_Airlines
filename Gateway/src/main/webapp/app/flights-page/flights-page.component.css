@@ -1,11 +1,21 @@
 /* Extra large devices (large desktops) */
-/* FLIGHTS TABLE */
+/* DEPARTURE & ARRIVAL FORM */
 #flights-select {
     margin-bottom: 35px;
 }
 #flights-select h1 {
     text-align: center;
     margin-top: 25px;
+}
+
+/* FLIGHTS TABLE */
+#flights-table tbody tr:nth-child(4n),
+#flights-table tbody tr:nth-child(4n-1) {
+    background: #fff;
+}
+#flights-table tbody tr:nth-child(4n-2),
+#flights-table tbody tr:nth-child(4n-3) {
+    background: #0000000d;
 }
 #flights-table .price {
     color: #02b002;
@@ -16,6 +26,19 @@
 #flights-table .btn-sm {
     min-height: 31px;
     min-width: 65px;
+}
+
+/* COLLAPSE */
+.collapse-review,
+.collapse-review:hover {
+    background-color: #fff !important;
+}
+.collapse-review div {
+    text-align: center;
+    margin: 0 125px 10px;
+    padding: 15px 25px 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
 }
 
 

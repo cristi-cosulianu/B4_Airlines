@@ -29,13 +29,6 @@
   </div>
 </div>
 
-<!-- COLLAPSE -->
-      <!-- <div class="collapse" id="collapseReview">
-        <div class="card card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-        </div>
-      </div> -->
-
 <!-- FLIGHTS TABLE -->
 <div id="flights-table" class="table-responsive">
   <table class="table table-hover table-striped">
@@ -68,12 +61,26 @@
             <span class="fa fa-star-o" data-rating="5"></span>
           </div>
         </td>
+        
+		<!-- COLLAPSE -->
         <td>
-          <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse" data-target="#collapseReview" aria-expanded="false" aria-controls="collapseReview">
+          <button type="button" class="btn btn-primary btn-sm" (click)="isCollapsed1 = !isCollapsed1"
+          [attr.aria-expanded]="!isCollapsed1" aria-controls="review1">
             View
           </button>
         </td>
       </tr>
+      <tr id="review1" class="collapse-review" [ngbCollapse]="!isCollapsed1">
+        <td colspan="8">
+          <div>
+            "Our flight left on time and our flight attendants were courteous and amusing. The service was very quick. There was no in-flight movie. Our return trip was delayed because of weather, but the flight was still good. We had the good fortune to sit by the emergency exit door which gave us more leg room. All in all, good flight."
+          </div>
+          <div>
+            "They had a three hour delay due to needing a part. At that point they issued a $100 voucher to everyone. Not bad considering I paid $95 got the flight"
+          </div>
+        </td>
+      </tr>
+
     </tbody>
   </table>
 </div>
@@ -81,8 +88,3 @@
 <button routerLink="/seats-configure-page">
   Next page
 </button>
-
-<!-- COLLAPSE -->
-<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> -->
