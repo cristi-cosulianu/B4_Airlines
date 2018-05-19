@@ -1,6 +1,6 @@
 import * as $ from 'jquery';
 
-$(document).ready(function () {
+export function init() {
     let sliderWrapper = $(".slider-wrapper");
     let slide = $(".slide");
     let viewWidth = $(window).width();
@@ -75,4 +75,4 @@ $(document).ready(function () {
 
         setTimeout(carousel, 3000);
     }
-});
+}

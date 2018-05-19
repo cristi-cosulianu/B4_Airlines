@@ -4,7 +4,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
 
-import './slider/slider.js';
+import * as slider from './slider/slider';
 
 @Component({
     selector: 'jhi-home',
@@ -27,6 +27,8 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        (slider as any).init();
+
         this.principal.identity().then((account) => {
             this.account = account;
         });
