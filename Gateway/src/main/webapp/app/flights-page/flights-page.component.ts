@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { TicketModel } from '../models/ticket-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Flights, FlightsService } from '../entities/flights';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -12,25 +13,26 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class FlightsPageComponent implements OnInit {
   public ticket = new TicketModel();
-  constructor(private data: DataService, private http: HttpClient) {
+  constructor(private data: DataService, private service: FlightsService) {
 
   }
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
-    this.http.get('http://localhost:8050/api/flights').subscribe((data) => {
-      this.createRowsUsingData(data, 'some');
+    this.service.query().subscribe((data) => {
+      this.createRowsUsingData(data.body, 'some');
     });
   }
 
   sendSubmision() {
-    const departure = (<HTMLInputElement>document.getElementById('departure')).value;
-    const destination = (<HTMLInputElement>document.getElementById('destination')).value;
-
-    this.http.get('http://localhost:8050/api/flights/' + departure + '/' + destination).subscribe((data) => {
+    const departureCity = (<HTMLInputElement>document.getElementById('departure')).value;
+    const destinationCity = (<HTMLInputElement>document.getElementById('destination')).value;
+    console.log(departureCity);
+    console.log(destinationCity);
+    this.service.submit(departureCity, destinationCity).subscribe((data) => {
       console.log(data);
       this.removeAllRows();
-      this.createRowsUsingData(data, 'all');
+      this.createRowsUsingData(data.body, 'all');
     });
   }
 
@@ -66,16 +68,17 @@ export class FlightsPageComponent implements OnInit {
         const departure = this.createElement('td');
         const destination = this.createElement('td');
         const price = this.createElement('td');
-        const availableSeats = this.createElement('td');
+        const planeType = this.createElement('td');
         const company = this.createElement('td');
         const rating = this.createElement('td');
         const reviews = this.createElement('td');
+        const select = this.createElement('td');
         // Assign text to simple columns.
         flightId.innerText = obj.id;
-        departure.innerText = obj.departure;
-        destination.innerText = obj.arrival;
+        departure.innerText = obj.departure + ' ' + obj.departureTime;
+        destination.innerText = obj.arrival + ' ' + obj.arrivalTime;
         price.innerText = obj.priceRangeMin;
-        availableSeats.innerText = obj.avaibleSeats;
+        planeType.innerText = obj.planeType;
         company.innerText = obj.company;
         // Assign text and $ sign to price column.
         const dolar = this.createElement('span');
@@ -105,24 +108,33 @@ export class FlightsPageComponent implements OnInit {
         }
         rating.appendChild(ratingDiv);
         // Create button for reviews.
-        const button = this.createElement('button');
-        button.setAttribute('class', 'btn btn-primary btn-sm');
-        button.setAttribute('type', 'button');
-        button.setAttribute('data-toggle', 'collapse');
-        button.setAttribute('data-target', '#collapseReview');
-        button.setAttribute('aria-expanded', 'false');
-        button.setAttribute('aria-controls', 'collapseReview');
-        button.innerText = 'View';
-        reviews.appendChild(button);
+        const viewButton = this.createElement('button');
+        viewButton.setAttribute('class', 'btn btn-primary btn-sm');
+        viewButton.setAttribute('type', 'button');
+        viewButton.setAttribute('data-toggle', 'collapse');
+        viewButton.setAttribute('data-target', '#collapseReview');
+        viewButton.setAttribute('aria-expanded', 'false');
+        viewButton.setAttribute('aria-controls', 'collapseReview');
+        viewButton.innerText = 'View';
+        reviews.appendChild(viewButton);
+        // Create select flight button.
+        const selectButton = this.createElement('button');
+        selectButton.setAttribute('class', 'btn btn-primary btn-sm');
+        selectButton.setAttribute('type', 'button');
+        selectButton.setAttribute('routerLink', '/seats-configure-page');
+        selectButton.innerText = 'Select';
+        select.appendChild(selectButton);
+
         // Add all columns to new created row.
         row.appendChild(flightId);
         row.appendChild(departure);
         row.appendChild(destination);
         row.appendChild(price);
-        row.appendChild(availableSeats);
         row.appendChild(company);
+        row.appendChild(planeType);
         row.appendChild(rating);
         row.appendChild(reviews);
+        row.appendChild(select);
         // Add row to table body.
         tableBody.appendChild(row);
       }
