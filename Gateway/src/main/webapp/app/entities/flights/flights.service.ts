@@ -38,6 +38,11 @@ export class FlightsService {
             .map((res: HttpResponse<Flights[]>) => this.convertArrayResponse(res));
     }
 
+    submit(departure: any, destination: any): Observable<HttpResponse<Flights[]>> {
+        return this.http.get<Flights[]>(`${this.resourceUrl}/${departure}/${destination}`, { observe: 'response' })
+            .map((res: HttpResponse<Flights[]>) => this.convertArrayResponse(res));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }

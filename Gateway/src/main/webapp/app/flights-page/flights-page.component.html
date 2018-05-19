@@ -34,14 +34,15 @@
   <table class="table table-hover table-striped">
     <thead>
       <tr>
-        <th>Flight number</th>
+        <th>Flight</th>
         <th>Departure</th>
         <th>Destination</th>
         <th>Price</th>
-        <th>Available seats</th>
         <th>Company</th>
+        <th>Plane</th>
         <th>Rating</th>
         <th>Reviews</th>
+        <th>Select</th>
       </tr>
     </thead>
     <tbody id="tableBody">
@@ -50,8 +51,8 @@
         <td>London 16:30</td>
         <td>Bucharest 18:30</td>
         <td>100 <span class="price">$</span></td>
-        <td>31</td>
         <td>BlueAir</td>
+        <td>1</td>
         <td>
           <div class="star-rating">
             <span class="fa fa-star" data-rating="1"></span>
@@ -69,6 +70,12 @@
             View
           </button>
         </td>
+        <td>
+          <button type="button" class="btn btn-primary btn-sm" (click)="isCollapsed1 = !isCollapsed1"
+          [attr.aria-expanded]="!isCollapsed1" aria-controls="review1" routerLink="/seats-configure-page">
+            Select
+          </button>
+        </td>
       </tr>
       <tr id="review1" class="collapse-review" [ngbCollapse]="!isCollapsed1">
         <td colspan="8">
@@ -84,7 +91,3 @@
     </tbody>
   </table>
 </div>
-
-<button routerLink="/seats-configure-page">
-  Next page
-</button>

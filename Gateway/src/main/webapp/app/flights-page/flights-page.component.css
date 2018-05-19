@@ -8,6 +8,10 @@
     margin-top: 25px;
 }
 
+table {
+    text-align: center;
+}
+
 /* FLIGHTS TABLE */
 #flights-table tbody tr:nth-child(4n),
 #flights-table tbody tr:nth-child(4n-1) {
