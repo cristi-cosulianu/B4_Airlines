@@ -1,3 +1,21 @@
+<div class="slider-wrapper">
+    <nav class="nav">
+        <p>Explore your travel opportunities</p>
+    </nav>
+     <div class="slider">
+        <div class="slider-inner">
+            <div class="slide active">Santorini</div>
+            <div class="slide">Sevilla</div>
+            <div class="slide">Madrid</div>
+        </div>
+        <nav class="slider-nav">
+            <div class="slider active"></div>
+            <div class="slider"></div>
+            <div class="slider"></div>
+        </nav>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-3">
         <span class="hipster img-fluid"></span>
@@ -8,7 +26,7 @@
         <div [ngSwitch]="isAuthenticated()">
             <div class="alert alert-successcontainer-fluid" *ngSwitchCase="true">
                 <span *ngIf="account"
-                   > You are logged in as user "{{account.login}}". </span>
+                > You are logged in as user "{{account.login}}". </span>
             </div>
 
             <div class="alert alert-warning alert-background" *ngSwitchCase="false">

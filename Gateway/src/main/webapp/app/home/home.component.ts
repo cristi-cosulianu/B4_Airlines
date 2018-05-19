@@ -4,11 +4,14 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
 
+import './slider/slider.js';
+
 @Component({
     selector: 'jhi-home',
     templateUrl: './home.component.html',
     styleUrls: [
-        'home.css'
+        'home.css',
+        'slider/slider.css'
     ]
 
 })
