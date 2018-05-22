@@ -1,0 +1,27 @@
+microservice Card,OrderHistory with Payment
+
+entity Card {
+	number String required minlength(16) maxlength(16) pattern(/[0-9]+/),
+    expirationDate LocalDate required,
+    name String required pattern(/[a-zA-Z]+/),
+    ccv String required pattern(/[0-9][0-9][0-9]/)
+}
+
+entity OrderHistory {
+	ticketUserId String required,
+    ticketFlightID Integer required,
+    ticketPlaneType Integer required,
+    ticketPrice Float required min(0),
+    creditCardId Long required
+}
+
+
+
+relationship OneToOne {
+	OrderHistory{ card } to Card
+}
+
+dto * with mapstruct
+
+service * with serviceImpl
+
