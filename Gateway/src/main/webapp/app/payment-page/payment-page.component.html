@@ -1,6 +1,32 @@
-<p>
-    payment-page works!
-</p>
-<p>
-    saga will be realised on the next(confirmation) page
-</p>
+<div class="loadingDiv" [hidden]="!shouldShowLoading">
+    <!-- <div class="loadingDiv"> -->
+    <div layout="row" layout-sm="column" layout-align="space-around">
+        <md-progress-circular ng-disabled="!vm.activated" md-diameter="96"></md-progress-circular>
+    </div>
+</div>
+
+<section class="segmented-list">
+    <article class="segment">
+        <form action="">
+            <fieldset>
+                <h2>Who's travelling?</h2>
+                <label for="" class="field-style field-split align-left">
+                    <span aria-required="true">First name</span>
+                    <input type="text" placeholder="First name" />
+                </label>
+                <label for="" class="field-style field-split align-left">
+                    <span aria-required="true">Last name</span>
+                    <input type="text" placeholder="Last name" />
+                </label>
+                <label for="" class="field-style field-split align-right">
+                    <span aria-required="true">Email</span>
+                    <input type="email" placeholder="name@domain.com" />
+                </label>
+                <label for="" class="field-style field-split align-right">
+                    <span aria-required="true">Phone</span>
+                    <input type="text" placeholder="Phone number" />
+                </label>
+            </fieldset>
+        </form>
+    </article>
+</section>
