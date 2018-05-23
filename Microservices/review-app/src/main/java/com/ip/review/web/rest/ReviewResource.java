@@ -124,4 +124,12 @@ public class ReviewResource {
         reviewService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/reviews/flights/{flightId}")
+    @Timed
+    public ResponseEntity<List<ReviewDTO>> getByFlightId(Pageable pageable, @PathVariable Long flightId) {
+        Page<ReviewDTO> page = reviewService.getByFlightId(pageable, flightId);
+		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/reviews/flights/{flightId}");
+		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }
