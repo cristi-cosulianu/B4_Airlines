@@ -31,7 +31,17 @@ table {
     min-height: 31px;
     min-width: 65px;
 }
-
+#flights-table .btn-review {
+    background-color: transparent;
+    color: #5648db;
+}
+#flights-table .btn-review:hover {
+    background-color: #5648db;
+    color: #fff;
+}
+#flights-table th:last-child {
+    border-left: 1px solid #dee2e6;
+}
 /* COLLAPSE */
 .collapse-review,
 .collapse-review:hover {

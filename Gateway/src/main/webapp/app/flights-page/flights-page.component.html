@@ -24,7 +24,7 @@
           <option>Suceava</option>
         </select>
       </div>
-      <button type="submit" class="btn btn-primary" (click)="sendSubmision()">Book now!</button>
+      <button type="submit" class="btn btn-primary" (click)="sendSubmision()">View flights</button>
     </form>
   </div>
 </div>
@@ -42,7 +42,7 @@
         <th>Plane</th>
         <th>Rating</th>
         <th>Reviews</th>
-        <th>Select</th>
+        <th>Bookings</th>
       </tr>
     </thead>
     <tbody id="tableBody">
@@ -65,20 +65,17 @@
         
 		<!-- COLLAPSE -->
         <td>
-          <button type="button" class="btn btn-primary btn-sm" (click)="isCollapsed1 = !isCollapsed1"
+          <button type="button" class="btn btn-outline-primary btn-sm btn-review" (click)="isCollapsed1 = !isCollapsed1"
           [attr.aria-expanded]="!isCollapsed1" aria-controls="review1">
-            View
+            Read
           </button>
         </td>
         <td>
-          <button type="button" class="btn btn-primary btn-sm" (click)="isCollapsed1 = !isCollapsed1"
-          [attr.aria-expanded]="!isCollapsed1" aria-controls="review1" routerLink="/seats-configure-page">
-            Select
-          </button>
+          <button type="submit" class="btn btn-primary btn-sm" routerLink="/seats-configure-page">Book!</button>
         </td>
       </tr>
       <tr id="review1" class="collapse-review" [ngbCollapse]="!isCollapsed1">
-        <td colspan="8">
+        <td colspan="9">
           <div>
             "Our flight left on time and our flight attendants were courteous and amusing. The service was very quick. There was no in-flight movie. Our return trip was delayed because of weather, but the flight was still good. We had the good fortune to sit by the emergency exit door which gave us more leg room. All in all, good flight."
           </div>
