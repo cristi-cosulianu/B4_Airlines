@@ -15,6 +15,12 @@ import { paymentRoute, PaymentPageComponent } from '.';
     ],
     providers: [
     ],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+    ],
+    bootstrap: [
+        PaymentPageComponent
+    ]
 })
+
 export class PaymentPageModule {}

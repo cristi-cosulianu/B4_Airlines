@@ -1,32 +1,217 @@
-<div class="loadingDiv" [hidden]="!shouldShowLoading">
-    <!-- <div class="loadingDiv"> -->
-    <div layout="row" layout-sm="column" layout-align="space-around">
-        <md-progress-circular ng-disabled="!vm.activated" md-diameter="96"></md-progress-circular>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2 class="display-4 noselect">Fill in the form below</h2>
+        <p class="lead noselect">
+            <small>To​​ comply with the TSA Secure Flight program, the traveler information listed here must exactly match the information
+                on the government-issued photo ID that the traveler presents at the airport.</small>
+        </p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 order-md-2 mb-4">
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <h6 class="my-0 noselect">Passengers (1)</h6>
+                    <span class="text-muted">$296</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <h6 class="my-0 noselect">Taxes and fees</h6>
+                    <span class="text-muted">$85,64</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <h6 class="my-0 noselect">Insurance</h6>
+                    <span class="text-muted">$7,68</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between bg-light">
+                    <h6 class="my-0 noselect">First time discount</h6>
+                    <span class="text-success">-$5</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <h6 class="my-0 noselect">Total (USD)</h6>
+                        <small class="text-muted noselect">Including taxes and fees</small>
+                    </div>
+                    <strong>$389,32</strong>
+                </li>
+            </ul>
+
+            <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between lh-condensed noselect">
+                    <strong>Depart</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <small class="text-muted">28 Sep (Fri) IAS - HEL</small>
+                    <small class="text-muted noselect">1 stop</small>
+                </li>
+                <li class="list-group-item d-flex justify-content-between lh-condensed">
+                    <small class="text-muted">07:00
+                        <i class="fa fa-arrow-right"></i> 11:25</small>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3 noselect">Passengers</h4>
+
+            <form class="needs-validation" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName noselect">First name</label>
+                        <input type="text" class="form-control" id="bookFligth_passenger_firstName" placeholder="The name listed in ID card" value=""
+                            required>
+
+                        <div class="invalid-feedback">
+                            Valid first name is required.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName noselect">Last name</label>
+                        <input type="text" class="form-control" id="bookFligth_passenger_lastName" placeholder="The name listed in ID card" value=""
+                            required>
+
+
+                        <div class="invalid-feedback">
+                            Valid last name is required.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3 noselect">
+                        <label for="sex">Sex</label>
+                        <select class="custom-select d-block w-100" id="bookFligth_passenger_sex" required>
+                            <option value="">Select</option>
+                            <option>Man</option>
+                            <option>Female</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid country.
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label class="control-label noselect" for="date">Date of birth</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" id="bookFligth_passenger_date" placeholder="MM/DD/YYY" type="text" required/>
+                        </div>
+                    </div>
+                    <div class="invalid-feedback">
+                        Valid last name is required.
+                    </div>
+                </div>
+
+                </br>
+                <h4 class="mb-3 noselect">Passenger contact information</h4>
+                <p class="lead noselect">
+                    <small>Please let us know the best way to reach you during travel, for important flight status updates or notifications.
+                        Our team will use this information to contact you with updates about your travel, if necessary.</small>
+                </p>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa fa-phone"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" id="bookFligth_passenger_phone" placeholder="+(0)" type="text" required/>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <i class="fa fa-mail-forward"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" id="bookFligth_passenger_email" placeholder="name[at]domain[dot]com" type="text" required/>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mb-4">
+                <p>
+                    <strong class="noselect">Special passenger needs (Optional)</strong>
+                </p>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="same-address">
+                    <label class="custom-control-label noselect" for="same-address">Blind</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label noselect" for="save-info">Deaf</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label noselect" for="save-info">Cognitive disability</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label noselect" for="save-info">Other disability requiring assistance</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="save-info">
+                    <label class="custom-control-label noselect" for="save-info">Service animal</label>
+                </div>
+                <hr class="mb-4">
+
+                <h4 class="mb-3 noselect">Payment</h4>
+
+                <div class="d-block my-3">
+                    <div class="custom-control custom-radio">
+                        <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                        <label class="custom-control-label noselect" for="credit">Credit card</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                        <label class="custom-control-label noselect" for="debit">Debit card</label>
+                    </div>
+                    <div class="custom-control custom-radio">
+                        <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
+                        <label class="custom-control-label noselect" for="paypal">PayPal</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-name noselect">Name on card</label>
+                        <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                        <small class="text-muted">Full name as displayed on card</small>
+                        <div class="invalid-feedback">
+                            Name on card is required
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="cc-number noselect">Credit card number</label>
+                        <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Credit card number is required
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-expiration noselect">Expiration</label>
+                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Expiration date required
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label for="cc-cvv noselect">CVV</label>
+                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                        <div class="invalid-feedback">
+                            Security code required
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+            </form>
+        </div>
     </div>
 </div>
-
-<section class="segmented-list">
-    <article class="segment">
-        <form action="">
-            <fieldset>
-                <h2>Who's travelling?</h2>
-                <label for="" class="field-style field-split align-left">
-                    <span aria-required="true">First name</span>
-                    <input type="text" placeholder="First name" />
-                </label>
-                <label for="" class="field-style field-split align-left">
-                    <span aria-required="true">Last name</span>
-                    <input type="text" placeholder="Last name" />
-                </label>
-                <label for="" class="field-style field-split align-right">
-                    <span aria-required="true">Email</span>
-                    <input type="email" placeholder="name@domain.com" />
-                </label>
-                <label for="" class="field-style field-split align-right">
-                    <span aria-required="true">Phone</span>
-                    <input type="text" placeholder="Phone number" />
-                </label>
-            </fieldset>
-        </form>
-    </article>
-</section>
