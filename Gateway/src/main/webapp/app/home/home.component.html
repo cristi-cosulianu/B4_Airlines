@@ -1,8 +1,36 @@
+<!--
+<div>
+    <h1 class="main-title">Welcome to B4 Airlines!</h1>
+
+    <div [ngSwitch]="isAuthenticated()">
+        <div class="alert alert-successcontainer-fluid" *ngSwitchCase="true">
+            <span *ngIf="account"> You are logged in as user "{{account.login}}". </span>
+        </div>
+
+        <div class="alert alert-warning alert-background" *ngSwitchCase="false">
+            <span>If you want to </span>
+            <a class="alert-link" (click)="login()">sign in</a>
+            <span>, you can try the default accounts:
+                <br/>- Administrator (login="admin" and password="admin")
+                <br/>- User (login="user" and password="user").</span>
+        </div>
+        <div class="alert alert-warning alert-background" *ngSwitchCase="false">
+            <span>You don't have an account yet?</span>
+            <a class="alert-link" routerLink="register">Register a new account</a>
+        </div>
+        <div *ngSwitchCase="true">
+            <button routerLink="flights-page">Next page</button>
+        </div>
+    </div>
+</div>
+-->
 <div class="slider-wrapper">
     <nav class="nav">
-        <p>Explore your travel opportunities</p>
+        <p> Welcome to B4 Airlines! Explore your travel opportunities
+            <a class="booking-link" routerLink="/flights-page"> here. </a>
+        </p>
     </nav>
-     <div class="slider">
+    <div class="slider">
         <div class="slider-inner">
             <div class="slide active">Santorini</div>
             <div class="slide">Sevilla</div>
@@ -15,11 +43,13 @@
         </nav>
     </div>
 </div>
-
+<!--
 <div class="row">
+    
     <div class="col-md-3">
         <span class="hipster img-fluid"></span>
     </div>
+    
     <div class="col-md-9">
         <h1 class="main-title">Welcome to B4 Airlines!</h1>
 
@@ -43,3 +73,4 @@
         </div>
     </div>
 </div>
+-->

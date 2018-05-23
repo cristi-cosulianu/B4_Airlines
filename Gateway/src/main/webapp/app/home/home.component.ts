@@ -11,7 +11,8 @@ import * as slider from './slider/slider';
     templateUrl: './home.component.html',
     styleUrls: [
         'home.css',
-        'slider/slider.css'
+        'slider/slider.css',
+        'welcome/welcome.css'
     ]
 
 })
