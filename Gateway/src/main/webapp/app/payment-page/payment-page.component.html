@@ -154,7 +154,6 @@
                 <div class="custom-control custom-checkbox" *ngFor="let optionsCheckbox of getText[0].form[2].optionsCheckbox">
                     <input type="checkbox" class="custom-control-input" id="{{ 'passengerNeedsId' + optionsCheckbox.id }}">
                     <label class="custom-control-label noselect" for="{{ 'passengerNeedsId' + optionsCheckbox.id }}">{{ optionsCheckbox.type }}</label>
-
                 </div>
 
                 <hr class="mb-4">
@@ -164,17 +163,17 @@
 
                 <div class="d-block my-3">
                     <div class="custom-control custom-radio" *ngFor="let optionsRadio of getText[0].form[3].optionsRadio">
-                        <input id="{{ 'paymentId' + optionsRadio.id }}" name="passangerNeedsMethod" type="radio" class="custom-control-input" required=""
+                        <input id="{{ optionsRadio.id }}" value="{{ optionsRadio.type }}" name="passangerCardType" type="radio" class="custom-control-input" (change)="onSelectionChangeCard($event)"
                             checked="true">
-                        <label class="custom-control-label noselect" for="{{ 'paymentId' + optionsRadio.id }}">{{ optionsRadio.type }}</label>
+                        <label class="custom-control-label noselect" for="{{ optionsRadio.id }}">{{ optionsRadio.type }}</label>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cc-name noselect">{{getText[0].formCard[0].name}}</label>
-
-                        <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                        <input type="text" class="form-control" name="passengerIDInfos.card.name" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].name"
+                            [ngModelOptions]="{updateOn: 'blur'}" required>
                         <small class="text-muted">Full name as displayed on card</small>
                         <div class="invalid-feedback">
                             Name on card is required
@@ -182,7 +181,8 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number noselect">{{getText[0].formCard[0].number}}</label>
-                        <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                        <input type="text" class="form-control" name="passengerIDInfos.card.number" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].number"
+                            [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Credit card number is required
                         </div>
@@ -191,19 +191,25 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration noselect">{{getText[0].formCard[0].exp}}</label>
-                        <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
+                        <input type="text" class="form-control" name="passengerIDInfos.card.expirationDate" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].expirationDate"
+                            [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Expiration date required
                         </div>
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-cvv noselect">{{getText[0].formCard[0].cvv}}</label>
-                        <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                        <input type="text" class="form-control" name="passengerIDInfos.card.cvv" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].cvv"
+                            [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Security code required
                         </div>
                     </div>
                 </div>
+
+                <p>{{ passengerIDInfos[0].card[0] | json}}</p>
+
+
                 <hr class="mb-4">
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
             </form>

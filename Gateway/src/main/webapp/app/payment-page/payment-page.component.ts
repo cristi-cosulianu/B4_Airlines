@@ -16,7 +16,15 @@ export class PaymentPageComponent implements OnInit {
     sex: "",
     date: "",
     phoneNo: "",
-    email: ""
+    email: "",
+    card: [{
+      id : '',
+      number : '',
+      expirationDate : '',
+      name : '',
+      cvv : '',
+      cardType : ''
+    }]
   }]
 
   showInfoForm: boolean = false;
@@ -103,5 +111,10 @@ export class PaymentPageComponent implements OnInit {
 
   selectChangedHandler(event : any) {
     this.passengerIDInfos[0].sex = event.target.value; 
+  }
+
+  onSelectionChangeCard(event : any) {
+    this.passengerIDInfos[0].card[0].cardType = event.target.value;
+    this.passengerIDInfos[0].card[0].id = event.target.id;
   }
 }
