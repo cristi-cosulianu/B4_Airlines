@@ -119,8 +119,12 @@ export class SeatsConfigurePageComponent implements OnInit {
       for (let i = 0; i < data.body.length; i++) {
         this.occupiedSeats.push(data.body[i].seat_index);
       }
-      this.checkOccupiedSeats();
-      this.checkChoosenSeats();
+
+
+       this.checkOccupiedSeats();
+       this.checkChoosenSeats();
+      
+
       this.shouldShowLoading = false;
     });
   }
