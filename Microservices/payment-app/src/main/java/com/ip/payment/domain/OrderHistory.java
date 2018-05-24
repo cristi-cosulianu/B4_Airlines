@@ -250,6 +250,4 @@ public class OrderHistory implements Serializable {
             ", animalService='" + isAnimalService() + "'" +
             "}";
     }
-
-    public Float get
 }
