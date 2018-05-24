@@ -1,0 +1,68 @@
+
+<div *ngIf="orderHistory">
+    <h2><span>Order History</span> {{orderHistory.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Ticket User Id</span></dt>
+        <dd>
+            <span>{{orderHistory.ticketUserId}}</span>
+        </dd>
+        <dt><span>Ticket Flight ID</span></dt>
+        <dd>
+            <span>{{orderHistory.ticketFlightID}}</span>
+        </dd>
+        <dt><span>Ticket Plane Type</span></dt>
+        <dd>
+            <span>{{orderHistory.ticketPlaneType}}</span>
+        </dd>
+        <dt><span>Ticket Price</span></dt>
+        <dd>
+            <span>{{orderHistory.ticketPrice}}</span>
+        </dd>
+        <dt><span>Credit Card Id</span></dt>
+        <dd>
+            <span>{{orderHistory.creditCardId}}</span>
+        </dd>
+        <dt><span>Blind</span></dt>
+        <dd>
+            <span>{{orderHistory.blind}}</span>
+        </dd>
+        <dt><span>Deaf</span></dt>
+        <dd>
+            <span>{{orderHistory.deaf}}</span>
+        </dd>
+        <dt><span>Cognitive</span></dt>
+        <dd>
+            <span>{{orderHistory.cognitive}}</span>
+        </dd>
+        <dt><span>Other</span></dt>
+        <dd>
+            <span>{{orderHistory.other}}</span>
+        </dd>
+        <dt><span>Animal Service</span></dt>
+        <dd>
+            <span>{{orderHistory.animalService}}</span>
+        </dd>
+        <dt><span>Card</span></dt>
+        <dd>
+            <div *ngIf="orderHistory.cardId">
+                <a [routerLink]="['/card', orderHistory.cardId]">{{orderHistory.cardId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'order-history/'+ orderHistory.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

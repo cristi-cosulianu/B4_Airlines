@@ -1,0 +1,107 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myCardLabel">Create or edit a Card</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!card.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="card.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_number">Number</label>
+            <input type="text" class="form-control" name="number" id="field_number"
+                [(ngModel)]="card.number" required minlength="16" maxlength="16" pattern="[0-9]+"/>
+            <div [hidden]="!(editForm.controls.number?.dirty && editForm.controls.number?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.number?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.number?.errors?.minlength">
+                   This field is required to be at least 16 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.number?.errors?.maxlength">
+                   This field cannot be longer than 16 characters.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.number?.errors?.pattern">
+                    This field should follow pattern for "Number".
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_expirationDate">Expiration Date</label>
+            <div class="input-group">
+                <input id="field_expirationDate" type="text" class="form-control" name="expirationDate" ngbDatepicker  #expirationDateDp="ngbDatepicker" [(ngModel)]="card.expirationDate"
+                required/>
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="expirationDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.expirationDate?.dirty && editForm.controls.expirationDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.expirationDate?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="card.name" required pattern="[a-zA-Z]+"/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.name?.errors?.pattern">
+                    This field should follow pattern for "Name".
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ccv">Ccv</label>
+            <input type="text" class="form-control" name="ccv" id="field_ccv"
+                [(ngModel)]="card.ccv" required pattern="[0-9][0-9][0-9]"/>
+            <div [hidden]="!(editForm.controls.ccv?.dirty && editForm.controls.ccv?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ccv?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ccv?.errors?.pattern">
+                    This field should follow pattern for "Ccv".
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_cardType">Card Type</label>
+            <select class="form-control" name="cardType" [(ngModel)]="card.cardType" id="field_cardType"  required>
+                <option value="DEBIT">DEBIT</option>
+                <option value="CREDIT">CREDIT</option>
+            </select>
+            <div [hidden]="!(editForm.controls.cardType?.dirty && editForm.controls.cardType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.cardType?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

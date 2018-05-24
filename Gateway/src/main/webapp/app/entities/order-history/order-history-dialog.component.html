@@ -1,0 +1,132 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myOrderHistoryLabel">Create or edit a Order History</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!orderHistory.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="orderHistory.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ticketUserId">Ticket User Id</label>
+            <input type="text" class="form-control" name="ticketUserId" id="field_ticketUserId"
+                [(ngModel)]="orderHistory.ticketUserId" required/>
+            <div [hidden]="!(editForm.controls.ticketUserId?.dirty && editForm.controls.ticketUserId?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ticketUserId?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ticketFlightID">Ticket Flight ID</label>
+            <input type="number" class="form-control" name="ticketFlightID" id="field_ticketFlightID"
+                [(ngModel)]="orderHistory.ticketFlightID" required/>
+            <div [hidden]="!(editForm.controls.ticketFlightID?.dirty && editForm.controls.ticketFlightID?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ticketFlightID?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ticketFlightID?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ticketPlaneType">Ticket Plane Type</label>
+            <input type="number" class="form-control" name="ticketPlaneType" id="field_ticketPlaneType"
+                [(ngModel)]="orderHistory.ticketPlaneType" required/>
+            <div [hidden]="!(editForm.controls.ticketPlaneType?.dirty && editForm.controls.ticketPlaneType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ticketPlaneType?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ticketPlaneType?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ticketPrice">Ticket Price</label>
+            <input type="number" class="form-control" name="ticketPrice" id="field_ticketPrice"
+                [(ngModel)]="orderHistory.ticketPrice" required min="0"/>
+            <div [hidden]="!(editForm.controls.ticketPrice?.dirty && editForm.controls.ticketPrice?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ticketPrice?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ticketPrice?.errors?.min">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ticketPrice?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_creditCardId">Credit Card Id</label>
+            <input type="number" class="form-control" name="creditCardId" id="field_creditCardId"
+                [(ngModel)]="orderHistory.creditCardId" required/>
+            <div [hidden]="!(editForm.controls.creditCardId?.dirty && editForm.controls.creditCardId?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.creditCardId?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.creditCardId?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_blind">Blind</label>
+            <input type="checkbox" class="form-control" name="blind" id="field_blind"
+                [(ngModel)]="orderHistory.blind" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_deaf">Deaf</label>
+            <input type="checkbox" class="form-control" name="deaf" id="field_deaf"
+                [(ngModel)]="orderHistory.deaf" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_cognitive">Cognitive</label>
+            <input type="checkbox" class="form-control" name="cognitive" id="field_cognitive"
+                [(ngModel)]="orderHistory.cognitive" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_other">Other</label>
+            <input type="checkbox" class="form-control" name="other" id="field_other"
+                [(ngModel)]="orderHistory.other" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_animalService">Animal Service</label>
+            <input type="checkbox" class="form-control" name="animalService" id="field_animalService"
+                [(ngModel)]="orderHistory.animalService" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_card">Card</label>
+            <select class="form-control" id="field_card" name="card" [(ngModel)]="orderHistory.cardId">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="cardOption.id" *ngFor="let cardOption of cards; trackBy: trackCardById">{{cardOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
