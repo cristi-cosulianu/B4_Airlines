@@ -2,11 +2,13 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { GatewaySharedModule } from '../shared';
 import { RouterModule } from '@angular/router';
 import { paymentRoute, PaymentPageComponent } from '.';
+import { FormsModule } from '@angular/forms';
 
 @NgModule ({
     imports: [
         GatewaySharedModule,
-        RouterModule.forChild([ paymentRoute ])
+        RouterModule.forChild([ paymentRoute ]),
+        FormsModule
     ],
     declarations: [
         PaymentPageComponent

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ITicket } from './tikerPassengerInfo.interface';
 
@@ -9,6 +9,15 @@ import { ITicket } from './tikerPassengerInfo.interface';
 })
 
 export class PaymentPageComponent implements OnInit {
+
+  passengerIDInfos: any[] = [{
+    firstName: "",
+    lastName: "",
+    sex: "",
+    date: "",
+    phoneNo: "",
+    email: ""
+  }]
 
   showInfoForm: boolean = false;
   ticketPrice: number = 100;
@@ -40,19 +49,18 @@ export class PaymentPageComponent implements OnInit {
       {
         "title": 'Special passenger needs (Optional)',
         "optionsCheckbox": [
-          { "id": 1, "type": 'Blind' },
-          { "id": 2, "type": 'Deaf' },
-          { "id": 3, "type": 'Congnitive disability' },
-          { "id": 4, "type": 'Other disability requiring assistance' },
-          { "id": 5, "type": 'Service animal' }
+          { id: 1, type: 'Blind' },
+          { id: 2, type: 'Deaf' },
+          { id: 3, type: 'Congnitive disability' },
+          { id: 4, type: 'Other disability requiring assistance' },
+          { id: 5, type: 'Service animal' }
         ]
       },
       {
         "title": 'Payment',
         "optionsRadio": [
-          { "id": 1, "type": 'Credit card' },
-          { "id": 2, "type": 'Debit card' },
-          { "id": 3, "type": 'Paypal' },
+          { id: 1, type: 'Credit card' },
+          { id: 2, type: 'Debit card' }
         ]
       }
     ],
@@ -60,7 +68,11 @@ export class PaymentPageComponent implements OnInit {
       "firstName": 'First name',
       "lastName": 'Last name',
       "middleName": 'Middle name',
-      "sex": 'Sex',
+      "sex": [
+        { id: 0, type: 'Sex' },
+        { id: 1, type: 'Male' },
+        { id: 2, type: 'Female' },
+      ],
       "date": 'Date of birth'
     }],
     "formCard": [{
@@ -83,17 +95,13 @@ export class PaymentPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    
   }
 
   toggleInfoForm(selectedValue): void {
     this.showInfoForm = selectedValue;
   }
 
-  firstName = '';
-
-  onKey(event: any) {
-    this.firstName = event.target.value;
+  selectChangedHandler(event : any) {
+    this.passengerIDInfos[0].sex = event.target.value; 
   }
-
 }
