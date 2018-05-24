@@ -67,7 +67,7 @@
                 <div class="row" *ngIf='showInfoForm'>
                     <div class="col-md-6 mb-3">
                         <label for="firstName noselect">{{getText[0].formID[0].firstName}}</label>
-                        <input type="text" name="passengerIDInfos.firstName" class="form-control" [(ngModel)]="passengerIDInfos[0].firstName" [ngModelOptions]="{updateOn: 'blur'}"
+                        <input type="text" name="passengerIDInfos.firstName" class="form-control" [(ngModel)]="passengerIDInfos.firstName" [ngModelOptions]="{updateOn: 'blur'}"
                             placeholder="The name listed in ID card" required>
                         <div class="invalid-feedback">
                             Valid first name is required.
@@ -75,7 +75,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="lastName noselect">{{getText[0].formID[0].lastName}}</label>
-                        <input type="text" name="passengerIDInfos.lastName" class="form-control" [(ngModel)]="passengerIDInfos[0].lastName" [ngModelOptions]="{updateOn: 'blur'}"
+                        <input type="text" name="passengerIDInfos.lastName" class="form-control" [(ngModel)]="passengerIDInfos.lastName" [ngModelOptions]="{updateOn: 'blur'}"
                             placeholder="The name listed in ID card" required>
                         <div class="invalid-feedback">
                             Valid last name is required.
@@ -104,7 +104,7 @@
                                     <i class="fa fa-calendar"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" name="passengerIDInfos.date" [(ngModel)]=" passengerIDInfos[0].date " [ngModelOptions]="{updateOn:
+                            <input type="text" class="form-control" name="passengerIDInfos.date" [(ngModel)]=" passengerIDInfos.date " [ngModelOptions]="{updateOn:
     'blur'} " placeholder="MM/DD/YYY " required/>
 
                         </div>
@@ -129,7 +129,7 @@
                                         <i class="fa fa-phone"></i>
                                     </span>
                                 </div>
-                                <input class="form-control" name="passengerIDInfos.phoneNo" [(ngModel)]="passengerIDInfos[0].phoneNo" [ngModelOptions]="{updateOn: 'blur'}"
+                                <input class="form-control" name="passengerIDInfos.phoneNo" [(ngModel)]="passengerIDInfos.phoneNo" [ngModelOptions]="{updateOn: 'blur'}"
                                     placeholder="+(0)" type="text" />
                             </div>
                         </div>
@@ -140,7 +140,7 @@
                                         <i class="fa fa-mail-forward"></i>
                                     </span>
                                 </div>
-                                <input class="form-control" name="passengerIDInfos.email" [(ngModel)]="passengerIDInfos[0].email" [ngModelOptions]="{updateOn: 'blur'}"
+                                <input class="form-control" name="passengerIDInfos.email" [(ngModel)]="passengerIDInfos.email" [ngModelOptions]="{updateOn: 'blur'}"
                                     placeholder="name[at]domain[dot]com" type="text" />
 
                             </div>
@@ -172,7 +172,7 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cc-name noselect">{{getText[0].formCard[0].name}}</label>
-                        <input type="text" class="form-control" name="passengerIDInfos.card.name" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].name"
+                        <input type="text" class="form-control" name="passengerIDInfos.card.name" class="form-control" [(ngModel)]="passengerIDInfos.card.name"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <small class="text-muted">Full name as displayed on card</small>
                         <div class="invalid-feedback">
@@ -181,7 +181,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number noselect">{{getText[0].formCard[0].number}}</label>
-                        <input type="text" class="form-control" name="passengerIDInfos.card.number" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].number"
+                        <input type="text" class="form-control" name="passengerIDInfos.card.number" class="form-control" [(ngModel)]="passengerIDInfos.card.number"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Credit card number is required
@@ -191,7 +191,7 @@
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label for="cc-expiration noselect">{{getText[0].formCard[0].exp}}</label>
-                        <input type="text" class="form-control" name="passengerIDInfos.card.expirationDate" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].expirationDate"
+                        <input type="text" class="form-control" name="passengerIDInfos.card.expirationDate" class="form-control" [(ngModel)]="passengerIDInfos.card.expirationDate"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Expiration date required
@@ -199,7 +199,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-cvv noselect">{{getText[0].formCard[0].cvv}}</label>
-                        <input type="text" class="form-control" name="passengerIDInfos.card.cvv" class="form-control" [(ngModel)]="passengerIDInfos[0].card[0].cvv"
+                        <input type="text" class="form-control" name="passengerIDInfos.card.cvv" class="form-control" [(ngModel)]="passengerIDInfos.card.cvv"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Security code required
@@ -207,11 +207,11 @@
                     </div>
                 </div>
 
-                <p>{{ passengerIDInfos[0].card[0] | json}}</p>
+                <!-- <p>{{ passengerIDInfos.card | json}}</p> -->
 
 
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
+                <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="submit()">Continue to checkout</button>
             </form>
         </div>
     </div>

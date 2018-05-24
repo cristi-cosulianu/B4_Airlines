@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ITicket } from './tikerPassengerInfo.interface';
+import { CardService } from '../entities/card/card.service';
+import { Card } from '../entities/card/card.model';
+import { HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -10,22 +14,22 @@ import { ITicket } from './tikerPassengerInfo.interface';
 
 export class PaymentPageComponent implements OnInit {
 
-  passengerIDInfos: any[] = [{
+  passengerIDInfos: any = {
     firstName: "",
     lastName: "",
     sex: "",
     date: "",
     phoneNo: "",
     email: "",
-    card: [{
-      id : '',
-      number : '',
-      expirationDate : '',
-      name : '',
-      cvv : '',
-      cardType : ''
-    }]
-  }]
+    card: {
+      id: '',
+      number: '',
+      expirationDate: '',
+      name: '',
+      cvv: '',
+      cardType: ''
+    }
+  }
 
   showInfoForm: boolean = false;
   ticketPrice: number = 100;
@@ -96,25 +100,45 @@ export class PaymentPageComponent implements OnInit {
       "insurance": 'Insurance',
       "total": 'Total',
       "totalSmall": 'Including taxes and fees',
-      "departed" : 'Departed'
+      "departed": 'Departed'
     }]
   }]
 
-  constructor() { }
+  constructor(private cardService: CardService,
+    private jhiAlertService: JhiAlertService
+  ) { }
 
   ngOnInit() {
   }
+
+  // submit() {
+
+  //   var date = new Date(2019, 11);
+  //   var cardInfo: Card = new Card(1,
+  //     this.passengerIDInfos.card.number,
+  //     date,
+  //     this.passengerIDInfos.card.name,
+  //     this.passengerIDInfos.card.cvv,
+  //     this.passengerIDInfos.card.cardType
+  //   );
+  //   this.cardService.create(cardInfo).subscribe(
+  //     (res: HttpResponse<Card>) => {
+  //       console.log("Functioneaza! " + res.body.id);
+  //     },
+  //     (res: HttpErrorResponse) => this.jhiAlertService.error(res.message, null, null)
+  //   );
+  // }
 
   toggleInfoForm(selectedValue): void {
     this.showInfoForm = selectedValue;
   }
 
-  selectChangedHandler(event : any) {
-    this.passengerIDInfos[0].sex = event.target.value; 
+  selectChangedHandler(event: any): void {
+    this.passengerIDInfos.sex = event.target.value;
   }
 
-  onSelectionChangeCard(event : any) {
-    this.passengerIDInfos[0].card[0].cardType = event.target.value;
-    this.passengerIDInfos[0].card[0].id = event.target.id;
+  onSelectionChangeCard(event: any): void {
+    this.passengerIDInfos.card.cardType = event.target.value;
+    this.passengerIDInfos.card.id = event.target.id;
   }
 }
