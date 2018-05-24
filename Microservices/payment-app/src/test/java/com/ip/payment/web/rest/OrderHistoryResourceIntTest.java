@@ -56,6 +56,21 @@ public class OrderHistoryResourceIntTest {
     private static final Long DEFAULT_CREDIT_CARD_ID = 1L;
     private static final Long UPDATED_CREDIT_CARD_ID = 2L;
 
+    private static final Boolean DEFAULT_BLIND = false;
+    private static final Boolean UPDATED_BLIND = true;
+
+    private static final Boolean DEFAULT_DEAF = false;
+    private static final Boolean UPDATED_DEAF = true;
+
+    private static final Boolean DEFAULT_COGNITIVE = false;
+    private static final Boolean UPDATED_COGNITIVE = true;
+
+    private static final Boolean DEFAULT_OTHER = false;
+    private static final Boolean UPDATED_OTHER = true;
+
+    private static final Boolean DEFAULT_ANIMAL_SERVICE = false;
+    private static final Boolean UPDATED_ANIMAL_SERVICE = true;
+
     @Autowired
     private OrderHistoryRepository orderHistoryRepository;
 
@@ -104,7 +119,12 @@ public class OrderHistoryResourceIntTest {
             .ticketFlightID(DEFAULT_TICKET_FLIGHT_ID)
             .ticketPlaneType(DEFAULT_TICKET_PLANE_TYPE)
             .ticketPrice(DEFAULT_TICKET_PRICE)
-            .creditCardId(DEFAULT_CREDIT_CARD_ID);
+            .creditCardId(DEFAULT_CREDIT_CARD_ID)
+            .blind(DEFAULT_BLIND)
+            .deaf(DEFAULT_DEAF)
+            .cognitive(DEFAULT_COGNITIVE)
+            .other(DEFAULT_OTHER)
+            .animalService(DEFAULT_ANIMAL_SERVICE);
         return orderHistory;
     }
 
@@ -134,6 +154,11 @@ public class OrderHistoryResourceIntTest {
         assertThat(testOrderHistory.getTicketPlaneType()).isEqualTo(DEFAULT_TICKET_PLANE_TYPE);
         assertThat(testOrderHistory.getTicketPrice()).isEqualTo(DEFAULT_TICKET_PRICE);
         assertThat(testOrderHistory.getCreditCardId()).isEqualTo(DEFAULT_CREDIT_CARD_ID);
+        assertThat(testOrderHistory.isBlind()).isEqualTo(DEFAULT_BLIND);
+        assertThat(testOrderHistory.isDeaf()).isEqualTo(DEFAULT_DEAF);
+        assertThat(testOrderHistory.isCognitive()).isEqualTo(DEFAULT_COGNITIVE);
+        assertThat(testOrderHistory.isOther()).isEqualTo(DEFAULT_OTHER);
+        assertThat(testOrderHistory.isAnimalService()).isEqualTo(DEFAULT_ANIMAL_SERVICE);
     }
 
     @Test
@@ -266,7 +291,12 @@ public class OrderHistoryResourceIntTest {
             .andExpect(jsonPath("$.[*].ticketFlightID").value(hasItem(DEFAULT_TICKET_FLIGHT_ID)))
             .andExpect(jsonPath("$.[*].ticketPlaneType").value(hasItem(DEFAULT_TICKET_PLANE_TYPE)))
             .andExpect(jsonPath("$.[*].ticketPrice").value(hasItem(DEFAULT_TICKET_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].creditCardId").value(hasItem(DEFAULT_CREDIT_CARD_ID.intValue())));
+            .andExpect(jsonPath("$.[*].creditCardId").value(hasItem(DEFAULT_CREDIT_CARD_ID.intValue())))
+            .andExpect(jsonPath("$.[*].blind").value(hasItem(DEFAULT_BLIND.booleanValue())))
+            .andExpect(jsonPath("$.[*].deaf").value(hasItem(DEFAULT_DEAF.booleanValue())))
+            .andExpect(jsonPath("$.[*].cognitive").value(hasItem(DEFAULT_COGNITIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].other").value(hasItem(DEFAULT_OTHER.booleanValue())))
+            .andExpect(jsonPath("$.[*].animalService").value(hasItem(DEFAULT_ANIMAL_SERVICE.booleanValue())));
     }
 
     @Test
@@ -284,7 +314,12 @@ public class OrderHistoryResourceIntTest {
             .andExpect(jsonPath("$.ticketFlightID").value(DEFAULT_TICKET_FLIGHT_ID))
             .andExpect(jsonPath("$.ticketPlaneType").value(DEFAULT_TICKET_PLANE_TYPE))
             .andExpect(jsonPath("$.ticketPrice").value(DEFAULT_TICKET_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.creditCardId").value(DEFAULT_CREDIT_CARD_ID.intValue()));
+            .andExpect(jsonPath("$.creditCardId").value(DEFAULT_CREDIT_CARD_ID.intValue()))
+            .andExpect(jsonPath("$.blind").value(DEFAULT_BLIND.booleanValue()))
+            .andExpect(jsonPath("$.deaf").value(DEFAULT_DEAF.booleanValue()))
+            .andExpect(jsonPath("$.cognitive").value(DEFAULT_COGNITIVE.booleanValue()))
+            .andExpect(jsonPath("$.other").value(DEFAULT_OTHER.booleanValue()))
+            .andExpect(jsonPath("$.animalService").value(DEFAULT_ANIMAL_SERVICE.booleanValue()));
     }
 
     @Test
@@ -311,7 +346,12 @@ public class OrderHistoryResourceIntTest {
             .ticketFlightID(UPDATED_TICKET_FLIGHT_ID)
             .ticketPlaneType(UPDATED_TICKET_PLANE_TYPE)
             .ticketPrice(UPDATED_TICKET_PRICE)
-            .creditCardId(UPDATED_CREDIT_CARD_ID);
+            .creditCardId(UPDATED_CREDIT_CARD_ID)
+            .blind(UPDATED_BLIND)
+            .deaf(UPDATED_DEAF)
+            .cognitive(UPDATED_COGNITIVE)
+            .other(UPDATED_OTHER)
+            .animalService(UPDATED_ANIMAL_SERVICE);
         OrderHistoryDTO orderHistoryDTO = orderHistoryMapper.toDto(updatedOrderHistory);
 
         restOrderHistoryMockMvc.perform(put("/api/order-histories")
@@ -328,6 +368,11 @@ public class OrderHistoryResourceIntTest {
         assertThat(testOrderHistory.getTicketPlaneType()).isEqualTo(UPDATED_TICKET_PLANE_TYPE);
         assertThat(testOrderHistory.getTicketPrice()).isEqualTo(UPDATED_TICKET_PRICE);
         assertThat(testOrderHistory.getCreditCardId()).isEqualTo(UPDATED_CREDIT_CARD_ID);
+        assertThat(testOrderHistory.isBlind()).isEqualTo(UPDATED_BLIND);
+        assertThat(testOrderHistory.isDeaf()).isEqualTo(UPDATED_DEAF);
+        assertThat(testOrderHistory.isCognitive()).isEqualTo(UPDATED_COGNITIVE);
+        assertThat(testOrderHistory.isOther()).isEqualTo(UPDATED_OTHER);
+        assertThat(testOrderHistory.isAnimalService()).isEqualTo(UPDATED_ANIMAL_SERVICE);
     }
 
     @Test

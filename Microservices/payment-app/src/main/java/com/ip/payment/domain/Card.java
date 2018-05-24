@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import com.ip.payment.domain.enumeration.CardType;
+
 /**
  * A Card.
  */
@@ -41,6 +43,11 @@ public class Card implements Serializable {
     @Pattern(regexp = "[0-9][0-9][0-9]")
     @Column(name = "ccv", nullable = false)
     private String ccv;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "card_type", nullable = false)
+    private CardType cardType;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -102,6 +109,19 @@ public class Card implements Serializable {
     public void setCcv(String ccv) {
         this.ccv = ccv;
     }
+
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public Card cardType(CardType cardType) {
+        this.cardType = cardType;
+        return this;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -132,6 +152,7 @@ public class Card implements Serializable {
             ", expirationDate='" + getExpirationDate() + "'" +
             ", name='" + getName() + "'" +
             ", ccv='" + getCcv() + "'" +
+            ", cardType='" + getCardType() + "'" +
             "}";
     }
 }

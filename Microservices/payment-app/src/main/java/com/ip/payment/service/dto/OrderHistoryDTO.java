@@ -30,6 +30,16 @@ public class OrderHistoryDTO implements Serializable {
     @NotNull
     private Long creditCardId;
 
+    private Boolean blind;
+
+    private Boolean deaf;
+
+    private Boolean cognitive;
+
+    private Boolean other;
+
+    private Boolean animalService;
+
     private Long cardId;
 
     public Long getId() {
@@ -80,6 +90,46 @@ public class OrderHistoryDTO implements Serializable {
         this.creditCardId = creditCardId;
     }
 
+    public Boolean isBlind() {
+        return blind;
+    }
+
+    public void setBlind(Boolean blind) {
+        this.blind = blind;
+    }
+
+    public Boolean isDeaf() {
+        return deaf;
+    }
+
+    public void setDeaf(Boolean deaf) {
+        this.deaf = deaf;
+    }
+
+    public Boolean isCognitive() {
+        return cognitive;
+    }
+
+    public void setCognitive(Boolean cognitive) {
+        this.cognitive = cognitive;
+    }
+
+    public Boolean isOther() {
+        return other;
+    }
+
+    public void setOther(Boolean other) {
+        this.other = other;
+    }
+
+    public Boolean isAnimalService() {
+        return animalService;
+    }
+
+    public void setAnimalService(Boolean animalService) {
+        this.animalService = animalService;
+    }
+
     public Long getCardId() {
         return cardId;
     }
@@ -118,6 +168,11 @@ public class OrderHistoryDTO implements Serializable {
             ", ticketPlaneType=" + getTicketPlaneType() +
             ", ticketPrice=" + getTicketPrice() +
             ", creditCardId=" + getCreditCardId() +
+            ", blind='" + isBlind() + "'" +
+            ", deaf='" + isDeaf() + "'" +
+            ", cognitive='" + isCognitive() + "'" +
+            ", other='" + isOther() + "'" +
+            ", animalService='" + isAnimalService() + "'" +
             "}";
     }
 }

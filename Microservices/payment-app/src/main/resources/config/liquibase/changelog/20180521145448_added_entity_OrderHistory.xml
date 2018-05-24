@@ -40,6 +40,26 @@
             <column name="credit_card_id" type="bigint">
                 <constraints nullable="false" />
             </column>
+
+            <column name="blind" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="deaf" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="cognitive" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="other" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="animal_service" type="bit">
+                <constraints nullable="true" />
+            </column>
             <column name="card_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>

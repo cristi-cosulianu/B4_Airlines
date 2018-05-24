@@ -1,10 +1,16 @@
 microservice Card,OrderHistory with Payment
 
+enum CardType {
+    DEBIT,
+    CREDIT
+}
+
 entity Card {
 	number String required minlength(16) maxlength(16) pattern(/[0-9]+/),
     expirationDate LocalDate required,
     name String required pattern(/[a-zA-Z]+/),
-    ccv String required pattern(/[0-9][0-9][0-9]/)
+    ccv String required pattern(/[0-9][0-9][0-9]/),
+    cardType CardType required
 }
 
 entity OrderHistory {
@@ -12,12 +18,15 @@ entity OrderHistory {
     ticketFlightID Integer required,
     ticketPlaneType Integer required,
     ticketPrice Float required min(0),
-    creditCardId Long required
+    creditCardId Long required,
+    blind Boolean,
+    deaf Boolean,
+    cognitive Boolean,
+    other Boolean,
+    animalService Boolean
 }
 
-
-
-relationship OneToOne {
+relationship OneToOne { 
 	OrderHistory{ card } to Card
 }
 

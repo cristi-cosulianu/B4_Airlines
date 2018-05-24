@@ -47,6 +47,26 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "blind",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "deaf",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "cognitive",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "other",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "animalService",
+            "fieldType": "Boolean"
         }
     ],
     "changelogDate": "20180521145448",

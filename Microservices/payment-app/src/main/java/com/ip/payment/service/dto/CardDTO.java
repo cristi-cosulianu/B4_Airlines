@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
+import com.ip.payment.domain.enumeration.CardType;
 
 /**
  * A DTO for the Card entity.
@@ -28,6 +29,9 @@ public class CardDTO implements Serializable {
     @NotNull
     @Pattern(regexp = "[0-9][0-9][0-9]")
     private String ccv;
+
+    @NotNull
+    private CardType cardType;
 
     public Long getId() {
         return id;
@@ -69,6 +73,14 @@ public class CardDTO implements Serializable {
         this.ccv = ccv;
     }
 
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -98,6 +110,7 @@ public class CardDTO implements Serializable {
             ", expirationDate='" + getExpirationDate() + "'" +
             ", name='" + getName() + "'" +
             ", ccv='" + getCcv() + "'" +
+            ", cardType='" + getCardType() + "'" +
             "}";
     }
 }

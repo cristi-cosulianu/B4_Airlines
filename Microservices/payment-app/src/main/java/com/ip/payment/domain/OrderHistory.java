@@ -42,6 +42,21 @@ public class OrderHistory implements Serializable {
     @Column(name = "credit_card_id", nullable = false)
     private Long creditCardId;
 
+    @Column(name = "blind")
+    private Boolean blind;
+
+    @Column(name = "deaf")
+    private Boolean deaf;
+
+    @Column(name = "cognitive")
+    private Boolean cognitive;
+
+    @Column(name = "other")
+    private Boolean other;
+
+    @Column(name = "animal_service")
+    private Boolean animalService;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Card card;
@@ -120,6 +135,71 @@ public class OrderHistory implements Serializable {
         this.creditCardId = creditCardId;
     }
 
+    public Boolean isBlind() {
+        return blind;
+    }
+
+    public OrderHistory blind(Boolean blind) {
+        this.blind = blind;
+        return this;
+    }
+
+    public void setBlind(Boolean blind) {
+        this.blind = blind;
+    }
+
+    public Boolean isDeaf() {
+        return deaf;
+    }
+
+    public OrderHistory deaf(Boolean deaf) {
+        this.deaf = deaf;
+        return this;
+    }
+
+    public void setDeaf(Boolean deaf) {
+        this.deaf = deaf;
+    }
+
+    public Boolean isCognitive() {
+        return cognitive;
+    }
+
+    public OrderHistory cognitive(Boolean cognitive) {
+        this.cognitive = cognitive;
+        return this;
+    }
+
+    public void setCognitive(Boolean cognitive) {
+        this.cognitive = cognitive;
+    }
+
+    public Boolean isOther() {
+        return other;
+    }
+
+    public OrderHistory other(Boolean other) {
+        this.other = other;
+        return this;
+    }
+
+    public void setOther(Boolean other) {
+        this.other = other;
+    }
+
+    public Boolean isAnimalService() {
+        return animalService;
+    }
+
+    public OrderHistory animalService(Boolean animalService) {
+        this.animalService = animalService;
+        return this;
+    }
+
+    public void setAnimalService(Boolean animalService) {
+        this.animalService = animalService;
+    }
+
     public Card getCard() {
         return card;
     }
@@ -163,6 +243,13 @@ public class OrderHistory implements Serializable {
             ", ticketPlaneType=" + getTicketPlaneType() +
             ", ticketPrice=" + getTicketPrice() +
             ", creditCardId=" + getCreditCardId() +
+            ", blind='" + isBlind() + "'" +
+            ", deaf='" + isDeaf() + "'" +
+            ", cognitive='" + isCognitive() + "'" +
+            ", other='" + isOther() + "'" +
+            ", animalService='" + isAnimalService() + "'" +
             "}";
     }
+
+    public Float get
 }
