@@ -1,3 +1,113 @@
+
+#wrapperSeats {
+    display: grid;
+    grid-template-areas:
+        "planes detailsContent";
+    grid-template-columns: 7fr 4fr;
+    grid-gap:15px;
+    width: 100%;
+    height: 100%;
+}
+
+#wrapperSeats > #detailsContent {
+    grid-area: detailsContent ;
+    display: grid;
+    grid-template-areas:
+        "empty1"
+        "legend"
+        "selectedSeats"
+        "empty"; 
+    grid-template-rows: 1fr 2fr 1fr 8fr;
+    grid-gap: 15px;
+    width: 90%;
+    margin: 0 auto;
+    min-height: 0; 
+}
+
+.plane-type-1{
+ 
+}
+
+.plane-type-2{
+ 
+}
+
+.plane-type-3{
+ 
+}
+
+.plane-type-4 {
+    background: url("../../app/seats-configure-page/resources/type1.jpg")  no-repeat;
+    background-position: center;
+    background-size: cover;
+    width:80%;
+    height: 80%;
+}
+
+
+@media screen and (min-width: 768px) and (max-width: 959px) {
+   #wrapperSeats  {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+        "planes"
+        "detailsContent";
+        grid-template-rows: 7fr 4fr;
+        grid-row-gap: 15px;
+        width: 100%;
+    }
+
+   #wrapperSeats > #detailsContent{
+        grid-template-areas:
+            "legend"
+            "selectedSeats";
+        grid-template-rows: 1fr 1fr;
+        grid-gap: 15px;
+        width: 100%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (min-width: 321px) and (max-width: 767px) {
+    #wrapper {
+        height: 200%;
+        grid-template-rows: 0.5fr 8fr 0.5fr;
+    }
+
+    #wrapper > section {
+        grid-template-areas:
+            "title"
+            "addItem"
+            "wrapLista"
+            "map";
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 7.5fr 10fr;
+        grid-gap: 15px;
+        width: 90%;
+        margin: 0 auto;
+    }
+}
+
+@media all and (max-width: 320px) {
+    #wrapper {
+        height: 200%;
+        grid-template-rows: 0.4fr 8fr 0.4fr;
+    }
+
+    #wrapper > section {
+        grid-template-areas:
+            "title"
+            "addItem"
+            "wrapLista"
+            "map";
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr 1fr 8fr 10fr;
+        grid-gap: 6px;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+}
+
 .bigDiv{
     margin-left: 35%;
     margin-right: auto;
@@ -32,7 +142,6 @@
     border: 1px solid #A1CFEE;
     padding: 7px;
     border-radius: 5px;
-    position: fixed;
 }
 
 .controls button {

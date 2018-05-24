@@ -1,13 +1,14 @@
+
 <div class="loadingDiv" [hidden]="!shouldShowLoading">
     <!-- <div class="loadingDiv"> -->
     <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
-
-<div [ngSwitch]="getPlaneType()">
+<div id="wrapperSeats">
+<div [ngSwitch]="getPlaneType()" id="planes" [class]="'plane-type-' + getPlaneType()">
     <!--Type 1-->
     <div *ngSwitchCase="1">
         <h3>Type 1</h3>
-        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of seatsVector">
             <div *ngIf="modulo3(number)">
                 <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
                     id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
@@ -25,7 +26,7 @@
     <!--Type 2-->
     <div *ngSwitchCase="2">
         <h3>Type 2</h3>
-        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of seatsVector">
             <div *ngIf="modulo3(number)">
                 <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
                     id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
@@ -40,10 +41,9 @@
             </div>
         </div>
     </div>
-    <!--Type 3-->
     <div *ngSwitchCase="3">
         <h3>Type 3</h3>
-        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of seatsVector">
             <div *ngIf="modulo3(number)">
                 <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
                     id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
@@ -60,8 +60,8 @@
     </div>
     <!--Type 4-->
     <div *ngSwitchCase="4">
-        <h3>Type 3</h3>
-        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of numbers0to107">
+        <h3>Type 4</h3>
+        <div [hidden]="shouldShowLoading" class='bigDiv' *ngFor="let number of seatsVector">
             <div *ngIf="modulo3(number)">
                 <button class="id{{number}}" style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"
                     id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
@@ -77,16 +77,17 @@
         </div>
     </div>
 </div>
-<br>
-<br>
-<br>
-<p>Seats selected:</p>
-<div style="float: left;" *ngFor="let number of chosenSeats">
-    <p>{{number}}&nbsp;&nbsp;</p>
-</div>
-<br>
-<br>
 
-<button (click)="saveSeats()" routerLink="/payment-page">
-    Next page
-</button>
+<div id="detailsContent">
+    <div id="legend">Aici zace Legenda</div>
+    <div id="selectedSeats">
+        <p>Seats selected:</p>
+        <div style="float: left;" *ngFor="let number of chosenSeats">
+            <p>{{number}}&nbsp;&nbsp;</p>
+        </div>
+
+        <button (click)="saveSeats()" routerLink="/payment-page">
+            Next page
+        </button>
+    </div>
+</div>
