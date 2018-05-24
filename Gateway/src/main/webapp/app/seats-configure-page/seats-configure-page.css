@@ -7,6 +7,12 @@
     grid-gap:15px;
     width: 100%;
     height: 100%;
+    overflow: hidden;
+}
+
+#wrapperSeats #planes {
+    grid-area: planes;
+    width: 100%;
 }
 
 #wrapperSeats > #detailsContent {
@@ -37,13 +43,39 @@
 }
 
 .plane-type-4 {
-    background: url("../../app/seats-configure-page/resources/type1.jpg")  no-repeat;
+    /*background: url("../../app/seats-configure-page/resources/type1.jpg")  no-repeat;
     background-position: center;
-    background-size: cover;
+    background-size: cover;*/
     width:80%;
-    height: 80%;
+    height: 1500px;
+    z-index: 100;
 }
 
+.plane-type-4 #plane4img{
+    margin: 0 auto;
+    left: 5% ;
+    z-index: 2;
+    width: 50%;
+    height: 85%;
+}
+
+.plane-type-4 button[class^='id'] {
+    background-color: #A1CFEE;
+    border: 3px #3199DA;
+    display: inline-block;
+    margin: 3px;
+    width: 35px; 
+    height: 35px;
+    font-size: 7.5pt; 
+    border-radius: 10%;
+    z-index: 10;
+ } 
+
+.container-fluid{
+    height: 2000px;
+}
+/*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"*/
+/*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"*/
 
 @media screen and (min-width: 768px) and (max-width: 959px) {
    #wrapperSeats  {
@@ -108,11 +140,32 @@
 
 }
 
-.bigDiv{
-    margin-left: 35%;
+#planes .bigDiv {
+    margin-left: 17%;
     margin-right: auto;
-    /*width: 280px;*/
+    margin-top: 27%;
+    position: absolute;
+    width: 280px;
+    z-index: 2500;
+    height: 100%;
+    position: absolute;
+    top: 180px;
+    left: 0;
     /* background-color: #3199DA; */
+}
+
+#planes .secondBigDiv {
+    text-align: center;
+    width: 100%;
+}
+
+#planes .secondBigDiv img {
+    width: 74%;
+    margin-left: -80px;
+}
+
+.bigDiv button:nth-of-type(6n + 3) {
+    margin-right: 30px;
 }
 
 .loadingDiv{
