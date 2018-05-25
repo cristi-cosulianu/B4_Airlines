@@ -4,6 +4,7 @@ import { TicketModel } from '../models/ticket-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Flights, FlightsService } from '../entities/flights';
 import { Review, ReviewService } from '../entities/review';
+import { RatingService } from '../entities/rating';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -14,9 +15,11 @@ import { Review, ReviewService } from '../entities/review';
 })
 export class FlightsPageComponent implements OnInit {
   public ticket = new TicketModel();
-  constructor(private data: DataService, private flightsService: FlightsService, private reviewsService: ReviewService) {
-
-  }
+  constructor(private data: DataService,
+    private flightsService: FlightsService,
+    private reviewsService: ReviewService,
+    private ratingService: RatingService
+  ) {}
   ngOnInit() {
     console.log(this.ticket);
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
@@ -30,10 +33,7 @@ export class FlightsPageComponent implements OnInit {
   sendSubmision() {
     const departureCity = (<HTMLInputElement>document.getElementById('departure')).value;
     const destinationCity = (<HTMLInputElement>document.getElementById('destination')).value;
-    console.log(departureCity);
-    console.log(destinationCity);
     this.flightsService.submit(departureCity, destinationCity).subscribe((data) => {
-      console.log(data);
       this.removeAllRows();
       this.createRowsUsingData(data.body, 'all');
     });
@@ -78,6 +78,9 @@ export class FlightsPageComponent implements OnInit {
         const select = this.createElement('td');
         // Assign text to simple columns.
         flightId.innerText = obj.id;
+        this.ratingService.ratingForFlight(obj.id).subscribe((data1) => {
+          console.log(data1);
+        });
         departure.innerText = obj.departure + ' ' + obj.departureTime;
         destination.innerText = obj.arrival + ' ' + obj.arrivalTime;
         price.innerText = obj.priceRangeMin;
