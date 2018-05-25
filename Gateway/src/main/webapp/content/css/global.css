@@ -3,22 +3,12 @@ Bootstrap tweaks
 ===============================================================*/
 
 @font-face {
-    font-family: "Basis Grotesque Pro";
-    src: url('../webfonts/BasisGrotesquePro-Regular.ttf');
-}
-
-@font-face {
-    font-family: "Basis Grotesque Pro Light";
-    src: url('../webfonts/BasisGrotesquePro-Light.ttf');
-}
-
-@font-face {
-    font-family: "Basis Grotesque Pro Bold";
-    src: url('../webfonts/BasisGrotesquePro-Bold.ttf');
+    font-family: "Roboto";
+    src: url('../webfonts/Roboto Regular.ttf');
 }
 
 body, h1, h2, h3, h4 {
-    font-family: "Basis Grotesque Pro", "Roboto", serif;
+    font-family: "Roboto", serif;
     font-weight: 300;
 }
 
