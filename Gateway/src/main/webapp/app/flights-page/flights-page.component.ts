@@ -161,17 +161,21 @@ export class FlightsPageComponent implements OnInit {
           reviewColumn.appendChild(review);
         }
       }
+      if (flights.length > rowNum + 1) {
+        tableBody.insertBefore(reviewRow, flights[rowNum + 1]);
+      } else {
+        tableBody.appendChild(reviewRow);
+      }
+      const reviewInput = this.createElement('textarea');
+      reviewInput.setAttribute('type', 'text');
+      reviewInput.setAttribute('class', 'form-control reviewInput');
+      reviewColumn.appendChild(reviewInput);
+      reviewRow.appendChild(reviewColumn);
+      this.recreateNode(document.getElementById('reviewButton' + rowNum), false);
+      const reviewButton = document.getElementById('reviewButton' + rowNum);
+      reviewButton.innerText = 'Hide';
+      reviewButton.addEventListener('click', (event) => this.removeFlightReviews(flightId, rowNum));
     });
-    reviewRow.appendChild(reviewColumn);
-    if (flights.length > rowNum + 1) {
-      tableBody.insertBefore(reviewRow, flights[rowNum + 1]);
-    } else {
-      tableBody.appendChild(reviewRow);
-    }
-    this.recreateNode(document.getElementById('reviewButton' + rowNum), false);
-    const reviewButton = document.getElementById('reviewButton' + rowNum);
-    reviewButton.innerText = 'Hide';
-    reviewButton.addEventListener('click', (event) => this.removeFlightReviews(flightId, rowNum));
   }
 
   removeFlightReviews(flightId, rowNum) {
