@@ -7,6 +7,7 @@ import { GatewayFlightsModule } from './flights/flights.module';
 import { GatewayCardModule } from './card/card.module';
 import { GatewayOrderHistoryModule } from './order-history/order-history.module';
 import { GatewayRatingModule } from './rating/rating.module';
+import { GatewayBankModule } from './bank/bank.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -18,6 +19,7 @@ import { GatewayRatingModule } from './rating/rating.module';
         GatewayCardModule,
         GatewayOrderHistoryModule,
         GatewayRatingModule,
+        GatewayBankModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

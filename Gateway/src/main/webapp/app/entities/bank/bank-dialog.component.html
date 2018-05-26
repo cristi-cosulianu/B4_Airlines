@@ -1,0 +1,157 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myBankLabel">Create or edit a Bank</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!bank.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="bank.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_number">Number</label>
+            <input type="text" class="form-control" name="number" id="field_number"
+                [(ngModel)]="bank.number" required minlength="16" maxlength="16" pattern="[0-9]+"/>
+            <div [hidden]="!(editForm.controls.number?.dirty && editForm.controls.number?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.number?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.number?.errors?.minlength">
+                   This field is required to be at least 16 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.number?.errors?.maxlength">
+                   This field cannot be longer than 16 characters.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.number?.errors?.pattern">
+                    This field should follow pattern for "Number".
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_expirationYear">Expiration Year</label>
+            <input type="number" class="form-control" name="expirationYear" id="field_expirationYear"
+                [(ngModel)]="bank.expirationYear" required/>
+            <div [hidden]="!(editForm.controls.expirationYear?.dirty && editForm.controls.expirationYear?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.expirationYear?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.expirationYear?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_expirationMonth">Expiration Month</label>
+            <input type="number" class="form-control" name="expirationMonth" id="field_expirationMonth"
+                [(ngModel)]="bank.expirationMonth" required min="1" max="12"/>
+            <div [hidden]="!(editForm.controls.expirationMonth?.dirty && editForm.controls.expirationMonth?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.expirationMonth?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.expirationMonth?.errors?.min">
+                    This field should be at least 1.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.expirationMonth?.errors?.max">
+                    This field cannot be more than 12.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.expirationMonth?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="bank.name" required pattern="[a-zA-Z ]+"/>
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.name?.errors?.pattern">
+                    This field should follow pattern for "Name".
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ccv">Ccv</label>
+            <input type="text" class="form-control" name="ccv" id="field_ccv"
+                [(ngModel)]="bank.ccv" required pattern="[0-9][0-9][0-9]"/>
+            <div [hidden]="!(editForm.controls.ccv?.dirty && editForm.controls.ccv?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.ccv?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.ccv?.errors?.pattern">
+                    This field should follow pattern for "Ccv".
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_currency">Currency</label>
+            <input type="text" class="form-control" name="currency" id="field_currency"
+                [(ngModel)]="bank.currency" required/>
+            <div [hidden]="!(editForm.controls.currency?.dirty && editForm.controls.currency?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.currency?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                [(ngModel)]="bank.amount" required min="0"/>
+            <div [hidden]="!(editForm.controls.amount?.dirty && editForm.controls.amount?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.amount?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.amount?.errors?.min">
+                    This field should be at least 0.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.amount?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_expired">Expired</label>
+            <input type="checkbox" class="form-control" name="expired" id="field_expired"
+                [(ngModel)]="bank.expired" />
+            <div [hidden]="!(editForm.controls.expired?.dirty && editForm.controls.expired?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.expired?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
