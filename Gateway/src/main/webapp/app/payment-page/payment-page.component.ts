@@ -5,6 +5,7 @@ import { CardService } from '../entities/card/card.service';
 import { Card } from '../entities/card/card.model';
 import { HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
+import { BankService, Bank } from '../entities/bank';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -26,6 +27,8 @@ export class PaymentPageComponent implements OnInit {
       id: '1',
       number: '',
       expirationDate: '',
+      expirationYear: '',
+      expirationMonth: '',
       name: '',
       cvv: '',
       cardType: 'Debit card'
@@ -106,29 +109,59 @@ export class PaymentPageComponent implements OnInit {
   };
 
   constructor(private cardService: CardService,
-    private jhiAlertService: JhiAlertService
+    private jhiAlertService: JhiAlertService,
+    private bankService: BankService
   ) { }
 
   ngOnInit() {
   }
 
-  // submit() {
+  submit() {
+    this.parseExpirationDate();
+    const amount = 100;
+    // var cardInfo: Card = new Card(
+    //   undefined,
+    //   this.passengerIDInfos.card.number,
+    //   this.passengerIDInfos.card.expirationMonth,
+    //   this.passengerIDInfos.card.expirationYear,
+    //   this.passengerIDInfos.card.name,
+    //   this.passengerIDInfos.card.cvv,
+    //   this.passengerIDInfos.card.cardType
+    // );
+    // var bankInfo: Bank = new Bank(
+    //   undefined,
+    //   this.passengerIDInfos.card.number,
+    //   this.passengerIDInfos.card.expirationYear,
+    //   this.passengerIDInfos.card.expirationMonth,
+    //   this.passengerIDInfos.card.name,
+    //   this.passengerIDInfos.card.ccv,
+    //   "EUR",
+    //   amount,
+    //   false
+    // );
+    this.bankService.getBankInfo(
+      this.passengerIDInfos.card.number,
+      this.passengerIDInfos.card.expirationYear,
+      this.passengerIDInfos.card.expirationMonth,
+      this.passengerIDInfos.card.name,
+      this.passengerIDInfos.card.cvv
+    ).subscribe(
+      (res: HttpResponse<Bank>) => {
+        console.log('Funtioneaza! ' + res.body.id );
+      },
+      (res: HttpErrorResponse) => {
+        console.log('Error!');
+        this.jhiAlertService.error(res.message, null, null);
+      }
+    );
 
-  //   var date = new Date(2019, 11);
-  //   var cardInfo: Card = new Card(1,
-  //     this.passengerIDInfos.card.number,
-  //     date,
-  //     this.passengerIDInfos.card.name,
-  //     this.passengerIDInfos.card.cvv,
-  //     this.passengerIDInfos.card.cardType
-  //   );
-  //   this.cardService.create(cardInfo).subscribe(
-  //     (res: HttpResponse<Card>) => {
-  //       console.log("Functioneaza! " + res.body.id);
-  //     },
-  //     (res: HttpErrorResponse) => this.jhiAlertService.error(res.message, null, null)
-  //   );
-  // }
+    // this.cardService.update(cardInfo).subscribe(
+    //   (res: HttpResponse<Card>) => {
+    //     console.log("Functioneaza! " + res.body.id);
+    //   },
+    //   (res: HttpErrorResponse) => this.jhiAlertService.error(res.message, null, null)
+    // );
+  }
 
   toggleInfoForm(selectedValue): void {
     this.showInfoForm = selectedValue;
@@ -163,5 +196,10 @@ export class PaymentPageComponent implements OnInit {
         form.classList.add('was-validated');
       }, false);
     });
+  }
+
+  parseExpirationDate(): void {
+    this.passengerIDInfos.card.expirationYear = this.passengerIDInfos.card.expirationDate.substring(0, 4);
+    this.passengerIDInfos.card.expirationMonth = this.passengerIDInfos.card.expirationDate.substring(5, 8);
   }
 }

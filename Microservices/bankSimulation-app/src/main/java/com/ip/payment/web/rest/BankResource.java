@@ -116,4 +116,16 @@ public class BankResource {
         bankService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping("/banks/{number}/{expirationYear}/{expirationMonth}/{name}/{ccv}")
+    @Timed
+	public ResponseEntity<BankDTO> getBank(@PathVariable String number,
+			@PathVariable Integer expirationYear,
+            @PathVariable Integer expirationMonth,
+            @PathVariable String name,
+            @PathVariable String ccv) {
+		BankDTO bank = bankService.findBank( number, expirationYear, expirationMonth, name, ccv);
+		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(bank));
+
+	}
 }
