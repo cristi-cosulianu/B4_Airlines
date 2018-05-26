@@ -2,7 +2,7 @@
 #wrapperSeats {
     display: grid;
     grid-template-areas:
-        "planes detailsContent";
+        "planes detailsWrapper";
     grid-template-columns: 7fr 4fr;
     grid-gap:15px;
     width: 100%;
@@ -15,15 +15,12 @@
     width: 100%;
 }
 
-#wrapperSeats > #detailsContent {
-    grid-area: detailsContent ;
+#wrapperSeats > #detailsWrapper {
+    grid-area: detailsWrapper ;
     display: grid;
     grid-template-areas:
-        "empty1"
-        "legend"
-        "selectedSeats"
-        "empty"; 
-    grid-template-rows: 1fr 2fr 1fr 8fr;
+        "detailsContent"; 
+    grid-template-rows: 2fr;
     grid-gap: 15px;
     width: 90%;
     margin: 0 auto;
@@ -47,7 +44,6 @@
     background-position: center;
     background-size: cover;*/
     width:80%;
-    height: 1500px;
     z-index: 100;
 }
 
@@ -70,75 +66,12 @@
     border-radius: 10%;
     z-index: 10;
  } 
-
+/*
 .container-fluid{
     height: 2000px;
-}
+}*/
 /*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"*/
 /*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"*/
-
-@media screen and (min-width: 768px) and (max-width: 959px) {
-   #wrapperSeats  {
-        grid-template-columns: 1fr;
-        grid-template-areas:
-        "planes"
-        "detailsContent";
-        grid-template-rows: 7fr 4fr;
-        grid-row-gap: 15px;
-        width: 100%;
-    }
-
-   #wrapperSeats > #detailsContent{
-        grid-template-areas:
-            "legend"
-            "selectedSeats";
-        grid-template-rows: 1fr 1fr;
-        grid-gap: 15px;
-        width: 100%;
-        margin: 0 auto;
-    }
-}
-
-@media only screen and (min-width: 321px) and (max-width: 767px) {
-    #wrapper {
-        height: 200%;
-        grid-template-rows: 0.5fr 8fr 0.5fr;
-    }
-
-    #wrapper > section {
-        grid-template-areas:
-            "title"
-            "addItem"
-            "wrapLista"
-            "map";
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 7.5fr 10fr;
-        grid-gap: 15px;
-        width: 90%;
-        margin: 0 auto;
-    }
-}
-
-@media all and (max-width: 320px) {
-    #wrapper {
-        height: 200%;
-        grid-template-rows: 0.4fr 8fr 0.4fr;
-    }
-
-    #wrapper > section {
-        grid-template-areas:
-            "title"
-            "addItem"
-            "wrapLista"
-            "map";
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr 8fr 10fr;
-        grid-gap: 6px;
-        width: 90%;
-        margin: 0 auto;
-    }
-
-}
 
 #planes .bigDiv {
     margin-left: 17%;
@@ -147,7 +80,6 @@
     position: absolute;
     width: 280px;
     z-index: 2500;
-    height: 100%;
     position: absolute;
     top: 180px;
     left: 0;
@@ -188,17 +120,29 @@
     padding: 3px;
 }
 
-.controls {
-    display: inline-block;
-    width: 35%;
-    float: right;
+#detailsContent {
+    grid-area: detailsContent ;
+    width: 30%;
+    height: 100%;
+    display: block;
+    position: fixed;
+}
+
+#legend{
+    display: block;
     border: 1px solid #A1CFEE;
     padding: 7px;
     border-radius: 5px;
+    height: 20%;
+    margin-bottom: 15px;
 }
 
-.controls button {
-    margin-top: 10px;
+#selectedSeats {
+    display: block;
+    height: 30%;
+    border: 1px solid #A1CFEE;
+    padding: 7px;
+    border-radius: 5px;
 }
 
 .emptyLine {
@@ -211,3 +155,4 @@
 .seatInList {
     background-color: pink;
 }
+

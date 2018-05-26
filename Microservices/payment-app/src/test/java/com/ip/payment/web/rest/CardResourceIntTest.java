@@ -24,8 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 import static com.ip.payment.web.rest.TestUtil.createFormattingConversionService;
@@ -47,8 +45,11 @@ public class CardResourceIntTest {
     private static final String DEFAULT_NUMBER = "98";
     private static final String UPDATED_NUMBER = "6";
 
-    private static final LocalDate DEFAULT_EXPIRATION_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_EXPIRATION_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final Integer DEFAULT_EXPIRATION_MONTH = 1;
+    private static final Integer UPDATED_EXPIRATION_MONTH = 2;
+
+    private static final Integer DEFAULT_EXPIRATION_YEAR = 1;
+    private static final Integer UPDATED_EXPIRATION_YEAR = 2;
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
@@ -104,7 +105,8 @@ public class CardResourceIntTest {
     public static Card createEntity(EntityManager em) {
         Card card = new Card()
             .number(DEFAULT_NUMBER)
-            .expirationDate(DEFAULT_EXPIRATION_DATE)
+            .expirationMonth(DEFAULT_EXPIRATION_MONTH)
+            .expirationYear(DEFAULT_EXPIRATION_YEAR)
             .name(DEFAULT_NAME)
             .ccv(DEFAULT_CCV)
             .cardType(DEFAULT_CARD_TYPE);
@@ -133,7 +135,8 @@ public class CardResourceIntTest {
         assertThat(cardList).hasSize(databaseSizeBeforeCreate + 1);
         Card testCard = cardList.get(cardList.size() - 1);
         assertThat(testCard.getNumber()).isEqualTo(DEFAULT_NUMBER);
-        assertThat(testCard.getExpirationDate()).isEqualTo(DEFAULT_EXPIRATION_DATE);
+        assertThat(testCard.getExpirationMonth()).isEqualTo(DEFAULT_EXPIRATION_MONTH);
+        assertThat(testCard.getExpirationYear()).isEqualTo(DEFAULT_EXPIRATION_YEAR);
         assertThat(testCard.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testCard.getCcv()).isEqualTo(DEFAULT_CCV);
         assertThat(testCard.getCardType()).isEqualTo(DEFAULT_CARD_TYPE);
@@ -180,10 +183,29 @@ public class CardResourceIntTest {
 
     @Test
     @Transactional
-    public void checkExpirationDateIsRequired() throws Exception {
+    public void checkExpirationMonthIsRequired() throws Exception {
         int databaseSizeBeforeTest = cardRepository.findAll().size();
         // set the field null
-        card.setExpirationDate(null);
+        card.setExpirationMonth(null);
+
+        // Create the Card, which fails.
+        CardDTO cardDTO = cardMapper.toDto(card);
+
+        restCardMockMvc.perform(post("/api/cards")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(cardDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Card> cardList = cardRepository.findAll();
+        assertThat(cardList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkExpirationYearIsRequired() throws Exception {
+        int databaseSizeBeforeTest = cardRepository.findAll().size();
+        // set the field null
+        card.setExpirationYear(null);
 
         // Create the Card, which fails.
         CardDTO cardDTO = cardMapper.toDto(card);
@@ -266,7 +288,8 @@ public class CardResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(card.getId().intValue())))
             .andExpect(jsonPath("$.[*].number").value(hasItem(DEFAULT_NUMBER.toString())))
-            .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(DEFAULT_EXPIRATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].expirationMonth").value(hasItem(DEFAULT_EXPIRATION_MONTH)))
+            .andExpect(jsonPath("$.[*].expirationYear").value(hasItem(DEFAULT_EXPIRATION_YEAR)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].ccv").value(hasItem(DEFAULT_CCV.toString())))
             .andExpect(jsonPath("$.[*].cardType").value(hasItem(DEFAULT_CARD_TYPE.toString())));
@@ -284,7 +307,8 @@ public class CardResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(card.getId().intValue()))
             .andExpect(jsonPath("$.number").value(DEFAULT_NUMBER.toString()))
-            .andExpect(jsonPath("$.expirationDate").value(DEFAULT_EXPIRATION_DATE.toString()))
+            .andExpect(jsonPath("$.expirationMonth").value(DEFAULT_EXPIRATION_MONTH))
+            .andExpect(jsonPath("$.expirationYear").value(DEFAULT_EXPIRATION_YEAR))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.ccv").value(DEFAULT_CCV.toString()))
             .andExpect(jsonPath("$.cardType").value(DEFAULT_CARD_TYPE.toString()));
@@ -311,7 +335,8 @@ public class CardResourceIntTest {
         em.detach(updatedCard);
         updatedCard
             .number(UPDATED_NUMBER)
-            .expirationDate(UPDATED_EXPIRATION_DATE)
+            .expirationMonth(UPDATED_EXPIRATION_MONTH)
+            .expirationYear(UPDATED_EXPIRATION_YEAR)
             .name(UPDATED_NAME)
             .ccv(UPDATED_CCV)
             .cardType(UPDATED_CARD_TYPE);
@@ -327,7 +352,8 @@ public class CardResourceIntTest {
         assertThat(cardList).hasSize(databaseSizeBeforeUpdate);
         Card testCard = cardList.get(cardList.size() - 1);
         assertThat(testCard.getNumber()).isEqualTo(UPDATED_NUMBER);
-        assertThat(testCard.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);
+        assertThat(testCard.getExpirationMonth()).isEqualTo(UPDATED_EXPIRATION_MONTH);
+        assertThat(testCard.getExpirationYear()).isEqualTo(UPDATED_EXPIRATION_YEAR);
         assertThat(testCard.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testCard.getCcv()).isEqualTo(UPDATED_CCV);
         assertThat(testCard.getCardType()).isEqualTo(UPDATED_CARD_TYPE);

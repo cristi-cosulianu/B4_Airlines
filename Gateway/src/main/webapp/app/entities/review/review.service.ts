@@ -5,6 +5,7 @@ import { SERVER_API_URL } from '../../app.constants';
 
 import { Review } from './review.model';
 import { createRequestOption } from '../../shared';
+import { ReviewComponent } from '.';
 
 export type EntityResponseType = HttpResponse<Review>;
 
@@ -30,6 +31,12 @@ export class ReviewService {
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<Review>(`${this.resourceUrl}/${id}`, { observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
+    }
+
+    reviewsForFlight(flightId: number): Observable<HttpResponse<Review[]>> {
+        const flights = 'flights';
+        return this.http.get<Review[]>(`${this.resourceUrl}/${flights}/${flightId}`, { observe: 'response' })
+            .map((res: HttpResponse<Review[]>) => this.convertArrayResponse(res));
     }
 
     query(req?: any): Observable<HttpResponse<Review[]>> {

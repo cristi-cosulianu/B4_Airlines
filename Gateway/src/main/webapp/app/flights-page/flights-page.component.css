@@ -12,6 +12,13 @@ table {
     text-align: center;
 }
 
+.reviewInput {
+    margin: 0 125px 10px;
+    height: 10vh;
+    width: 75%;
+    float: left;
+}
+
 /* FLIGHTS TABLE */
 #flights-table tbody tr:nth-child(4n),
 #flights-table tbody tr:nth-child(4n-1) {

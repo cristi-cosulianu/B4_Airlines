@@ -29,13 +29,6 @@ export class CardPopupService {
                 this.cardService.find(id)
                     .subscribe((cardResponse: HttpResponse<Card>) => {
                         const card: Card = cardResponse.body;
-                        if (card.expirationDate) {
-                            card.expirationDate = {
-                                year: card.expirationDate.getFullYear(),
-                                month: card.expirationDate.getMonth() + 1,
-                                day: card.expirationDate.getDate()
-                            };
-                        }
                         this.ngbModalRef = this.cardModalRef(component, card);
                         resolve(this.ngbModalRef);
                     });

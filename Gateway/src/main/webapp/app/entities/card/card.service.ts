@@ -3,8 +3,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { SERVER_API_URL } from '../../app.constants';
 
-import { JhiDateUtils } from 'ng-jhipster';
-
 import { Card } from './card.model';
 import { createRequestOption } from '../../shared';
 
@@ -15,7 +13,7 @@ export class CardService {
 
     private resourceUrl =  SERVER_API_URL + 'payment/api/cards';
 
-    constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
+    constructor(private http: HttpClient) { }
 
     create(card: Card): Observable<EntityResponseType> {
         const copy = this.convert(card);
@@ -63,8 +61,6 @@ export class CardService {
      */
     private convertItemFromServer(card: Card): Card {
         const copy: Card = Object.assign({}, card);
-        copy.expirationDate = this.dateUtils
-            .convertLocalDateFromServer(card.expirationDate);
         return copy;
     }
 
@@ -73,8 +69,6 @@ export class CardService {
      */
     private convert(card: Card): Card {
         const copy: Card = Object.assign({}, card);
-        copy.expirationDate = this.dateUtils
-            .convertLocalDateToServer(card.expirationDate);
         return copy;
     }
 }

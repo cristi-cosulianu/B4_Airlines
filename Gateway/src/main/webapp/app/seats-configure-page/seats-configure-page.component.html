@@ -1,8 +1,8 @@
-
+<!--
 <div class="loadingDiv" [hidden]="!shouldShowLoading">
-    <!-- <div class="loadingDiv"> -->
     <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
+-->
 <div id="wrapperSeats">
 <div [ngSwitch]="getPlaneType()" id="planes" [class]="'plane-type-' + getPlaneType()">
     <!--Type 1-->
@@ -63,26 +63,28 @@
     <div *ngSwitchCase="4">
         <h3>Type 4</h3>
 
-            <div [hidden]="shouldShowLoading" class='secondBigDiv'>
+            <div  class='secondBigDiv'>
                 <img src="resources/type1.jpg" id="plane4img">
             </div>
-            <div [hidden]="shouldShowLoading" class='bigDiv'>
+            <div  class='bigDiv'>
                 <button class="id{{number}}" *ngFor="let number of seatsVector"
                     id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
             </div>
     </div>
 
 </div>
-<div id="detailsContent" [hidden]="shouldShowLoading">
-    <div id="legend">Aici zace Legenda</div>
-    <div id="selectedSeats">
-        <p>Seats selected:</p>
-        <div class="seatInList" *ngFor="let number of chosenSeats">
-            <p>{{number}}&nbsp;&nbsp;</p>
+<div id="detailsWrapper" >
+    <div id="detailsContent">
+        <div id="legend">Aici zace Legenda</div>
+        <div id="selectedSeats">
+            <p>Seats selected:</p>
+            <span  *ngFor="let number of chosenSeats">
+                {{number}}  
+            </span>
+            <br>
+            <button (click)="saveSeats()" routerLink="/payment-page">
+                Next page
+            </button>
         </div>
-
-        <button (click)="saveSeats()" routerLink="/payment-page">
-            Next page
-        </button>
     </div>
 </div>
