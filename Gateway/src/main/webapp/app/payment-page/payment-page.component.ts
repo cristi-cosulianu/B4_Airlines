@@ -6,6 +6,12 @@ import { Card } from '../entities/card/card.model';
 import { HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { BankService, Bank } from '../entities/bank';
+import { TicketModel } from '../models/ticket-model';
+import { DataService } from '../data.service';
+import { FlightsService } from '../entities/flights/flights.service';
+import { Flights } from '../entities/flights';
+import { UserinfoService } from '../entities/userinfo/userinfo.service';
+import { Userinfo } from '../entities/userinfo/userinfo.model';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -35,6 +41,9 @@ export class PaymentPageComponent implements OnInit {
     }
   };
 
+  private ticket= new TicketModel();
+  private flight: Flights;
+  private user: Userinfo;
   showInfoForm = false;
   ticketPrice = 100;
 
@@ -114,10 +123,25 @@ export class PaymentPageComponent implements OnInit {
 
   constructor(private cardService: CardService,
     private jhiAlertService: JhiAlertService,
-    private bankService: BankService
+    private bankService: BankService,
+    private dataService: DataService,
+    private flightsService: FlightsService,
+    private userInfoService: Userinfo
   ) { }
 
+  // Recomandat de facut initializarile aici
   ngOnInit() {
+    // Raman de luat locurile si tipul avionului din ticket
+    this.dataService.ticketInfo.subscribe((ticket: TicketModel) => {
+      this.ticket = ticket;
+    });
+    // De adaugat metoda de rollback (saga) in caz de eroare
+    this.flightsService.find(this.ticket.ticket_flightID).subscribe((flight: HttpResponse<Flights>) => {
+      this.flight = flight.body;
+    });
+    /*this.userInfoService.find(this.ticket.ticket_userID).subscribe((user: HttpResponse) =>{
+      this.user = user.body;
+    });*/
   }
 
   submit() {
