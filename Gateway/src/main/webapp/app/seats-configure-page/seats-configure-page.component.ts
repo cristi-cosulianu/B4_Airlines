@@ -25,7 +25,9 @@ export class SeatsConfigurePageComponent implements OnInit {
   private nrOfSeatsOfPlane3: number;
   private nrOfSeatsOfPlane4: number;
   private shouldShowLoading: boolean;
+  private deniedSeats: Array<number> = new Array<number>();
   private localData: DataService;
+
   constructor(private data: DataService, private service: SeatsService) {
     this.shouldShowLoading = true;
   }
@@ -57,6 +59,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   // }
 
   checkOccupiedSeats() {
+    // console.log(this.occupiedSeats);
     for (let id = 0; id <= this.nrOfSeats; id++) {
       const identifier1 = 'id' + id;
       const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
@@ -67,6 +70,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   checkChoosenSeats() {
+    // console.log(this.occupiedSeats);
     if (this.chosenSeats.length > 0) {
       for (let i = 0; i < this.chosenSeats.length; i++) {
         const identifier1 = 'id' + this.chosenSeats[i];
@@ -79,17 +83,17 @@ export class SeatsConfigurePageComponent implements OnInit {
   initialTicketConfiguration() {
     // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
-    this.planeType = 4;             // this is hard coding for now
+    this.planeType = 1;             // this is hard coding for now
     this.id_flight = '123mv';       // this is hard coding for now
 
-    if(this.planeType == 1)
-      this.nrOfSeats=this.nrOfSeatsOfPlane1;
-    else if(this.planeType == 2)
-      this.nrOfSeats=this.nrOfSeatsOfPlane2;
-    else if(this.planeType == 3)
-      this.nrOfSeats=this.nrOfSeatsOfPlane3;
-    else if(this.planeType == 4)
-      this.nrOfSeats=this.nrOfSeatsOfPlane4;
+    if (this.planeType == 1)
+      this.nrOfSeats = this.nrOfSeatsOfPlane1;
+    else if (this.planeType == 2)
+      this.nrOfSeats = this.nrOfSeatsOfPlane2;
+    else if (this.planeType == 3)
+      this.nrOfSeats = this.nrOfSeatsOfPlane3;
+    else if (this.planeType == 4)
+      this.nrOfSeats = this.nrOfSeatsOfPlane4;
 
     if (this.ticket.ticket_seats.length > 0) {
       for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
@@ -101,10 +105,10 @@ export class SeatsConfigurePageComponent implements OnInit {
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
-    this.nrOfSeatsOfPlane1=107;
-    this.nrOfSeatsOfPlane2=107;
-    this.nrOfSeatsOfPlane3=107;
-    this.nrOfSeatsOfPlane4=107;
+    this.nrOfSeatsOfPlane1 = 250;
+    this.nrOfSeatsOfPlane2 = 107;
+    this.nrOfSeatsOfPlane3 = 107;
+    this.nrOfSeatsOfPlane4 = 107;
     this.initialTicketConfiguration();
     for (let i = 0; i <= this.nrOfSeats; i++) {
       this.seatsVector.push(i);
@@ -121,10 +125,10 @@ export class SeatsConfigurePageComponent implements OnInit {
       }
 
 
+
        this.checkOccupiedSeats();
        this.checkChoosenSeats();
       
-
       this.shouldShowLoading = false;
     });
   }
@@ -148,6 +152,7 @@ export class SeatsConfigurePageComponent implements OnInit {
     for (let i = 0; i < this.chosenSeats.length; i++) {
       console.log(this.chosenSeats[i]);
     }
+    // this.reserveSelectedSeats();
   }
 
   saveSeats() {
@@ -166,6 +171,38 @@ export class SeatsConfigurePageComponent implements OnInit {
     for (let i = 0; i < this.ticketForPost.ticket_seats.length; i++) {
       this.seat.seat_index = this.ticketForPost.ticket_seats[i];
       this.service.create(this.seat).subscribe();
+    }
+  }
+  reserveSelectedSeats() {
+    let count = 0;
+    for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
+      this.service.query({ id_flight: this.id_flight, seat_index: this.ticket.ticket_seats[i] })
+        .subscribe((data) => {
+          count++;
+          console.log(data);
+          if (data.status === 200) {
+            this.deniedSeats.push(this.ticket.ticket_seats[i]);
+            // return;
+          }
+          if (count === this.ticket.ticket_seats.length - 1) {
+            if (this.deniedSeats.length === 0) {
+              // toate locurile pot fi cumparate
+              for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
+                this.seat = new Seats();
+                this.seat.id_flight = this.ticket.ticket_flightID.toString();
+                this.seat.seat_index = this.ticket.ticket_seats[i];
+                this.service.create(this.seat);
+              }
+            } else {
+              // exista locuri deja cumparate in lista de locuri rezervate
+              let message = 'These seats can not be reserved as they are already taken: ';
+              for (let i = 0; i < this.deniedSeats.length; i++) {
+                message = message + this.deniedSeats[i].toString() + ' ';
+              }
+              alert(message);
+            }
+          }
+        })
     }
   }
 }
