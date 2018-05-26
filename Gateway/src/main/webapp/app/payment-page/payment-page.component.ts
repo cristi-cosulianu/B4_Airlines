@@ -34,10 +34,16 @@ export class PaymentPageComponent implements OnInit {
 
   showInfoForm = false;
   ticketPrice = 100;
-  taxesPrice = 85.64;
-  insurancePrice = 7.68;
-  discountPromo = 5;
-  totalPrice: number = this.ticketPrice + this.taxesPrice + this.insurancePrice - this.discountPromo;
+
+  optionalNeeds: any = [
+    { name: 'Blind', value: 10.07 },
+    { name: 'Deaf', value: 20.14 },
+    { name: 'Congnitive disability', value: 25.17 },
+    { name: 'Other disability', value: 0 },
+    { name: 'Service animal', value: 12.58 }
+  ];
+
+  totalPrice: number = this.ticketPrice;
 
   flightInfos: ITicket = {
     flightDate: '29/02/1996',
@@ -96,9 +102,7 @@ export class PaymentPageComponent implements OnInit {
     },
     'checkCart': {
       'ticket': 'Ticket (' + 1 + ')',
-      'taxes': 'Taxes and fees',
-      'discount': 'First time discount',
-      'insurance': 'Insurance',
+      'specialNeeds': Array<number>(),
       'total': 'Total',
       'totalSmall': 'Including taxes and fees',
       'departed': 'Departed'
@@ -145,10 +149,15 @@ export class PaymentPageComponent implements OnInit {
 
   onSelectionChangeNeeds(event: any): void {
     const index = this.passengerIDInfos.specialNeeds.indexOf(event.target.id, 0);
+    const indexOptions = this.getText.checkCart.specialNeeds.indexOf(event.target.id, 0);
     if (index > -1) {
       this.passengerIDInfos.specialNeeds.splice(index, 1);
+      this.getText.checkCart.specialNeeds.splice(index, 1);
+      this.totalPrice -= this.optionalNeeds[event.target.id].value;
     } else {
       this.passengerIDInfos.specialNeeds.push(event.target.id);
+      this.getText.checkCart.specialNeeds.push(this.optionalNeeds[event.target.id]);
+      this.totalPrice += this.optionalNeeds[event.target.id].value;
     }
   }
 

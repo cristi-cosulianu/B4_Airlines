@@ -11,27 +11,18 @@
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
                     <h6 class="my-0 noselect">{{getText.checkCart.ticket}}</h6>
-                    <span class="text-muted">{{ ticketPrice | currency: 'USD':true:'1.2-2' }}</span>
+                    <span class="text-muted">{{ ticketPrice | currency:'USD':true:'1.2-2' }}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <h6 class="my-0 noselect">{{getText.checkCart.taxes}}</h6>
-                    <span class="text-muted">{{ taxesPrice | currency: 'USD':true:'1.2-2' }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <h6 class="my-0 noselect">{{getText.checkCart.insurance}}</h6>
-                    <span class="text-muted">{{ insurancePrice | currency: 'USD':true:'1.2-2' }}</span>
-
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-light bgColor-green">
-                    <h6 class="my-0 noselect">{{getText.checkCart.discount}}</h6>
-                    <span>{{ -discountPromo | currency: 'USD':true:'1.2-2' }}</span>
+                <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let optionsCheckbox of getText.checkCart.specialNeeds">
+                    <h6 class="my-0 noselect specialNeedsID">{{ optionsCheckbox.name }}</h6>
+                    <span class="text-muted">{{ optionsCheckbox.value | currency:'USD':code:'1.2-2'}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between bgColor-blue">
                     <div>
                         <h6 class="my-0 noselect">{{getText.checkCart.total + ' (USD)'}}</h6>
                         <small class="noselect">{{getText.checkCart.totalSmall}}</small>
                     </div>
-                    <strong>{{ totalPrice | currency: 'USD':true:'1.2-2' }}</strong>
+                    <strong>{{ totalPrice | currency:'USD':true:'1.2-2' }}</strong>
                 </li>
             </ul>
 
@@ -183,7 +174,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="cc-number noselect">{{getText.formCard.number}}</label>
-                        <input type="number" class="form-control" name="passengerIDInfos.card.number" class="form-control" [(ngModel)]="passengerIDInfos.card.number"
+                        <input type="text" class="form-control" name="passengerIDInfos.card.number" class="form-control" [(ngModel)]="passengerIDInfos.card.number"
                             [ngModelOptions]="{updateOn: 'blur'}" placeholder="Valid Card Number" required>
                         <div class="invalid-feedback">
                             Credit card number is required
@@ -201,7 +192,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-cvv noselect">{{getText.formCard.cvv}}</label>
-                        <input type="number" class="form-control" name="passengerIDInfos.card.cvv" class="form-control" [(ngModel)]="passengerIDInfos.card.cvv"
+                        <input type="text" class="form-control" name="passengerIDInfos.card.cvv" class="form-control" [(ngModel)]="passengerIDInfos.card.cvv"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Security code required
@@ -209,7 +200,7 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <!-- <p>{{ passengerIDInfos | json}}</p> -->
+                <p>{{ passengerIDInfos | json}}</p>
                 <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="checkInvalidfields()">Continue to checkout</button>
             </form>
         </div>
