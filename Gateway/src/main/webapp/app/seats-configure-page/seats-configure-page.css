@@ -1,8 +1,103 @@
-.bigDiv{
-    margin-left: 35%;
+
+#wrapperSeats {
+    display: grid;
+    grid-template-areas:
+        "planes detailsWrapper";
+    grid-template-columns: 7fr 4fr;
+    grid-gap:15px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#wrapperSeats #planes {
+    grid-area: planes;
+    width: 100%;
+}
+
+#wrapperSeats > #detailsWrapper {
+    grid-area: detailsWrapper ;
+    display: grid;
+    grid-template-areas:
+        "detailsContent"; 
+    grid-template-rows: 2fr;
+    grid-gap: 15px;
+    width: 90%;
+    margin: 0 auto;
+    min-height: 0; 
+}
+
+.plane-type-1{
+ 
+}
+
+.plane-type-2{
+ 
+}
+
+.plane-type-3{
+ 
+}
+
+.plane-type-4 {
+    /*background: url("../../app/seats-configure-page/resources/type1.jpg")  no-repeat;
+    background-position: center;
+    background-size: cover;*/
+    width:80%;
+    z-index: 100;
+}
+
+.plane-type-4 #plane4img{
+    margin: 0 auto;
+    left: 5% ;
+    z-index: 2;
+    width: 50%;
+    height: 85%;
+}
+
+.plane-type-4 button[class^='id'] {
+    background-color: #A1CFEE;
+    border: 3px #3199DA;
+    display: inline-block;
+    margin: 3px;
+    width: 35px; 
+    height: 35px;
+    font-size: 7.5pt; 
+    border-radius: 10%;
+    z-index: 10;
+ } 
+/*
+.container-fluid{
+    height: 2000px;
+}*/
+/*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"*/
+/*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"*/
+
+#planes .bigDiv {
+    margin-left: 17%;
     margin-right: auto;
-    /*width: 280px;*/
+    margin-top: 27%;
+    position: absolute;
+    width: 280px;
+    z-index: 2500;
+    position: absolute;
+    top: 180px;
+    left: 0;
     /* background-color: #3199DA; */
+}
+
+#planes .secondBigDiv {
+    text-align: center;
+    width: 100%;
+}
+
+#planes .secondBigDiv img {
+    width: 74%;
+    margin-left: -80px;
+}
+
+.bigDiv button:nth-of-type(6n + 3) {
+    margin-right: 30px;
 }
 
 .loadingDiv{
@@ -25,23 +120,28 @@
     padding: 3px;
 }
 
-.controls {
-    display: inline-block;
-    width: 35%;
-    float: right;
-    border: 1px solid #A1CFEE;
-    padding: 7px;
-    border-radius: 5px;
+#detailsContent {
+    grid-area: detailsContent ;
+    width: 30%;
+    height: 100%;
+    display: block;
     position: fixed;
 }
 
-.controls button {
-    margin-top: 10px;
+#legend{
+    display: block;
+    border: 1px solid #A1CFEE;
+    padding: 7px;
+    border-radius: 5px;
+    height: 20%;
+    margin-bottom: 15px;
 }
 
-.emptyLine {
+#selectedSeats {
     display: block;
-    position: relative;
-    height: 30px;
-    width: 100%;
+    height: 30%;
+    border: 1px solid #A1CFEE;
+    padding: 7px;
+    border-radius: 5px;
 }
+

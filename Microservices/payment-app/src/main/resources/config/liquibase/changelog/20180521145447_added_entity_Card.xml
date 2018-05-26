@@ -25,7 +25,11 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="expiration_date" type="date">
+            <column name="expiration_month" type="integer">
+                <constraints nullable="false" />
+            </column>
+
+            <column name="expiration_year" type="integer">
                 <constraints nullable="false" />
             </column>
 

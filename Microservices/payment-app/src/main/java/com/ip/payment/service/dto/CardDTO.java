@@ -1,7 +1,6 @@
 package com.ip.payment.service.dto;
 
 
-import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,10 +19,13 @@ public class CardDTO implements Serializable {
     private String number;
 
     @NotNull
-    private LocalDate expirationDate;
+    private Integer expirationMonth;
 
     @NotNull
-    @Pattern(regexp = "[a-zA-Z]+")
+    private Integer expirationYear;
+
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z ]+")
     private String name;
 
     @NotNull
@@ -49,12 +51,20 @@ public class CardDTO implements Serializable {
         this.number = number;
     }
 
-    public LocalDate getExpirationDate() {
-        return expirationDate;
+    public Integer getExpirationMonth() {
+        return expirationMonth;
     }
 
-    public void setExpirationDate(LocalDate expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setExpirationMonth(Integer expirationMonth) {
+        this.expirationMonth = expirationMonth;
+    }
+
+    public Integer getExpirationYear() {
+        return expirationYear;
+    }
+
+    public void setExpirationYear(Integer expirationYear) {
+        this.expirationYear = expirationYear;
     }
 
     public String getName() {
@@ -107,7 +117,8 @@ public class CardDTO implements Serializable {
         return "CardDTO{" +
             "id=" + getId() +
             ", number='" + getNumber() + "'" +
-            ", expirationDate='" + getExpirationDate() + "'" +
+            ", expirationMonth=" + getExpirationMonth() +
+            ", expirationYear=" + getExpirationYear() +
             ", name='" + getName() + "'" +
             ", ccv='" + getCcv() + "'" +
             ", cardType='" + getCardType() + "'" +

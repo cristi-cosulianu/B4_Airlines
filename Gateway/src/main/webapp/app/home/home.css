@@ -27,7 +27,7 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 .main-title {
-    font-family: "Basis Grotesque Pro Light", "Roboto", serif;
+    font-family: "Roboto", serif;
     font-size: 3.5rem;
     font-weight: 300;
     line-height: 1.2;

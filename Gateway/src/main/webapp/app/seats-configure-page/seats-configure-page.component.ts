@@ -11,7 +11,7 @@ import { HttpClient, HttpHandler } from '@angular/common/http';
 })
 export class SeatsConfigurePageComponent implements OnInit {
 
-  public numbers0to107: Array<number> = new Array<number>();
+  public seatsVector: Array<number> = new Array<number>();
   private chosenSeats: Array<number> = new Array<number>();
   private occupiedSeats: Array<number> = new Array<number>();
   public ticket = new TicketModel();
@@ -19,6 +19,11 @@ export class SeatsConfigurePageComponent implements OnInit {
   private seat: Seats;
   private id_flight: string;
   private planeType: number;
+  private nrOfSeats: number;
+  private nrOfSeatsOfPlane1: number;
+  private nrOfSeatsOfPlane2: number;
+  private nrOfSeatsOfPlane3: number;
+  private nrOfSeatsOfPlane4: number;
   private shouldShowLoading: boolean;
   private localData: DataService;
   constructor(private data: DataService, private service: SeatsService) {
@@ -52,7 +57,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   // }
 
   checkOccupiedSeats() {
-    for (let id = 0; id <= 107; id++) {
+    for (let id = 0; id <= this.nrOfSeats; id++) {
       const identifier1 = 'id' + id;
       const shand = document.getElementsByClassName(identifier1) as HTMLCollectionOf<HTMLElement>;
       if (this.occupiedSeats.indexOf(id) > -1) {
@@ -77,6 +82,15 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.planeType = 4;             // this is hard coding for now
     this.id_flight = '123mv';       // this is hard coding for now
 
+    if(this.planeType == 1)
+      this.nrOfSeats=this.nrOfSeatsOfPlane1;
+    else if(this.planeType == 2)
+      this.nrOfSeats=this.nrOfSeatsOfPlane2;
+    else if(this.planeType == 3)
+      this.nrOfSeats=this.nrOfSeatsOfPlane3;
+    else if(this.planeType == 4)
+      this.nrOfSeats=this.nrOfSeatsOfPlane4;
+
     if (this.ticket.ticket_seats.length > 0) {
       for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
         this.chosenSeats.push(this.ticket.ticket_seats[i]);
@@ -87,9 +101,13 @@ export class SeatsConfigurePageComponent implements OnInit {
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
+    this.nrOfSeatsOfPlane1=107;
+    this.nrOfSeatsOfPlane2=107;
+    this.nrOfSeatsOfPlane3=107;
+    this.nrOfSeatsOfPlane4=107;
     this.initialTicketConfiguration();
-    for (let i = 0; i <= 107; i++) {
-      this.numbers0to107.push(i);
+    for (let i = 0; i <= this.nrOfSeats; i++) {
+      this.seatsVector.push(i);
     }
     this.queryOccupiedSeats();
   }
@@ -101,8 +119,12 @@ export class SeatsConfigurePageComponent implements OnInit {
       for (let i = 0; i < data.body.length; i++) {
         this.occupiedSeats.push(data.body[i].seat_index);
       }
-      this.checkOccupiedSeats();
-      this.checkChoosenSeats();
+
+
+       this.checkOccupiedSeats();
+       this.checkChoosenSeats();
+      
+
       this.shouldShowLoading = false;
     });
   }
