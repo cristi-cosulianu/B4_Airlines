@@ -15,94 +15,95 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 export class PaymentPageComponent implements OnInit {
 
   passengerIDInfos: any = {
-    firstName: "",
-    lastName: "",
-    sex: "",
-    date: "",
-    phoneNo: "",
-    email: "",
+    firstName: '',
+    lastName: '',
+    sex: 'Male',
+    date: '',
+    phoneNo: '',
+    email: '',
+    specialNeeds: Array<number>(),
     card: {
-      id: '',
+      id: '1',
       number: '',
       expirationDate: '',
       name: '',
       cvv: '',
-      cardType: ''
+      cardType: 'Debit card'
     }
-  }
+  };
 
-  showInfoForm: boolean = false;
-  ticketPrice: number = 100;
-  taxesPrice: number = 85.64;
-  insurancePrice: number = 7.68;
-  discountPromo: number = 5;
+  showInfoForm = false;
+  ticketPrice = 100;
+  taxesPrice = 85.64;
+  insurancePrice = 7.68;
+  discountPromo = 5;
   totalPrice: number = this.ticketPrice + this.taxesPrice + this.insurancePrice - this.discountPromo;
 
-  flightInfos: ITicket[] = [{
-    flightDate: "29/02/1996",
-    departLocation: "London",
-    landLocation: "Bucharest",
+  flightInfos: ITicket = {
+    flightDate: '29/02/1996',
+    departLocation: 'London',
+    landLocation: 'Bucharest',
     stops: 1,
-    departTime: "16:30",
-    landTime: "18:30"
-  }]
+    departTime: '16:30',
+    landTime: '18:30'
+  };
 
-  getText: any[] = [{
-    "title": 'Fill in the form below',
-    "subTitle": 'To​​ comply with the TSA Secure Flight program, the traveler information listed here must exactly match the information on the government - issued photo ID that the traveler presents at the airport.',
-    "form": [
+  getText: any = {
+    'title': 'Fill in the form below',
+    // tslint:disable-next-line:max-line-length
+    'subTitle': 'To​​ comply with the TSA Secure Flight program, the traveler information listed here must exactly match the information on the government - issued photo ID that the traveler presents at the airport.',
+    'form': [
+      { 'title': 'Passengers' },
       {
-        "title": 'Passengers',
+        'title': 'Passenger contact information',
+        // tslint:disable-next-line:max-line-length
+        'subTitle': 'Please let us know the best way to reach you during travel, for important flight status updates or notifications. Our team will use this information to contact you with updates about your travel, if necessary.'
       },
       {
-        "title": 'Passenger contact information',
-        "subTitle": 'Please let us know the best way to reach you during travel, for important flight status updates or notifications. Our team will use this information to contact you with updates about your travel, if necessary.'
-      },
-      {
-        "title": 'Special passenger needs (Optional)',
-        "optionsCheckbox": [
-          { id: 1, type: 'Blind' },
-          { id: 2, type: 'Deaf' },
-          { id: 3, type: 'Congnitive disability' },
-          { id: 4, type: 'Other disability requiring assistance' },
-          { id: 5, type: 'Service animal' }
+        'title': 'Special passenger needs (Optional)',
+        'optionsCheckbox': [
+          'Blind',
+          'Deaf',
+          'Congnitive disability',
+          'Other disability requiring assistance',
+          'Service animal'
         ]
       },
       {
-        "title": 'Payment',
-        "optionsRadio": [
-          { id: 1, type: 'Credit card' },
-          { id: 2, type: 'Debit card' }
+        'title': 'Payment',
+        'optionsRadio': [
+          'Credit card',
+          'Debit card'
         ]
       }
     ],
-    "formID": [{
-      "firstName": 'First name',
-      "lastName": 'Last name',
-      "middleName": 'Middle name',
-      "sex": [
-        { id: 0, type: 'Sex' },
-        { id: 1, type: 'Male' },
-        { id: 2, type: 'Female' },
+    'formID': {
+      'firstName': 'First name',
+      'lastName': 'Last name',
+      'middleName': 'Middle name',
+      'sex': [
+        'Sex',
+        'Male',
+        'Female',
       ],
-      "date": 'Date of birth'
-    }],
-    "formCard": [{
-      "name": 'Name on card',
-      "number": 'Credit card number',
-      "exp": 'Expiration',
-      "cvv": 'CVV'
-    }],
-    "checkCart": [{
-      "ticket": 'Ticket (' + 1 + ')',
-      "taxes": 'Taxes and fees',
-      "discount": 'First time discount',
-      "insurance": 'Insurance',
-      "total": 'Total',
-      "totalSmall": 'Including taxes and fees',
-      "departed": 'Departed'
-    }]
-  }]
+      'date': 'Date of birth'
+    },
+    'formCard': {
+      'name': 'Name on card',
+      'number': 'Credit card number',
+      'exp': 'Expiration',
+      'cvv': 'CVV'
+    },
+    'checkCart': {
+      'ticket': 'Ticket (' + 1 + ')',
+      'taxes': 'Taxes and fees',
+      'discount': 'First time discount',
+      'insurance': 'Insurance',
+      'total': 'Total',
+      'totalSmall': 'Including taxes and fees',
+      'departed': 'Departed'
+    }
+  };
 
   constructor(private cardService: CardService,
     private jhiAlertService: JhiAlertService
@@ -140,5 +141,27 @@ export class PaymentPageComponent implements OnInit {
   onSelectionChangeCard(event: any): void {
     this.passengerIDInfos.card.cardType = event.target.value;
     this.passengerIDInfos.card.id = event.target.id;
+  }
+
+  onSelectionChangeNeeds(event: any): void {
+    const index = this.passengerIDInfos.specialNeeds.indexOf(event.target.id, 0);
+    if (index > -1) {
+      this.passengerIDInfos.specialNeeds.splice(index, 1);
+    } else {
+      this.passengerIDInfos.specialNeeds.push(event.target.id);
+    }
+  }
+
+  checkInvalidfields(): void {
+    const forms = document.getElementsByClassName('needs-validation');
+    const validation = Array.prototype.filter.call(forms, function name(form: any) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
   }
 }
