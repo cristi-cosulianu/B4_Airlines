@@ -38,9 +38,8 @@ export class RatingService {
             .map((res: HttpResponse<Rating[]>) => this.convertArrayResponse(res));
     }
 
-    ratingForFlight(flightId: number): Observable<EntityResponseType> {
-        return this.http.get<Rating>(`${this.resourceUrl}/stats/${flightId}`, { observe: 'response'})
-            .map((res: EntityResponseType) => this.convertResponse(res));
+    ratingForFlight(flightId: number): Observable<any> {
+        return this.http.get<any>(`${this.resourceUrl}/stats/${flightId}`, { observe: 'response'});
     }
 
     delete(id: number): Observable<HttpResponse<any>> {

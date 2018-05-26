@@ -128,17 +128,12 @@ public class RatingResource {
 
     @GetMapping("/ratings/stats/{id}")
     @Timed
-    public ResponseEntity<RatingDTO> flightRating(@PathVariable Long id){
+    public ResponseEntity<Integer> flightRating(@PathVariable Long id){
         List<RatingDTO> ratings = ratingService.findByFlightId(id);
-        RatingDTO dummy = new RatingDTO();
-        dummy.setFlightId(id);
-        dummy.setUserId("123456789101112130");
         if(ratings.isEmpty()){
-            dummy.setRating(0);
-            return new ResponseEntity<RatingDTO>(dummy , HttpStatus.OK);
+            return new ResponseEntity<Integer>(0, HttpStatus.OK);
         }else{
-            dummy.setRating(ratings.stream().mapToInt(rating -> rating.getRating()).sum() / ratings.size());
-            return new ResponseEntity<RatingDTO>(dummy , HttpStatus.OK);
+            return new ResponseEntity<Integer>(ratings.stream().mapToInt(rating -> rating.getRating()).sum() / ratings.size() , HttpStatus.OK);
         }
     }
 }
