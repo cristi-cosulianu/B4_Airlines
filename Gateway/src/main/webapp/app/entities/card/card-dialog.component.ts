@@ -18,7 +18,6 @@ export class CardDialogComponent implements OnInit {
 
     card: Card;
     isSaving: boolean;
-    expirationDateDp: any;
 
     constructor(
         public activeModal: NgbActiveModal,

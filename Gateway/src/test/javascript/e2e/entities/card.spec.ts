@@ -35,8 +35,10 @@ describe('Card e2e test', () => {
         cardComponentsPage.clickOnCreateButton();
         cardDialogPage.setNumberInput('number');
         expect(cardDialogPage.getNumberInput()).toMatch('number');
-        cardDialogPage.setExpirationDateInput('2000-12-31');
-        expect(cardDialogPage.getExpirationDateInput()).toMatch('2000-12-31');
+        cardDialogPage.setExpirationMonthInput('5');
+        expect(cardDialogPage.getExpirationMonthInput()).toMatch('5');
+        cardDialogPage.setExpirationYearInput('5');
+        expect(cardDialogPage.getExpirationYearInput()).toMatch('5');
         cardDialogPage.setNameInput('name');
         expect(cardDialogPage.getNameInput()).toMatch('name');
         cardDialogPage.setCcvInput('ccv');
@@ -69,7 +71,8 @@ export class CardDialogPage {
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
     numberInput = element(by.css('input#field_number'));
-    expirationDateInput = element(by.css('input#field_expirationDate'));
+    expirationMonthInput = element(by.css('input#field_expirationMonth'));
+    expirationYearInput = element(by.css('input#field_expirationYear'));
     nameInput = element(by.css('input#field_name'));
     ccvInput = element(by.css('input#field_ccv'));
     cardTypeSelect = element(by.css('select#field_cardType'));
@@ -86,12 +89,20 @@ export class CardDialogPage {
         return this.numberInput.getAttribute('value');
     };
 
-    setExpirationDateInput = function(expirationDate) {
-        this.expirationDateInput.sendKeys(expirationDate);
+    setExpirationMonthInput = function(expirationMonth) {
+        this.expirationMonthInput.sendKeys(expirationMonth);
     };
 
-    getExpirationDateInput = function() {
-        return this.expirationDateInput.getAttribute('value');
+    getExpirationMonthInput = function() {
+        return this.expirationMonthInput.getAttribute('value');
+    };
+
+    setExpirationYearInput = function(expirationYear) {
+        this.expirationYearInput.sendKeys(expirationYear);
+    };
+
+    getExpirationYearInput = function() {
+        return this.expirationYearInput.getAttribute('value');
     };
 
     setNameInput = function(name) {

@@ -1,8 +1,8 @@
 <div class="container">
     <div class="py-5 text-center">
-        <h2 class="display-4 noselect">{{ getText[0].title }}</h2>
+        <h2 class="display-4 noselect">{{ getText.title }}</h2>
         <p class="lead noselect">
-            <small>{{ getText[0].subTitle }}</small>
+            <small>{{ getText.subTitle }}</small>
         </p>
     </div>
 
@@ -10,55 +10,46 @@
         <div class="col-md-4 order-md-2 mb-4">
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <h6 class="my-0 noselect">{{getText[0].checkCart[0].ticket}}</h6>
-                    <span class="text-muted">{{ ticketPrice | currency: 'USD':true:'1.2-2' }}</span>
+                    <h6 class="my-0 noselect">{{getText.checkCart.ticket}}</h6>
+                    <span class="text-muted">{{ ticketPrice | currency:'USD':true:'1.2-2' }}</span>
                 </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <h6 class="my-0 noselect">{{getText[0].checkCart[0].taxes}}</h6>
-                    <span class="text-muted">{{ taxesPrice | currency: 'USD':true:'1.2-2' }}</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <h6 class="my-0 noselect">{{getText[0].checkCart[0].insurance}}</h6>
-                    <span class="text-muted">{{ insurancePrice | currency: 'USD':true:'1.2-2' }}</span>
-
-                </li>
-                <li class="list-group-item d-flex justify-content-between bg-light bgColor-green">
-                    <h6 class="my-0 noselect">{{getText[0].checkCart[0].discount}}</h6>
-                    <span>{{ -discountPromo | currency: 'USD':true:'1.2-2' }}</span>
+                <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let optionsCheckbox of getText.checkCart.specialNeeds">
+                    <h6 class="my-0 noselect specialNeedsID">{{ optionsCheckbox.name }}</h6>
+                    <span class="text-muted">{{ optionsCheckbox.value | currency:'USD':code:'1.2-2'}}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between bgColor-blue">
                     <div>
-                        <h6 class="my-0 noselect">{{getText[0].checkCart[0].total + ' (USD)'}}</h6>
-                        <small class="noselect">{{getText[0].checkCart[0].totalSmall}}</small>
+                        <h6 class="my-0 noselect">{{getText.checkCart.total + ' (USD)'}}</h6>
+                        <small class="noselect">{{getText.checkCart.totalSmall}}</small>
                     </div>
-                    <strong>{{ totalPrice | currency: 'USD':true:'1.2-2' }}</strong>
+                    <strong>{{ totalPrice | currency:'USD':true:'1.2-2' }}</strong>
                 </li>
             </ul>
 
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed noselect bgColor-blue">
-                    <strong>{{getText[0].checkCart[0].departed}}</strong>
+                    <strong>{{getText.checkCart.departed}}</strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <small class="text-muted">{{flightInfos[0].flightDate + ' ' + flightInfos[0].departLocation + ' - ' + flightInfos[0].landLocation}}</small>
-                    <small class="text-muted noselect">{{ flightInfos[0].stops + ' stop'}}</small>
+                    <small class="text-muted">{{flightInfos.flightDate + ' ' + flightInfos.departLocation + ' - ' + flightInfos.landLocation}}</small>
+                    <small class="text-muted noselect">{{ flightInfos.stops + ' stop'}}</small>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <small class="text-muted">{{flightInfos[0].departTime}}
-                        <i class="fa fa-arrow-right"></i> {{flightInfos[0].landTime}}</small>
+                    <small class="text-muted">{{flightInfos.departTime}}
+                        <i class="fa fa-arrow-right"></i> {{flightInfos.landTime}}</small>
                 </li>
             </ul>
         </div>
         <div class="col-md-8 order-md-1">
-            <h4 class="mb-3 noselect">{{ getText[0].form[0].title }}</h4>
+            <h4 class="mb-3 noselect">{{ getText.form.title }}</h4>
             <div class="d-block my-3">
                 <div class="custom-control custom-radio">
-                    <input id="account_info" name="paymentMethod" type="radio" class="custom-control-input" checked="" required="" (click)='toggleInfoForm(false)'>
+                    <input id="account_info" name="paymentMethod" type="radio" class="custom-control-input" checked="" required (click)='toggleInfoForm(false)'>
                     <label class="custom-control-label noselect" for="account_info">Fill in ID info using data from my account</label>
                 </div>
                 <div class="custom-control custom-radio">
-                    <input id="new_info" name="paymentMethod" type="radio" class="custom-control-input" required="" (click)='toggleInfoForm(true)'>
-                    <label class="custom-control-label noselect" for="new_info">Fill in new ID info</label>
+                    <input id="new_info" name="paymentMethod" type="radio" class="custom-control-input" required (click)='toggleInfoForm(true)'>
+                    <label class="new-info custom-control-label noselect" for="new_info">Fill in new ID info</label>
                 </div>
             </div>
 
@@ -66,17 +57,17 @@
             <form class="needs-validation" novalidate>
                 <div class="row" *ngIf='showInfoForm'>
                     <div class="col-md-6 mb-3">
-                        <label for="firstName noselect">{{getText[0].formID[0].firstName}}</label>
-                        <input type="text" name="passengerIDInfos.firstName" class="form-control" [(ngModel)]="passengerIDInfos.firstName" [ngModelOptions]="{updateOn: 'blur'}"
-                            placeholder="The name listed in ID card" required>
+                        <label for="firstName noselect">{{getText.formID.firstName}}</label>
+                        <input type="text" id="passengerIDInfos.firstName" name="passengerIDInfos.firstName" class="form-control" [(ngModel)]="passengerIDInfos.firstName"
+                            [ngModelOptions]="{updateOn: 'blur'}" placeholder="The name listed in ID card" required>
                         <div class="invalid-feedback">
                             Valid first name is required.
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="lastName noselect">{{getText[0].formID[0].lastName}}</label>
-                        <input type="text" name="passengerIDInfos.lastName" class="form-control" [(ngModel)]="passengerIDInfos.lastName" [ngModelOptions]="{updateOn: 'blur'}"
-                            placeholder="The name listed in ID card" required>
+                        <label for="lastName noselect">{{getText.formID.lastName}}</label>
+                        <input type="text" id="passengerIDInfos.firstName" name="passengerIDInfos.lastName" class="form-control" [(ngModel)]="passengerIDInfos.lastName"
+                            [ngModelOptions]="{updateOn: 'blur'}" placeholder="The name listed in ID card" required>
                         <div class="invalid-feedback">
                             Valid last name is required.
                         </div>
@@ -85,40 +76,40 @@
 
                 <div class="row" *ngIf='showInfoForm'>
                     <div class="col-md-6 mb-3 noselect">
-                        <label for="sex">{{getText[0].formID[0].sex[0].type}}</label>
+                        <label for="sex">{{getText.formID.sex[0]}}</label>
                         <select class="custom-select d-block w-100" (change)="selectChangedHandler($event)" required>
-                            <option *ngFor="let sex of getText[0].formID[0].sex | slice:1" [value]="sex.id">
-                                {{sex.type}}
+                            <option *ngFor="let sex of getText.formID.sex | slice:1; let i = index" [value]="sex">
+                                {{sex}}
                             </option>
                         </select>
-                        <div class="invalid-feedback">
-                            Please select a valid country.
-                        </div>
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="control-label noselect" for="date">{{getText[0].formID[0].date}}</label>
+                    <div class="col-md-6 mb-3" novalidate>
+                        <label class="control-label noselect" for="date">{{getText.formID.date}}</label>
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">
                                     <i class="fa fa-calendar"></i>
                                 </span>
                             </div>
-                            <input type="text" class="form-control" name="passengerIDInfos.date" [(ngModel)]=" passengerIDInfos.date " [ngModelOptions]="{updateOn:
-    'blur'} " placeholder="MM/DD/YYY " required/>
-
+                            <input type="date" class="form-control" name="passengerIDInfos.date" [(ngModel)]="passengerIDInfos.date" [ngModelOptions]="{updateOn:
+ 'blur'} " placeholder="MM/DD/YYY" required>
+                        </div>
+                        <div class="invalid-feedback">
+                            Valid date of birth is required.
                         </div>
                     </div>
                     <div class="invalid-feedback">
-                        Valid last name is required.
+                        Valid birth date is required.
                     </div>
                 </div>
                 </br>
+
                 <div *ngIf='showInfoForm'>
-                    <h4 class="mb-3 noselect">{{ getText[0].form[1].title }}</h4>
+                    <h4 class="mb-3 noselect">{{ getText.form[1].title }}</h4>
 
                     <p class="lead noselect">
-                        <small>{{ getText[0].form[1].subTitle }}</small>
+                        <small>{{ getText.form[1].subTitle }}</small>
                     </p>
 
                     <div class="row">
@@ -130,7 +121,7 @@
                                     </span>
                                 </div>
                                 <input class="form-control" name="passengerIDInfos.phoneNo" [(ngModel)]="passengerIDInfos.phoneNo" [ngModelOptions]="{updateOn: 'blur'}"
-                                    placeholder="+(0)" type="text" />
+                                    placeholder="+(0) 123" type="tel" />
                             </div>
                         </div>
                         <div class="col-md-6 mb-3">
@@ -141,7 +132,7 @@
                                     </span>
                                 </div>
                                 <input class="form-control" name="passengerIDInfos.email" [(ngModel)]="passengerIDInfos.email" [ngModelOptions]="{updateOn: 'blur'}"
-                                    placeholder="name[at]domain[dot]com" type="text" />
+                                    placeholder="name[at]domain[dot]com" type="email" />
 
                             </div>
                         </div>
@@ -149,29 +140,31 @@
                 </div>
                 <hr class="mb-4" [ngStyle]="{'margin-top': showInfoForm === true ? '10px' : '-10px'}">
 
-                <h4 class="mb-3 noselect">{{getText[0].form[2].title}}</h4>
+                <h4 class="mb-3 noselect">{{getText.form[2].title}}</h4>
 
-                <div class="custom-control custom-checkbox" *ngFor="let optionsCheckbox of getText[0].form[2].optionsCheckbox">
-                    <input type="checkbox" class="custom-control-input" id="{{ 'passengerNeedsId' + optionsCheckbox.id }}">
-                    <label class="custom-control-label noselect" for="{{ 'passengerNeedsId' + optionsCheckbox.id }}">{{ optionsCheckbox.type }}</label>
+                <div class="custom-control custom-checkbox" *ngFor="let optionsCheckbox of getText.form[2].optionsCheckbox; let i = index"
+                    (change)="onSelectionChangeNeeds($event)">
+                    <input type="checkbox" class="custom-control-input" id="{{ i }}">
+                    <label class="custom-control-label noselect" for="{{ i }}">{{ optionsCheckbox }}</label>
                 </div>
 
                 <hr class="mb-4">
 
 
-                <h4 class="mb-3 noselect">{{getText[0].form[3].title}}</h4>
+                <h4 class="mb-3 noselect">{{getText.form[3].title}}</h4>
 
                 <div class="d-block my-3">
-                    <div class="custom-control custom-radio" *ngFor="let optionsRadio of getText[0].form[3].optionsRadio">
-                        <input id="{{ optionsRadio.id }}" value="{{ optionsRadio.type }}" name="passangerCardType" type="radio" class="custom-control-input" (change)="onSelectionChangeCard($event)"
-                            checked="true">
-                        <label class="custom-control-label noselect" for="{{ optionsRadio.id }}">{{ optionsRadio.type }}</label>
+                    <div class="custom-control custom-radio" *ngFor="let optionsRadio of getText.form[3].optionsRadio">
+                        <input id="{{ optionsRadio.length }}" value="{{ optionsRadio }}" name="passangerCardType" type="radio" class="custom-control-input"
+                            (change)="onSelectionChangeCard($event)" checked="true">
+                        <label class="custom-control-label noselect" for="{{ optionsRadio.length }}">{{ optionsRadio }}</label>
+
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="cc-name noselect">{{getText[0].formCard[0].name}}</label>
+                        <label for="cc-name noselect">{{getText.formCard.name}}</label>
                         <input type="text" class="form-control" name="passengerIDInfos.card.name" class="form-control" [(ngModel)]="passengerIDInfos.card.name"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <small class="text-muted">Full name as displayed on card</small>
@@ -180,25 +173,25 @@
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="cc-number noselect">{{getText[0].formCard[0].number}}</label>
+                        <label for="cc-number noselect">{{getText.formCard.number}}</label>
                         <input type="text" class="form-control" name="passengerIDInfos.card.number" class="form-control" [(ngModel)]="passengerIDInfos.card.number"
-                            [ngModelOptions]="{updateOn: 'blur'}" required>
+                            [ngModelOptions]="{updateOn: 'blur'}" placeholder="Valid Card Number" required>
                         <div class="invalid-feedback">
                             Credit card number is required
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <label for="cc-expiration noselect">{{getText[0].formCard[0].exp}}</label>
-                        <input type="text" class="form-control" name="passengerIDInfos.card.expirationDate" class="form-control" [(ngModel)]="passengerIDInfos.card.expirationDate"
-                            [ngModelOptions]="{updateOn: 'blur'}" required>
+                    <div class="col-md-5 mb-5">
+                        <label for="cc-expiration noselect">{{getText.formCard.exp}}</label>
+                        <input type="month" class="form-control" name="passengerIDInfos.card.expirationDate" class="form-control" [(ngModel)]="passengerIDInfos.card.expirationDate"
+                            [ngModelOptions]="{updateOn: 'blur'}" placeholder="MM / YY" required>
                         <div class="invalid-feedback">
                             Expiration date required
                         </div>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <label for="cc-cvv noselect">{{getText[0].formCard[0].cvv}}</label>
+                        <label for="cc-cvv noselect">{{getText.formCard.cvv}}</label>
                         <input type="text" class="form-control" name="passengerIDInfos.card.cvv" class="form-control" [(ngModel)]="passengerIDInfos.card.cvv"
                             [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
@@ -206,12 +199,9 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- <p>{{ passengerIDInfos.card | json}}</p> -->
-
-
                 <hr class="mb-4">
-                <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="submit()">Continue to checkout</button>
+                <!-- <p>{{ passengerIDInfos | json}}</p> -->
+                <button class="btn btn-primary btn-lg btn-block" type="submit" (click)="checkInvalidfields(); submit()">Continue to checkout</button>
             </form>
         </div>
     </div>

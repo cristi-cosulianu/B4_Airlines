@@ -18,7 +18,8 @@
             <tr>
             <th><span>ID</span></th>
             <th><span>Number</span></th>
-            <th><span>Expiration Date</span></th>
+            <th><span>Expiration Month</span></th>
+            <th><span>Expiration Year</span></th>
             <th><span>Name</span></th>
             <th><span>Ccv</span></th>
             <th><span>Card Type</span></th>
@@ -29,7 +30,8 @@
             <tr *ngFor="let card of cards ;trackBy: trackId">
                 <td><a [routerLink]="['../card', card.id ]">{{card.id}}</a></td>
                 <td>{{card.number}}</td>
-                <td>{{card.expirationDate | date:'mediumDate'}}</td>
+                <td>{{card.expirationMonth}}</td>
+                <td>{{card.expirationYear}}</td>
                 <td>{{card.name}}</td>
                 <td>{{card.ccv}}</td>
                 <td>{{card.cardType}}</td>

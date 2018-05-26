@@ -9,7 +9,8 @@ export class Card implements BaseEntity {
     constructor(
         public id?: number,
         public number?: string,
-        public expirationDate?: any,
+        public expirationMonth?: number,
+        public expirationYear?: number,
         public name?: string,
         public ccv?: string,
         public cardType?: CardType,

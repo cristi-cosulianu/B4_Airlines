@@ -36,25 +36,39 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_expirationDate">Expiration Date</label>
-            <div class="input-group">
-                <input id="field_expirationDate" type="text" class="form-control" name="expirationDate" ngbDatepicker  #expirationDateDp="ngbDatepicker" [(ngModel)]="card.expirationDate"
-                required/>
-                <span class="input-group-append">
-                    <button type="button" class="btn btn-secondary" (click)="expirationDateDp.toggle()"><i class="fa fa-calendar"></i></button>
-                </span>
-            </div>
-            <div [hidden]="!(editForm.controls.expirationDate?.dirty && editForm.controls.expirationDate?.invalid)">
+            <label class="form-control-label" for="field_expirationMonth">Expiration Month</label>
+            <input type="number" class="form-control" name="expirationMonth" id="field_expirationMonth"
+                [(ngModel)]="card.expirationMonth" required/>
+            <div [hidden]="!(editForm.controls.expirationMonth?.dirty && editForm.controls.expirationMonth?.invalid)">
                 <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.expirationDate?.errors?.required">
+                   [hidden]="!editForm.controls.expirationMonth?.errors?.required">
                    This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.expirationMonth?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_expirationYear">Expiration Year</label>
+            <input type="number" class="form-control" name="expirationYear" id="field_expirationYear"
+                [(ngModel)]="card.expirationYear" required/>
+            <div [hidden]="!(editForm.controls.expirationYear?.dirty && editForm.controls.expirationYear?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.expirationYear?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.expirationYear?.errors?.number">
+                    This field should be a number.
                 </small>
             </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                [(ngModel)]="card.name" required pattern="[a-zA-Z]+"/>
+                [(ngModel)]="card.name" required pattern="[a-zA-Z ]+"/>
             <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
                 <small class="form-text text-danger"
                    [hidden]="!editForm.controls.name?.errors?.required">

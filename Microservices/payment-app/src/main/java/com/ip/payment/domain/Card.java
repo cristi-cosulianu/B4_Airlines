@@ -5,7 +5,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Objects;
 
 import com.ip.payment.domain.enumeration.CardType;
@@ -31,11 +30,15 @@ public class Card implements Serializable {
     private String number;
 
     @NotNull
-    @Column(name = "expiration_date", nullable = false)
-    private LocalDate expirationDate;
+    @Column(name = "expiration_month", nullable = false)
+    private Integer expirationMonth;
 
     @NotNull
-    @Pattern(regexp = "[a-zA-Z]+")
+    @Column(name = "expiration_year", nullable = false)
+    private Integer expirationYear;
+
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z ]+")
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -71,17 +74,30 @@ public class Card implements Serializable {
         this.number = number;
     }
 
-    public LocalDate getExpirationDate() {
-        return expirationDate;
+    public Integer getExpirationMonth() {
+        return expirationMonth;
     }
 
-    public Card expirationDate(LocalDate expirationDate) {
-        this.expirationDate = expirationDate;
+    public Card expirationMonth(Integer expirationMonth) {
+        this.expirationMonth = expirationMonth;
         return this;
     }
 
-    public void setExpirationDate(LocalDate expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setExpirationMonth(Integer expirationMonth) {
+        this.expirationMonth = expirationMonth;
+    }
+
+    public Integer getExpirationYear() {
+        return expirationYear;
+    }
+
+    public Card expirationYear(Integer expirationYear) {
+        this.expirationYear = expirationYear;
+        return this;
+    }
+
+    public void setExpirationYear(Integer expirationYear) {
+        this.expirationYear = expirationYear;
     }
 
     public String getName() {
@@ -149,7 +165,8 @@ public class Card implements Serializable {
         return "Card{" +
             "id=" + getId() +
             ", number='" + getNumber() + "'" +
-            ", expirationDate='" + getExpirationDate() + "'" +
+            ", expirationMonth=" + getExpirationMonth() +
+            ", expirationYear=" + getExpirationYear() +
             ", name='" + getName() + "'" +
             ", ccv='" + getCcv() + "'" +
             ", cardType='" + getCardType() + "'" +
