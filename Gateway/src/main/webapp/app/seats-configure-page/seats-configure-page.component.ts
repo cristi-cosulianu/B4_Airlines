@@ -83,7 +83,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   initialTicketConfiguration() {
     // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
-    this.planeType = 2;             // this is hard coded for now
+    this.planeType = 1;             // this is hard coded for now
     this.id_flight = '123mv';       // this is hard coded for now
 
     if (this.planeType == 1)

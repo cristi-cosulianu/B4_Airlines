@@ -3,7 +3,7 @@
     display: grid;
     grid-template-areas:
         "planes detailsWrapper";
-    grid-template-columns: 7fr 4fr;
+    grid-template-columns: 7fr 3fr;
     grid-gap:15px;
     width: 100%;
     height: 100%;
@@ -239,7 +239,8 @@
 }
 
 /* MEDIA QUERIES*/
-@media screen and (min-width: 768px) and (max-width: 959px) {
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
     #wrapperSeats {
         height: 100%;
         grid-template-areas:
@@ -261,24 +262,148 @@
    
     /*PLANE 1*/
     .plane-type-1 .bigDiv {
-        margin-top: 52%;   
+        position: absolute;
+        top: 19%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
     }
-        
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
 
     #planes .secondBigDiv #plane1img {
-        width: 800px;
-        height: 2650px;
-        margin-left: -38px;
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
     }
     
     #selectedSeats{
-      /* up erased*/
         position: fixed;
         z-index: 3000;
         background: white;
         bottom: 20px;
         width: 85%;
         height: 30%;
+    }
+
+    /*PLANE 2*/
+    /*PLANE 3*/
+    /*PLANE 4*/
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1880px) {
+   
+    /*PLANE 1*/
+    .plane-type-1{
+        position: relative;
+    }
+
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 21.5%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: 0 auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #detailsContent {
+        grid-area: detailsContent ;
+        width: 100%;
+        height: 40%;
+        display: block;
+        position: fixed;
+    }
+
+    /*PLANE 2*/
+    /*PLANE 3*/
+    /*PLANE 4*/
+}
+
+@media screen and (min-width: 1881) {
+
+    /*PLANE 1*/
+    .plane-type-1{
+        position: relative;
+    }
+
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 21.5%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: 0 auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #detailsContent {
+        grid-area: detailsContent ;
+        width: 100%;
+        height: 40%;
+        display: block;
+        position: fixed;
     }
 
     /*PLANE 2*/
