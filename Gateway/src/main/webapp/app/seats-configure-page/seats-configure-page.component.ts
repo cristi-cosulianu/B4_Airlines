@@ -29,7 +29,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   private localData: DataService;
 
   constructor(private data: DataService, private service: SeatsService) {
-    this.shouldShowLoading = false;
+    this.shouldShowLoading = true;
   }
 
   modulo6(index) {
@@ -83,7 +83,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   initialTicketConfiguration() {
     // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
-    this.planeType = 3;             // this is hard coding for now
+    this.planeType = 4;             // this is hard coding for now
     this.id_flight = '123mv';       // this is hard coding for now
 
     if (this.planeType == 1)
@@ -117,7 +117,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   queryOccupiedSeats() {
-    this.shouldShowLoading = true;
+    this.shouldShowLoading = false;
     this.service.query({ id_flight: this.id_flight }).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {

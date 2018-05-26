@@ -207,3 +207,7 @@
     height: 30px;
     width: 100%;
 }
+
+.seatInList {
+    background-color: pink;
+}
