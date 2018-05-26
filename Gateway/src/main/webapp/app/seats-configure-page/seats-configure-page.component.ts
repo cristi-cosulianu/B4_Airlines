@@ -22,7 +22,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   private shouldShowLoading: boolean;
   private localData: DataService;
   constructor(private data: DataService, private service: SeatsService) {
-    this.shouldShowLoading = false;
+    this.shouldShowLoading = true;
   }
 
   modulo6(index) {
@@ -95,7 +95,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   queryOccupiedSeats() {
-    this.shouldShowLoading = true;
+    this.shouldShowLoading = false;
     this.service.query({ id_flight: this.id_flight }).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
