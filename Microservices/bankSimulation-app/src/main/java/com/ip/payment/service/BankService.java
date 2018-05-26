@@ -37,4 +37,10 @@ public interface BankService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    BankDTO findBank(String number,
+    Integer expirationYear,
+    Integer expirationMonth,
+    String name,
+    String ccv);
 }

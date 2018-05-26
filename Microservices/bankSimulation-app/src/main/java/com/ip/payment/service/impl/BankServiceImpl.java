@@ -84,4 +84,14 @@ public class BankServiceImpl implements BankService {
         log.debug("Request to delete Bank : {}", id);
         bankRepository.delete(id);
     }
+
+    @Override
+    public BankDTO findBank(String number,
+    Integer expirationYear,
+    Integer expirationMonth,
+    String name,
+    String ccv) {
+        Bank bank = bankRepository.findByNumberAndExpirationYearAndExpirationMonthAndNameAndCcv(number, expirationYear, expirationMonth, name, ccv);
+        return bankMapper.toDto(bank);
+    }
 }

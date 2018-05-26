@@ -12,5 +12,9 @@ import org.springframework.data.jpa.repository.*;
 @SuppressWarnings("unused")
 @Repository
 public interface BankRepository extends JpaRepository<Bank, Long> {
-
+    public Bank findByNumberAndExpirationYearAndExpirationMonthAndNameAndCcv(String number,
+    Integer expirationYear,
+    Integer expirationMonth,
+    String name,
+    String ccv);
 }

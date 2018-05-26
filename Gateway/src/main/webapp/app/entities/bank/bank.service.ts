@@ -42,6 +42,11 @@ export class BankService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
 
+    getBankInfo(number: String, expirationYear: number, expirationMonth: number, name: String, ccv: String): Observable<HttpResponse<Bank>> {
+        return this.http.get<Bank>(`${this.resourceUrl}/${number}/${expirationYear}/${expirationMonth}/${name}/${ccv}`, { observe: 'response' })
+            .map((res: HttpResponse<Bank>) => this.convertResponse(res));
+    }
+
     private convertResponse(res: EntityResponseType): EntityResponseType {
         const body: Bank = this.convertItemFromServer(res.body);
         return res.clone({body});
