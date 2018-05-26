@@ -26,8 +26,16 @@
 
                     <div class="form-group">
                         <label class="form-control-label" for="firstName">First Name</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" placeholder="Your first name" [(ngModel)]="settingsAccount.firstName"
-                            minlength=1 maxlength=50 #firstNameInput="ngModel" required>
+                        <div class="input-group-prepend">
+                            <span class="btn rounded-0" id="validForm" *ngIf="!firstNameInput.invalid">
+                                <i class="fa fa-user-circle"></i>
+                            </span>
+                            <span class="btn rounded-0" id="invalidForm" *ngIf="firstNameInput.dirty && firstNameInput.invalid">
+                                <i class="fa fa-user-circle"></i>
+                            </span>
+                            <input type="text" class="form-control rounded-0" id="firstName" name="firstName" placeholder="Your first name" [(ngModel)]="settingsAccount.firstName"
+                                minlength=1 maxlength=50 #firstNameInput="ngModel" required>
+                        </div>
                         <div *ngIf="firstNameInput.dirty && firstNameInput.invalid">
                             <small class="form-text text-danger" *ngIf="firstNameInput.errors.required">
                                 Your first name is required.
@@ -42,8 +50,16 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="lastName">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Your last name" [(ngModel)]="settingsAccount.lastName"
-                            minlength=1 maxlength=50 #lastNameInput="ngModel" required>
+                        <div class="input-group-prepend">
+                            <span class="btn rounded-0" id="validForm" *ngIf="!lastNameInput.invalid">
+                                <i class="fa fa-user-circle"></i>
+                            </span>
+                            <span class="btn rounded-0" id="invalidForm" *ngIf="lastNameInput.dirty && lastNameInput.invalid">
+                                <i class="fa fa-user-circle"></i>
+                            </span>
+                            <input type="text" class="form-control rounded-0" id="lastName" name="lastName" placeholder="Your last name" [(ngModel)]="settingsAccount.lastName"
+                                minlength=1 maxlength=50 #lastNameInput="ngModel" required>
+                        </div>
                         <div *ngIf="lastNameInput.dirty && lastNameInput.invalid">
                             <small class="form-text text-danger" *ngIf="lastNameInput.errors.required">
                                 Your last name is required.
@@ -58,8 +74,16 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" for="email">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Your email" [(ngModel)]="settingsAccount.email"
-                            minlength="5" maxlength="100" #emailInput="ngModel" email required>
+                        <div class="input-group-prepend">
+                            <span class="btn rounded-0" id="validForm" *ngIf="!emailInput.invalid">
+                                <i class="fa fa-envelope-open"></i>
+                            </span>
+                            <span class="btn rounded-0" id="invalidForm" *ngIf="emailInput.dirty && emailInput.invalid">
+                                <i class="fa fa-envelope-open"></i>
+                            </span>
+                            <input type="email" class="form-control rounded-0" id="email" name="email" placeholder="Your email" [(ngModel)]="settingsAccount.email"
+                                minlength="5" maxlength="100" #emailInput="ngModel" email required>
+                        </div>
                         <div *ngIf="emailInput.dirty && emailInput.invalid">
                             <small class="form-text text-danger" *ngIf="emailInput.errors.required">
                                 Your email is required.
@@ -171,40 +195,22 @@
             </div>
         </div>
 
+
         <div class="row justify-content-center" *ngSwitchCase="'Personal'">
             <form style="width: 80%" name="editForm" role="form" novalidate (ngSubmit)="personalSave()" #editForm="ngForm">
                 <div class="form-group">
-                    <label class="form-control-label" for="field_cnp">Cnp</label>
-                    <input type="text" class="form-control" name="cnp" id="field_cnp" [(ngModel)]="userinfo.cnp" required minlength="13" />
-                    <div [hidden]="!(editForm.controls.cnp?.dirty && editForm.controls.cnp?.invalid)">
-                        <small class="form-text text-danger" [hidden]="!editForm.controls.cnp?.errors?.required">
-                            This field is required.
-                        </small>
-                        <small class="form-text text-danger" [hidden]="!editForm.controls.cnp?.errors?.minlength">
-                            This field is required to be at least 13 characters.
-                        </small>
+                    <label class="form-control-label" for="field_prenume">First Name</label>
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.prenume?.invalid)">
+                            <i class="fa fa-user-circle"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.prenume?.dirty && editForm.controls.prenume?.invalid)">
+                            <i class="fa fa-user-circle"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="prenume" id="field_prenume" [(ngModel)]="userinfo.prenume" required
+                            minlength="3" maxlength="60" />
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_name">Name</label>
-                    <input type="text" class="form-control" name="name" id="field_name" [(ngModel)]="userinfo.name" required minlength="3" maxlength="20"
-                    />
-                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
-                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required">
-                            This field is required.
-                        </small>
-                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.minlength">
-                            This field is required to be at least 3 characters.
-                        </small>
-                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.maxlength">
-                            This field cannot be longer than 20 characters.
-                        </small>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-control-label" for="field_prenume">Prenume</label>
-                    <input type="text" class="form-control" name="prenume" id="field_prenume" [(ngModel)]="userinfo.prenume" required minlength="3"
-                        maxlength="60" />
+
                     <div [hidden]="!(editForm.controls.prenume?.dirty && editForm.controls.prenume?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.prenume?.errors?.required">
                             This field is required.
@@ -218,9 +224,41 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_name">Last Name</label>
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.name?.invalid)">
+                            <i class="fa fa-user-circle"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                            <i class="fa fa-user-circle"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="name" id="field_name" [(ngModel)]="userinfo.name" required minlength="3"
+                            maxlength="20" />
+                    </div>
+                    <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.minlength">
+                            This field is required to be at least 3 characters.
+                        </small>
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.name?.errors?.maxlength">
+                            This field cannot be longer than 20 characters.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
                     <div class="input-group">
-                        <input id="field_dateOfBirth" type="text" class="form-control" name="dateOfBirth" ngbDatepicker #dateOfBirthDp="ngbDatepicker"
+                        <div class="input-group-prepend">
+                            <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.dateOfBirth?.invalid)">
+                                <i class="fa fa-calendar-plus-o"></i>
+                            </span>
+                            <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.dateOfBirth?.invalid)">
+                                <i class="fa fa-calendar-plus-o"></i>
+                            </span>
+                        </div>
+                        <input id="field_dateOfBirth" type="text" class="form-control rounded-0" name="dateOfBirth" ngbDatepicker #dateOfBirthDp="ngbDatepicker"
                             [(ngModel)]="userinfo.dateOfBirth" required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()">
@@ -235,8 +273,38 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="form-control-label" for="field_cnp">National identification number</label>
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.cnp?.invalid)">
+                            <i class="fa fa-flag"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!( editForm.controls.cnp?.invalid)">
+                            <i class="fa fa-flag"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="cnp" id="field_cnp" [(ngModel)]="userinfo.cnp" required minlength="13"
+                        />
+                    </div>
+                    <div [hidden]="!(editForm.controls.cnp?.dirty && editForm.controls.cnp?.invalid)">
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.cnp?.errors?.required">
+                            This field is required.
+                        </small>
+                        <small class="form-text text-danger" [hidden]="!editForm.controls.cnp?.errors?.minlength">
+                            This field is required to be at least 13 characters.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_adress">Adress</label>
-                    <input type="text" class="form-control" name="adress" id="field_adress" [(ngModel)]="userinfo.adress" required/>
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.adress?.invalid)">
+                            <i class="fa fa-map-marker fa-1.5x"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!( editForm.controls.adress?.invalid)">
+                            <i class="fa fa-map-marker"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="adress" id="field_adress" [(ngModel)]="userinfo.adress" required/>
+                    </div>
                     <div [hidden]="!(editForm.controls.adress?.dirty && editForm.controls.adress?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.adress?.errors?.required">
                             This field is required.
@@ -245,8 +313,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_phoneNumber">Phone Number</label>
-                    <input type="text" class="form-control" name="phoneNumber" id="field_phoneNumber" [(ngModel)]="userinfo.phoneNumber" required
-                        minlength="5" />
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.phoneNumber?.invalid)">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.phoneNumber?.invalid)">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="phoneNumber" id="field_phoneNumber" [(ngModel)]="userinfo.phoneNumber"
+                            required minlength="5" />
+                    </div>
                     <div [hidden]="!(editForm.controls.phoneNumber?.dirty && editForm.controls.phoneNumber?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.phoneNumber?.errors?.required">
                             This field is required.
@@ -257,8 +333,16 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="form-control-label" for="field_idType">Id Type</label>
-                    <input type="text" class="form-control" name="idType" id="field_idType" [(ngModel)]="userinfo.idType" required/>
+                    <label class="form-control-label" for="field_idType">Travel Document Type</label>
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="( editForm.controls.idType?.invalid)">
+                            <i class="fa fa-file-text-o"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!( editForm.controls.idType?.invalid)">
+                            <i class="fa fa-file-text-o"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="idType" id="field_idType" [(ngModel)]="userinfo.idType" required/>
+                    </div>
                     <div [hidden]="!(editForm.controls.idType?.dirty && editForm.controls.idType?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.idType?.errors?.required">
                             This field is required.
@@ -267,8 +351,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_serialNumber">Serial Number</label>
-                    <input type="text" class="form-control" name="serialNumber" id="field_serialNumber" [(ngModel)]="userinfo.serialNumber" required
-                        minlength="3" />
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.serialNumber?.invalid)">
+                            <i class="fa fa-database"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.serialNumber?.invalid)">
+                            <i class="fa fa-database"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="serialNumber" id="field_serialNumber" [(ngModel)]="userinfo.serialNumber"
+                            required minlength="3" />
+                    </div>
                     <div [hidden]="!(editForm.controls.serialNumber?.dirty && editForm.controls.serialNumber?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.serialNumber?.errors?.required">
                             This field is required.
@@ -280,8 +372,16 @@
                 </div>
                 <div class="form-group">
                     <label class="form-control-label" for="field_emittingCountry">Emitting Country</label>
-                    <input type="text" class="form-control" name="emittingCountry" id="field_emittingCountry" [(ngModel)]="userinfo.emittingCountry"
-                        required/>
+                    <div class="input-group-prepend">
+                        <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.emittingCountry?.invalid)">
+                            <i class="fa fa-font-awesome"></i>
+                        </span>
+                        <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.emittingCountry?.invalid)">
+                            <i class="fa fa-font-awesome"></i>
+                        </span>
+                        <input type="text" class="form-control rounded-0" name="emittingCountry" id="field_emittingCountry" [(ngModel)]="userinfo.emittingCountry"
+                            required/>
+                    </div>
                     <div [hidden]="!(editForm.controls.emittingCountry?.dirty && editForm.controls.emittingCountry?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.emittingCountry?.errors?.required">
                             This field is required.
@@ -291,13 +391,22 @@
                 <div class="form-group">
                     <label class="form-control-label" for="field_expiringDate">Expiring Date</label>
                     <div class="input-group">
-                        <input id="field_expiringDate" type="text" class="form-control" name="expiringDate" ngbDatepicker #expiringDateDp="ngbDatepicker"
+                        <div class="input-group-prepend">
+                            <span class="btn rounded-0" id="validForm" [hidden]="(editForm.controls.expiringDate?.invalid)">
+                                <i class="fa fa-calendar-o"></i>
+                            </span>
+                            <span class="btn rounded-0" id="invalidForm" [hidden]="!(editForm.controls.expiringDate?.invalid)">
+                                <i class="fa fa-calendar-o"></i>
+                            </span>
+                        </div>
+                        <input id="field_expiringDate" type="text" class="form-control rounded-0" name="expiringDate" ngbDatepicker #expiringDateDp="ngbDatepicker"
                             [(ngModel)]="userinfo.expiringDate" required/>
                         <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="expiringDateDp.toggle()">
                                 <i class="fa fa-calendar"></i>
                             </button>
                         </span>
+
                     </div>
                     <div [hidden]="!(editForm.controls.expiringDate?.dirty && editForm.controls.expiringDate?.invalid)">
                         <small class="form-text text-danger" [hidden]="!editForm.controls.expiringDate?.errors?.required">
