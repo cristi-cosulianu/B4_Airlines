@@ -16,8 +16,15 @@
             "fieldValidateRulesPattern": "[0-9]+"
         },
         {
-            "fieldName": "expirationDate",
-            "fieldType": "LocalDate",
+            "fieldName": "expirationMonth",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "expirationYear",
+            "fieldType": "Integer",
             "fieldValidateRules": [
                 "required"
             ]
@@ -29,7 +36,7 @@
                 "required",
                 "pattern"
             ],
-            "fieldValidateRulesPattern": "[a-zA-Z]+"
+            "fieldValidateRulesPattern": "[a-zA-Z ]+"
         },
         {
             "fieldName": "ccv",
