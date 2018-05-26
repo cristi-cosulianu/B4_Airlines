@@ -152,7 +152,7 @@
  .plane-type-2 .bigDiv {
     margin-left: 17%;
     margin-right: auto;
-    margin-top: 27%;
+    margin-top: 26%;
     position: absolute;
     width: 200px;
     z-index: 2500;
@@ -170,29 +170,41 @@
     margin-right: 30px;
 }
 
+.plane-type-1 .bigDiv button:nth-of-type(189n) {
+    margin-bottom: 90px;
+}
+
 .plane-type-1 button[class^='id'] {
     background-color: #A1CFEE;
     border: 3px #3199DA;
     display: inline-block;
     margin: 3px;
-    width: 35px; 
-    height: 35px;
+    width: 40px; 
+    height: 40px;
     font-size: 7.5pt; 
     border-radius: 10%;
     z-index: 10;
  } 
 
  .plane-type-1 .bigDiv {
-    margin-left: 17%;
+    margin-left: 16.5%;
     margin-right: auto;
-    margin-top: 27%;
+    margin-top: 24%;
     position: absolute;
-    width: 500px;
+    width: 550px;
     z-index: 2500;
     position: absolute;
     top: 180px;
     left: 0;
     /* background-color: #3199DA; */
+}
+
+.plane-type-4 #plane4img{
+    margin: 0 auto;
+    left: 5% ;
+    z-index: 2;
+    width: 70%;
+    height: 100%;
 }
 
 

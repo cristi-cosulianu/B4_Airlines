@@ -105,7 +105,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
-    this.nrOfSeatsOfPlane1 = 250;
+    this.nrOfSeatsOfPlane1 = 369;
     this.nrOfSeatsOfPlane2 = 107;
     this.nrOfSeatsOfPlane3 = 107;
     this.nrOfSeatsOfPlane4 = 107;
