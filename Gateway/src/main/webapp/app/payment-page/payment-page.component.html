@@ -5,7 +5,6 @@
             <small>{{ getText.subTitle }}</small>
         </p>
     </div>
-
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <ul class="list-group mb-3">
@@ -182,7 +181,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-5 mb-5">
+                    <div class="col-md-6 mb-3">
                         <label for="cc-expiration noselect">{{getText.formCard.exp}}</label>
                         <input type="month" class="form-control" name="passengerIDInfos.card.expirationDate" class="form-control" [(ngModel)]="passengerIDInfos.card.expirationDate"
                             [ngModelOptions]="{updateOn: 'blur'}" placeholder="MM / YY" required>
