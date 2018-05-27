@@ -41,8 +41,6 @@ describe('OrderHistory e2e test', () => {
         expect(orderHistoryDialogPage.getTicketPlaneTypeInput()).toMatch('5');
         orderHistoryDialogPage.setTicketPriceInput('5');
         expect(orderHistoryDialogPage.getTicketPriceInput()).toMatch('5');
-        orderHistoryDialogPage.setCreditCardIdInput('5');
-        expect(orderHistoryDialogPage.getCreditCardIdInput()).toMatch('5');
         orderHistoryDialogPage.getBlindInput().isSelected().then((selected) => {
             if (selected) {
                 orderHistoryDialogPage.getBlindInput().click();
@@ -119,7 +117,6 @@ export class OrderHistoryDialogPage {
     ticketFlightIDInput = element(by.css('input#field_ticketFlightID'));
     ticketPlaneTypeInput = element(by.css('input#field_ticketPlaneType'));
     ticketPriceInput = element(by.css('input#field_ticketPrice'));
-    creditCardIdInput = element(by.css('input#field_creditCardId'));
     blindInput = element(by.css('input#field_blind'));
     deafInput = element(by.css('input#field_deaf'));
     cognitiveInput = element(by.css('input#field_cognitive'));
@@ -161,14 +158,6 @@ export class OrderHistoryDialogPage {
 
     getTicketPriceInput = function() {
         return this.ticketPriceInput.getAttribute('value');
-    };
-
-    setCreditCardIdInput = function(creditCardId) {
-        this.creditCardIdInput.sendKeys(creditCardId);
-    };
-
-    getCreditCardIdInput = function() {
-        return this.creditCardIdInput.getAttribute('value');
     };
 
     getBlindInput = function() {

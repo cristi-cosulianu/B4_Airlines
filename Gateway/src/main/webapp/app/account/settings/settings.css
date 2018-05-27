@@ -1,5 +1,5 @@
 .options {
-    float:left;
+    float: left;
 }
 
 .option-item {
@@ -27,7 +27,6 @@
     margin-bottom: 20px;
 }
 
-
 .ticket-main {
     position: relative;
     overflow: hidden;
@@ -48,6 +47,7 @@
 .ticket-item-active {
     background-color: #f0f0ff;
 }
+
 .ticket-item-expired {
     background-color: #fff0f0;
 }
@@ -61,6 +61,7 @@
     width: 50%;
     float: left;
 }
+
 .ticket-info-left div {
     display: block;
 }
@@ -69,7 +70,38 @@
     width: 50%;
     float: right;
 }
+
 .ticket-info-right div {
     clear: both;
     float: right;
+}
+
+#validForm {
+    background: green;
+    min-width: 40px;
+    max-width: 40px;
+    color:white;
+    border-color: green;
+}
+
+#validForm:hover {
+    cursor: default;
+    color: white;
+    background: green;
+    border-color: green;
+}
+
+#invalidForm {
+    background: red;
+    min-width: 40px;
+    max-width: 40px;
+    color:white;
+    border-color: red;
+}
+
+#invalidForm:hover {
+    cursor: default;
+    color: white;
+    background: red;
+    border-color: red;
 }

@@ -83,8 +83,8 @@ export class SeatsConfigurePageComponent implements OnInit {
   initialTicketConfiguration() {
     // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
-    this.planeType = 4;             // this is hard coding for now
-    this.id_flight = '123mv';       // this is hard coding for now
+    this.planeType = 1;             // this is hard coded for now
+    this.id_flight = '123mv';       // this is hard coded for now
 
     if (this.planeType == 1)
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
@@ -105,8 +105,8 @@ export class SeatsConfigurePageComponent implements OnInit {
   ngOnInit() {
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
-    this.nrOfSeatsOfPlane1 = 107;
-    this.nrOfSeatsOfPlane2 = 107;
+    this.nrOfSeatsOfPlane1 = 369;
+    this.nrOfSeatsOfPlane2 = 71;
     this.nrOfSeatsOfPlane3 = 107;
     this.nrOfSeatsOfPlane4 = 107;
     this.initialTicketConfiguration();

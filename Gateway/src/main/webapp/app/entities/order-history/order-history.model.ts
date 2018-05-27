@@ -7,7 +7,6 @@ export class OrderHistory implements BaseEntity {
         public ticketFlightID?: number,
         public ticketPlaneType?: number,
         public ticketPrice?: number,
-        public creditCardId?: number,
         public blind?: boolean,
         public deaf?: boolean,
         public cognitive?: boolean,

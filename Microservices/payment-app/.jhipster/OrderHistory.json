@@ -42,13 +42,6 @@
             "fieldValidateRulesMin": 0
         },
         {
-            "fieldName": "creditCardId",
-            "fieldType": "Long",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "blind",
             "fieldType": "Boolean"
         },

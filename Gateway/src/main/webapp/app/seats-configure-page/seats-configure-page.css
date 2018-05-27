@@ -3,7 +3,7 @@
     display: grid;
     grid-template-areas:
         "planes detailsWrapper";
-    grid-template-columns: 7fr 4fr;
+    grid-template-columns: 7fr 3fr;
     grid-gap:15px;
     width: 100%;
     height: 100%;
@@ -27,6 +27,7 @@
     min-height: 0; 
 }
 
+
 .plane-type-1{
  
 }
@@ -39,65 +40,9 @@
  
 }
 
-.plane-type-4 {
-    /*background: url("../../app/seats-configure-page/resources/type1.jpg")  no-repeat;
-    background-position: center;
-    background-size: cover;*/
-    width:80%;
-    z-index: 100;
-}
-
-.plane-type-4 #plane4img{
-    margin: 0 auto;
-    left: 5% ;
-    z-index: 2;
-    width: 50%;
-    height: 85%;
-}
-
-.plane-type-4 button[class^='id'] {
-    background-color: #A1CFEE;
-    border: 3px #3199DA;
-    display: inline-block;
-    margin: 3px;
-    width: 35px; 
-    height: 35px;
-    font-size: 7.5pt; 
-    border-radius: 10%;
-    z-index: 10;
- } 
-/*
-.container-fluid{
-    height: 2000px;
-}*/
-/*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 130px;"*/
-/*style="background-color: #A1CFEE; border: 3px #3199DA; float: left; width: 40px; height: 40px;font-size: 8.5pt; border-radius: 10%; margin-left: 5px; margin-right: 5px;"*/
-
-#planes .bigDiv {
-    margin-left: 17%;
-    margin-right: auto;
-    margin-top: 27%;
-    position: absolute;
-    width: 280px;
-    z-index: 2500;
-    position: absolute;
-    top: 180px;
-    left: 0;
-    /* background-color: #3199DA; */
-}
-
 #planes .secondBigDiv {
     text-align: center;
     width: 100%;
-}
-
-#planes .secondBigDiv img {
-    width: 74%;
-    margin-left: -80px;
-}
-
-.bigDiv button:nth-of-type(6n + 3) {
-    margin-right: 30px;
 }
 
 .loadingDiv{
@@ -145,6 +90,7 @@
     padding: 7px;
     border-radius: 5px;
 }
+
 
 .emptyLine {
     display: block;
@@ -211,4 +157,391 @@
 
 #seatListScrollableWrapper div[id^='seatCard']:hover {
     background-color: #e20b0b;
+}
+
+/*PLANE 4*/
+.plane-type-4 {
+    width:80%;
+    z-index: 100;
+}
+
+.plane-type-4 button[class^='id'] {
+    background-color: #A1CFEE;
+    border-radius: 10%;
+    border: 3px #3199DA;
+    display: inline-block;
+    font-size: 7.5pt; 
+    height: 35px;
+    margin: 3px;
+    width: 35px; 
+    z-index: 10;
+ } 
+
+.plane-type-4 .bigDiv {
+    left: 0;
+    margin-left: 17%;
+    margin-right: auto;
+    margin-top: 27%;
+    position: absolute;
+    position: absolute;
+    top: 180px;
+    width: 280px;
+    z-index: 2500;
+}
+
+.plane-type-4 .bigDiv button:nth-of-type(6n + 3) {
+    margin-right: 30px;
+}
+
+/*PLANE 3*/
+.plane-type-3 .bigDiv button:nth-of-type(7n+2) {
+    margin-right: 30px;
+}
+
+.plane-type-3 .bigDiv button:nth-of-type(7n+5) {
+    margin-right: 30px;
+}
+
+.plane-type-3 button[class^='id'] {
+    background-color: #A1CFEE;
+    border: 3px #3199DA;
+    display: inline-block;
+    margin: 3px;
+    width: 35px; 
+    height: 35px;
+    font-size: 7.5pt; 
+    border-radius: 10%;
+    z-index: 10;
+ } 
+
+ .plane-type-3 .bigDiv {
+    margin-left: 17%;
+    margin-right: auto;
+    margin-top: 27%;
+    position: absolute;
+    width: 360px;
+    z-index: 2500;
+    position: absolute;
+    top: 180px;
+    left: 0;
+}
+
+/*PLANE 2*/
+.plane-type-2 .bigDiv button:nth-of-type(4n+2) {
+    margin-right: 30px;
+}
+
+.plane-type-2 .bigDiv button:nth-of-type(35n) {
+    margin-bottom: 70px;
+}
+
+.plane-type-2 button[class^='id'] {
+    background-color: #A1CFEE;
+    border: 3px #3199DA;
+    display: inline-block;
+    margin: 3px;
+    width: 35px; 
+    height: 35px;
+    font-size: 7.5pt; 
+    border-radius: 10%;
+    z-index: 10;
+ } 
+
+ .plane-type-2 .bigDiv {
+    margin-left: 27%;
+    margin-right: auto;
+    margin-top: 8%;
+    position: absolute;
+    width: 200px;
+    /* height: 100px; */
+    z-index: 2500;
+    position: absolute;
+    top: 180px;
+    left: 0;
+    /* background-color: #3199DA; */
+}
+
+#planes .secondBigDiv #plane2img{
+    width: 325px;
+}
+
+.plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+    margin-right: 30px;
+}
+
+.plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+    margin-right: 30px;
+}
+
+.plane-type-1 .bigDiv button:nth-of-type(189n) {
+    margin-bottom: 90px;
+}
+
+.plane-type-1 button[class^='id'] {
+    background-color: #A1CFEE;
+    border: 3px #3199DA;
+    display: inline-block;
+    margin: 3px;
+    width: 40px; 
+    height: 40px;
+    font-size: 7.5pt; 
+    border-radius: 10%;
+    z-index: 10;
+ } 
+
+ .plane-type-1 .bigDiv {
+    margin-left: 16.5%;
+    margin-right: auto;
+    margin-top: 24%;
+    position: absolute;
+    width: 550px;
+    z-index: 2500;
+    position: absolute;
+    top: 180px;
+    left: 0;
+}
+
+
+#planes .secondBigDiv #plane1img {
+    width: 74%;
+    margin-left: -80px;
+}
+
+/* MEDIA QUERIES*/
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    #wrapperSeats {
+        height: 100%;
+        grid-template-areas:
+            "planes" 
+            "detailsWrapper";
+        grid-template-columns: 1fr;
+        grid-template-rows: 7fr 1fr;
+    }
+
+    #detailsContent {
+        position: relative;
+    }
+    
+    #legend{
+        display: none;
+        visibility: hidden;
+    }
+
+    /deep/ .jh-navbar , /deep/ .jh-card {
+        width: 700px;
+    }
+
+    /*PLANE 1*/
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 19%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #selectedSeats{
+        position: fixed;
+        z-index: 3000;
+        background: white;
+        bottom: 10px;
+        width: 45%;
+        height: 15%;
+    } 
+
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    #wrapperSeats {
+        height: 100%;
+        grid-template-areas:
+            "planes" 
+            "detailsWrapper";
+        grid-template-columns: 1fr;
+        grid-template-rows: 7fr 1fr;
+
+    }
+
+    #detailsContent {
+        position: relative;
+    }
+    
+    #legend{
+        display: none;
+        visibility: hidden;
+    }
+   
+    /*PLANE 1*/
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 19%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #selectedSeats{
+        position: fixed;
+        z-index: 3000;
+        background: white;
+        bottom: 20px;
+        width: 85%;
+        height: 30%;
+    }
+
+    /*PLANE 2*/
+    /*PLANE 3*/
+    /*PLANE 4*/
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1880px) {
+   
+    /*PLANE 1*/
+    .plane-type-1{
+        position: relative;
+    }
+
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 21.5%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: 0 auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #detailsContent {
+        grid-area: detailsContent ;
+        width: 100%;
+        height: 40%;
+        display: block;
+        position: fixed;
+    }
+
+    /*PLANE 2*/
+    /*PLANE 3*/
+    /*PLANE 4*/
+}
+
+@media screen and (min-width: 1881px) {
+
+    /*PLANE 1*/
+    .plane-type-1{
+        position: relative;
+    }
+
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 21.5%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: 0 auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #detailsContent {
+        grid-area: detailsContent ;
+        width: 100%;
+        height: 40%;
+        display: block;
+        position: fixed;
+    }
+
+    /*PLANE 2*/
+    /*PLANE 3*/
+    /*PLANE 4*/
 }

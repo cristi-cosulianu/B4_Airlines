@@ -37,10 +37,6 @@
                 <constraints nullable="false" />
             </column>
 
-            <column name="credit_card_id" type="bigint">
-                <constraints nullable="false" />
-            </column>
-
             <column name="blind" type="bit">
                 <constraints nullable="true" />
             </column>
