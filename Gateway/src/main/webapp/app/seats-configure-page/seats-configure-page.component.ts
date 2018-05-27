@@ -84,7 +84,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   initialTicketConfiguration() {
     // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
-    this.planeType = 1;             // this is hard coded for now
+    this.planeType = 4;             // this is hard coded for now
     this.id_flight = '123mv';       // this is hard coded for now
     this.route_string = 'București - Iași';
 
@@ -110,8 +110,8 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.data.updateTicket(this.ticket);
     this.nrOfSeatsOfPlane1 = 369;
     this.nrOfSeatsOfPlane2 = 71;
-    this.nrOfSeatsOfPlane3 = 107;
-    this.nrOfSeatsOfPlane4 = 107;
+    this.nrOfSeatsOfPlane3 = 174;
+    this.nrOfSeatsOfPlane4 = 143;
     this.initialTicketConfiguration();
     for (let i = 0; i <= this.nrOfSeats; i++) {
       this.seatsVector.push(i);
