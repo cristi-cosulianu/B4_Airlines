@@ -126,7 +126,7 @@ export class PaymentPageComponent implements OnInit {
     private bankService: BankService,
     private dataService: DataService,
     private flightsService: FlightsService,
-    private userInfoService: Userinfo
+    private userInfoService: UserinfoService
   ) { }
 
   // Recomandat de facut initializarile aici

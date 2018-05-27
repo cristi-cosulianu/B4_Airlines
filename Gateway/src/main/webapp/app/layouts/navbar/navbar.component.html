@@ -91,6 +91,12 @@
                             <span>Bank</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="order-history" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span>Order History</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

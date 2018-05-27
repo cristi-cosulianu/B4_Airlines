@@ -73,21 +73,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_creditCardId">Credit Card Id</label>
-            <input type="number" class="form-control" name="creditCardId" id="field_creditCardId"
-                [(ngModel)]="orderHistory.creditCardId" required/>
-            <div [hidden]="!(editForm.controls.creditCardId?.dirty && editForm.controls.creditCardId?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.creditCardId?.errors?.required">
-                   This field is required.
-                </small>
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.creditCardId?.errors?.number">
-                    This field should be a number.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="form-control-label" for="field_blind">Blind</label>
             <input type="checkbox" class="form-control" name="blind" id="field_blind"
                 [(ngModel)]="orderHistory.blind" />
