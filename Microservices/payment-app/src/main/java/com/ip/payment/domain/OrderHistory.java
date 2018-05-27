@@ -38,10 +38,6 @@ public class OrderHistory implements Serializable {
     @Column(name = "ticket_price", nullable = false)
     private Float ticketPrice;
 
-    @NotNull
-    @Column(name = "credit_card_id", nullable = false)
-    private Long creditCardId;
-
     @Column(name = "blind")
     private Boolean blind;
 
@@ -120,19 +116,6 @@ public class OrderHistory implements Serializable {
 
     public void setTicketPrice(Float ticketPrice) {
         this.ticketPrice = ticketPrice;
-    }
-
-    public Long getCreditCardId() {
-        return creditCardId;
-    }
-
-    public OrderHistory creditCardId(Long creditCardId) {
-        this.creditCardId = creditCardId;
-        return this;
-    }
-
-    public void setCreditCardId(Long creditCardId) {
-        this.creditCardId = creditCardId;
     }
 
     public Boolean isBlind() {
@@ -242,7 +225,6 @@ public class OrderHistory implements Serializable {
             ", ticketFlightID=" + getTicketFlightID() +
             ", ticketPlaneType=" + getTicketPlaneType() +
             ", ticketPrice=" + getTicketPrice() +
-            ", creditCardId=" + getCreditCardId() +
             ", blind='" + isBlind() + "'" +
             ", deaf='" + isDeaf() + "'" +
             ", cognitive='" + isCognitive() + "'" +

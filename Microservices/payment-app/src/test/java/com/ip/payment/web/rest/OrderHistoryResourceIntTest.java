@@ -53,9 +53,6 @@ public class OrderHistoryResourceIntTest {
     private static final Float DEFAULT_TICKET_PRICE = 0F;
     private static final Float UPDATED_TICKET_PRICE = 1F;
 
-    private static final Long DEFAULT_CREDIT_CARD_ID = 1L;
-    private static final Long UPDATED_CREDIT_CARD_ID = 2L;
-
     private static final Boolean DEFAULT_BLIND = false;
     private static final Boolean UPDATED_BLIND = true;
 
@@ -119,7 +116,6 @@ public class OrderHistoryResourceIntTest {
             .ticketFlightID(DEFAULT_TICKET_FLIGHT_ID)
             .ticketPlaneType(DEFAULT_TICKET_PLANE_TYPE)
             .ticketPrice(DEFAULT_TICKET_PRICE)
-            .creditCardId(DEFAULT_CREDIT_CARD_ID)
             .blind(DEFAULT_BLIND)
             .deaf(DEFAULT_DEAF)
             .cognitive(DEFAULT_COGNITIVE)
@@ -153,7 +149,6 @@ public class OrderHistoryResourceIntTest {
         assertThat(testOrderHistory.getTicketFlightID()).isEqualTo(DEFAULT_TICKET_FLIGHT_ID);
         assertThat(testOrderHistory.getTicketPlaneType()).isEqualTo(DEFAULT_TICKET_PLANE_TYPE);
         assertThat(testOrderHistory.getTicketPrice()).isEqualTo(DEFAULT_TICKET_PRICE);
-        assertThat(testOrderHistory.getCreditCardId()).isEqualTo(DEFAULT_CREDIT_CARD_ID);
         assertThat(testOrderHistory.isBlind()).isEqualTo(DEFAULT_BLIND);
         assertThat(testOrderHistory.isDeaf()).isEqualTo(DEFAULT_DEAF);
         assertThat(testOrderHistory.isCognitive()).isEqualTo(DEFAULT_COGNITIVE);
@@ -259,25 +254,6 @@ public class OrderHistoryResourceIntTest {
 
     @Test
     @Transactional
-    public void checkCreditCardIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = orderHistoryRepository.findAll().size();
-        // set the field null
-        orderHistory.setCreditCardId(null);
-
-        // Create the OrderHistory, which fails.
-        OrderHistoryDTO orderHistoryDTO = orderHistoryMapper.toDto(orderHistory);
-
-        restOrderHistoryMockMvc.perform(post("/api/order-histories")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(orderHistoryDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<OrderHistory> orderHistoryList = orderHistoryRepository.findAll();
-        assertThat(orderHistoryList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllOrderHistories() throws Exception {
         // Initialize the database
         orderHistoryRepository.saveAndFlush(orderHistory);
@@ -291,7 +267,6 @@ public class OrderHistoryResourceIntTest {
             .andExpect(jsonPath("$.[*].ticketFlightID").value(hasItem(DEFAULT_TICKET_FLIGHT_ID)))
             .andExpect(jsonPath("$.[*].ticketPlaneType").value(hasItem(DEFAULT_TICKET_PLANE_TYPE)))
             .andExpect(jsonPath("$.[*].ticketPrice").value(hasItem(DEFAULT_TICKET_PRICE.doubleValue())))
-            .andExpect(jsonPath("$.[*].creditCardId").value(hasItem(DEFAULT_CREDIT_CARD_ID.intValue())))
             .andExpect(jsonPath("$.[*].blind").value(hasItem(DEFAULT_BLIND.booleanValue())))
             .andExpect(jsonPath("$.[*].deaf").value(hasItem(DEFAULT_DEAF.booleanValue())))
             .andExpect(jsonPath("$.[*].cognitive").value(hasItem(DEFAULT_COGNITIVE.booleanValue())))
@@ -314,7 +289,6 @@ public class OrderHistoryResourceIntTest {
             .andExpect(jsonPath("$.ticketFlightID").value(DEFAULT_TICKET_FLIGHT_ID))
             .andExpect(jsonPath("$.ticketPlaneType").value(DEFAULT_TICKET_PLANE_TYPE))
             .andExpect(jsonPath("$.ticketPrice").value(DEFAULT_TICKET_PRICE.doubleValue()))
-            .andExpect(jsonPath("$.creditCardId").value(DEFAULT_CREDIT_CARD_ID.intValue()))
             .andExpect(jsonPath("$.blind").value(DEFAULT_BLIND.booleanValue()))
             .andExpect(jsonPath("$.deaf").value(DEFAULT_DEAF.booleanValue()))
             .andExpect(jsonPath("$.cognitive").value(DEFAULT_COGNITIVE.booleanValue()))
@@ -346,7 +320,6 @@ public class OrderHistoryResourceIntTest {
             .ticketFlightID(UPDATED_TICKET_FLIGHT_ID)
             .ticketPlaneType(UPDATED_TICKET_PLANE_TYPE)
             .ticketPrice(UPDATED_TICKET_PRICE)
-            .creditCardId(UPDATED_CREDIT_CARD_ID)
             .blind(UPDATED_BLIND)
             .deaf(UPDATED_DEAF)
             .cognitive(UPDATED_COGNITIVE)
@@ -367,7 +340,6 @@ public class OrderHistoryResourceIntTest {
         assertThat(testOrderHistory.getTicketFlightID()).isEqualTo(UPDATED_TICKET_FLIGHT_ID);
         assertThat(testOrderHistory.getTicketPlaneType()).isEqualTo(UPDATED_TICKET_PLANE_TYPE);
         assertThat(testOrderHistory.getTicketPrice()).isEqualTo(UPDATED_TICKET_PRICE);
-        assertThat(testOrderHistory.getCreditCardId()).isEqualTo(UPDATED_CREDIT_CARD_ID);
         assertThat(testOrderHistory.isBlind()).isEqualTo(UPDATED_BLIND);
         assertThat(testOrderHistory.isDeaf()).isEqualTo(UPDATED_DEAF);
         assertThat(testOrderHistory.isCognitive()).isEqualTo(UPDATED_COGNITIVE);

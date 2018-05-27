@@ -78,16 +78,85 @@
     border: 1px solid #A1CFEE;
     padding: 7px;
     border-radius: 5px;
-    height: 20%;
+    height: 120px;
     margin-bottom: 15px;
 }
 
 #selectedSeats {
+    position: relative;
     display: block;
-    height: 30%;
+    height: 300px;
     border: 1px solid #A1CFEE;
     padding: 7px;
     border-radius: 5px;
+}
+
+
+.emptyLine {
+    display: block;
+    position: relative;
+    height: 30px;
+    width: 100%;
+}
+
+#nextPageButton {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    border: none;
+    background-color: #A1CFEE;
+    border-radius: 5px;
+    height: 40px;
+    box-shadow: 0px 2px 5px 0px rgb(63, 63, 63);
+}
+
+#nextPageButton :hover {
+    cursor: pointer;
+}
+
+#seatListScrollableWrapper {
+    position: relative;
+    height: 70%;
+    overflow: auto;
+    border-radius: 5px;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+
+.seatCards {
+    margin-top: 3%;
+    padding: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: #A1CFEE;
+    border-radius: 2px;
+    display: inline-block;
+    box-shadow: 0px 2px 5px 0px rgb(63, 63, 63);
+    cursor: pointer;
+}
+
+#seatListScrollableWrapper div[id^='seatCard']:hover {
+    background-color: #e20b0b;
 }
 
 /*PLANE 4*/
@@ -245,6 +314,72 @@
 }
 
 /* MEDIA QUERIES*/
+
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    #wrapperSeats {
+        height: 100%;
+        grid-template-areas:
+            "planes" 
+            "detailsWrapper";
+        grid-template-columns: 1fr;
+        grid-template-rows: 7fr 1fr;
+    }
+
+    #detailsContent {
+        position: relative;
+    }
+    
+    #legend{
+        display: none;
+        visibility: hidden;
+    }
+
+    /deep/ .jh-navbar , /deep/ .jh-card {
+        width: 700px;
+    }
+
+    /*PLANE 1*/
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 19%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #selectedSeats{
+        position: fixed;
+        z-index: 3000;
+        background: white;
+        bottom: 10px;
+        width: 45%;
+        height: 15%;
+    } 
+
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     #wrapperSeats {

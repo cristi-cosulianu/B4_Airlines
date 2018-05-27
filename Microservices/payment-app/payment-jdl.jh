@@ -19,7 +19,6 @@ entity OrderHistory {
     ticketFlightID Integer required,
     ticketPlaneType Integer required,
     ticketPrice Float required min(0),
-    creditCardId Long required,
     blind Boolean,
     deaf Boolean,
     cognitive Boolean,

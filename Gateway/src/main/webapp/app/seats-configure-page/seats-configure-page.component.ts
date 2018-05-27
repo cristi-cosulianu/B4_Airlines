@@ -206,3 +206,4 @@ export class SeatsConfigurePageComponent implements OnInit {
     }
   }
 }
+

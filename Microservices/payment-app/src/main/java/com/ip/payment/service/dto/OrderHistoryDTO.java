@@ -27,9 +27,6 @@ public class OrderHistoryDTO implements Serializable {
     @DecimalMin(value = "0")
     private Float ticketPrice;
 
-    @NotNull
-    private Long creditCardId;
-
     private Boolean blind;
 
     private Boolean deaf;
@@ -80,14 +77,6 @@ public class OrderHistoryDTO implements Serializable {
 
     public void setTicketPrice(Float ticketPrice) {
         this.ticketPrice = ticketPrice;
-    }
-
-    public Long getCreditCardId() {
-        return creditCardId;
-    }
-
-    public void setCreditCardId(Long creditCardId) {
-        this.creditCardId = creditCardId;
     }
 
     public Boolean isBlind() {
@@ -167,7 +156,6 @@ public class OrderHistoryDTO implements Serializable {
             ", ticketFlightID=" + getTicketFlightID() +
             ", ticketPlaneType=" + getTicketPlaneType() +
             ", ticketPrice=" + getTicketPrice() +
-            ", creditCardId=" + getCreditCardId() +
             ", blind='" + isBlind() + "'" +
             ", deaf='" + isDeaf() + "'" +
             ", cognitive='" + isCognitive() + "'" +

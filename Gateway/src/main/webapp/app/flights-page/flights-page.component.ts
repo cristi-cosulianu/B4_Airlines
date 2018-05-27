@@ -5,21 +5,31 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Flights, FlightsService } from '../entities/flights';
 import { Review, ReviewService } from '../entities/review';
 import { RatingService } from '../entities/rating';
+import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'jhi-flights-page',
   templateUrl: './flights-page.component.html',
   styleUrls: [
     './flights-page.component.css'
-  ]
+  ],
+  providers: [NgbRatingConfig]
 })
 export class FlightsPageComponent implements OnInit {
+
+  currentRate = 3;
+  hovered = 0;
+
   public ticket = new TicketModel();
   constructor(private data: DataService,
     private flightsService: FlightsService,
     private reviewsService: ReviewService,
-    private ratingService: RatingService
-  ) {}
+    private ratingService: RatingService,
+    config: NgbRatingConfig
+  ) {
+    config.max = 5;
+    config.readonly = false;
+  }
   ngOnInit() {
     console.log(this.ticket);
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
@@ -28,6 +38,11 @@ export class FlightsPageComponent implements OnInit {
       this.removeAllRows();
       this.createRowsUsingData(data.body, 'some');
     });
+  }
+
+  calculateRate() {
+    this.currentRate = ((this.currentRate + this.hovered)/2);
+    console.log(this.currentRate);
   }
 
   sendSubmision() {

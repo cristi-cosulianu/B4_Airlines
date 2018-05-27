@@ -57,11 +57,12 @@
         <div id="legend">Aici zace Legenda</div>
         <div id="selectedSeats">
             <p>Seats selected:</p>
-            <span  *ngFor="let number of chosenSeats">
-                {{number}}  
-            </span>
-            <br>
-            <button (click)="saveSeats()" routerLink="/payment-page">
+            <div id="seatListScrollableWrapper">
+                <div  *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards">
+                    {{number}}  
+                </div>
+            </div>
+            <button (click)="saveSeats()" routerLink="/payment-page" id="nextPageButton">
                 Next page
             </button>
         </div>
