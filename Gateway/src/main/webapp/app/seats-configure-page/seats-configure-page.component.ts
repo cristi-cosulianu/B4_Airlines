@@ -18,6 +18,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   public ticketForPost = new TicketModel();
   private seat: Seats;
   private id_flight: string;
+  private route_string: string;
   private planeType: number;
   private nrOfSeats: number;
   private nrOfSeatsOfPlane1: number;
@@ -85,6 +86,8 @@ export class SeatsConfigurePageComponent implements OnInit {
     // this.id_flight = this.ticket.ticket_flightID.toString();
     this.planeType = 1;             // this is hard coded for now
     this.id_flight = '123mv';       // this is hard coded for now
+    this.route_string = 'București - Iași';
+
 
     if (this.planeType == 1)
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
