@@ -6,6 +6,7 @@ import { Flights, FlightsService } from '../entities/flights';
 import { Review, ReviewService } from '../entities/review';
 import { RatingService } from '../entities/rating';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -22,6 +23,7 @@ export class FlightsPageComponent implements OnInit {
 
   public ticket = new TicketModel();
   constructor(private data: DataService,
+    private router: Router,
     private flightsService: FlightsService,
     private reviewsService: ReviewService,
     private ratingService: RatingService,
@@ -41,7 +43,7 @@ export class FlightsPageComponent implements OnInit {
   }
 
   calculateRate() {
-    this.currentRate = ((this.currentRate + this.hovered)/2);
+    this.currentRate = ((this.currentRate + this.hovered) / 2);
     console.log(this.currentRate);
   }
 
@@ -141,8 +143,8 @@ export class FlightsPageComponent implements OnInit {
         // Create select flight button.
         const selectButton = this.createElement('button');
         selectButton.setAttribute('class', 'btn btn-primary btn-sm');
-        selectButton.setAttribute('type', 'button');
-        selectButton.setAttribute('routerLink', '/seats-configure-page');
+        selectButton.setAttribute('type', 'submit');
+        selectButton.addEventListener('click', (event) => this.populateTicket(obj.id, obj.departure, obj.arrival, obj.planeType));
         selectButton.innerText = 'Select';
         select.appendChild(selectButton);
         // Add all columns to new created row.
@@ -209,16 +211,24 @@ export class FlightsPageComponent implements OnInit {
   }
 
   recreateNode(el, withChildren) {
-      if (withChildren) {
-        el.parentNode.replaceChild(el.cloneNode(true), el);
-      } else {
-        const newEl = el.cloneNode(false);
-        while (el.hasChildNodes()) {
-          newEl.appendChild(el.firstChild);
-        }
-        el.parentNode.replaceChild(newEl, el);
+    if (withChildren) {
+      el.parentNode.replaceChild(el.cloneNode(true), el);
+    } else {
+      const newEl = el.cloneNode(false);
+      while (el.hasChildNodes()) {
+        newEl.appendChild(el.firstChild);
       }
+      el.parentNode.replaceChild(newEl, el);
     }
+  }
+
+  populateTicket(flightId, departure, destination, planeType) {
+    this.ticket.ticket_flightID = flightId;
+    this.ticket.ticket_planeType = planeType;
+    this.ticket.ticket_departure = departure;
+    this.ticket.ticket_destination = destination;
+    this.router.navigate([`./seats-configure-page`]);
+  }
 
   createElement(elementType) {
     // Create new element.
