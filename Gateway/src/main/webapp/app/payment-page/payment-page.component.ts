@@ -5,13 +5,16 @@ import { CardService } from '../entities/card/card.service';
 import { Card } from '../entities/card/card.model';
 import { HttpRequest, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
-import { BankService, Bank } from '../entities/bank';
+import { BankService } from '../entities/bank';
 import { TicketModel } from '../models/ticket-model';
 import { DataService } from '../data.service';
 import { FlightsService } from '../entities/flights/flights.service';
 import { Flights } from '../entities/flights';
 import { UserinfoService } from '../entities/userinfo/userinfo.service';
 import { Userinfo } from '../entities/userinfo/userinfo.model';
+import { Bank } from '../entities/bank/bank.model';
+import { resolveSoa } from 'dns';
+import { OrderHistory, OrderHistoryService } from '../entities/order-history';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -126,7 +129,8 @@ export class PaymentPageComponent implements OnInit {
     private bankService: BankService,
     private dataService: DataService,
     private flightsService: FlightsService,
-    private userInfoService: UserinfoService
+    private userInfoService: UserinfoService,
+    private orderHistoryService: OrderHistoryService
   ) { }
 
   // Recomandat de facut initializarile aici
@@ -146,27 +150,7 @@ export class PaymentPageComponent implements OnInit {
 
   submit() {
     this.parseExpirationDate();
-    const amount = 100;
-    // var cardInfo: Card = new Card(
-    //   undefined,
-    //   this.passengerIDInfos.card.number,
-    //   this.passengerIDInfos.card.expirationMonth,
-    //   this.passengerIDInfos.card.expirationYear,
-    //   this.passengerIDInfos.card.name,
-    //   this.passengerIDInfos.card.cvv,
-    //   this.passengerIDInfos.card.cardType
-    // );
-    // var bankInfo: Bank = new Bank(
-    //   undefined,
-    //   this.passengerIDInfos.card.number,
-    //   this.passengerIDInfos.card.expirationYear,
-    //   this.passengerIDInfos.card.expirationMonth,
-    //   this.passengerIDInfos.card.name,
-    //   this.passengerIDInfos.card.ccv,
-    //   "EUR",
-    //   amount,
-    //   false
-    // );
+    const amount = 100; // virtual amount
     this.bankService.getBankInfo(
       this.passengerIDInfos.card.number,
       this.passengerIDInfos.card.expirationYear,
@@ -178,7 +162,11 @@ export class PaymentPageComponent implements OnInit {
         console.log('Funtioneaza! ' + res.body.id );
       },
       (res: HttpErrorResponse) => {
-        console.log('Error!');
+        if ( res.status === 404 ) {
+          console.log('Card not found');
+        } else {
+          console.log('Other Error!');
+        }
         this.jhiAlertService.error(res.message, null, null);
       }
     );
@@ -189,6 +177,65 @@ export class PaymentPageComponent implements OnInit {
     //   },
     //   (res: HttpErrorResponse) => this.jhiAlertService.error(res.message, null, null)
     // );
+  }
+
+  updateBank( bank: Bank ): boolean {
+    if ( bank.amount >= this.totalPrice ) {
+      bank.amount -= this.totalPrice;
+      this.bankService.update(bank).subscribe(
+        (res: HttpResponse<Bank>) => {
+          console.log('Updated succesfully! ' + res.body.id + res.body.amount);
+          const cardInfo: Card = new Card(
+            undefined,
+            this.passengerIDInfos.card.number,
+            this.passengerIDInfos.card.expirationMonth,
+            this.passengerIDInfos.card.expirationYear,
+            this.passengerIDInfos.card.name,
+            this.passengerIDInfos.card.cvv,
+            this.passengerIDInfos.card.cardType
+          );
+        },
+        (res: HttpErrorResponse) => {
+          console.log('Bank Error!');
+          this.jhiAlertService.error(res.message, null, null);
+          return false;
+        }
+      );
+    } else {
+      console.log('Fonduri insuficinte! ');
+      return false;
+    }
+    return false;
+  }
+
+  updateCard(card: Card): boolean {
+    this.cardService.update(card).subscribe(
+      (res: HttpResponse<Card>) => {
+        console.log('Card updated succesfully! ' + res.body.id );
+        return true;
+      },
+      (res: HttpErrorResponse) => {
+          console.log('Card Error!');
+          this.jhiAlertService.error(res.message, null, null);
+          return false;
+      }
+    );
+    return false;
+  }
+
+  updateOrderHistory(order: OrderHistory): boolean {
+    this.orderHistoryService.update(order).subscribe(
+      (res: HttpResponse<OrderHistory>) => {
+        console.log('Order updated succesfully! ' + res.body.id );
+        return true;
+      },
+      (res: HttpErrorResponse) => {
+        console.log('OrderHistory Error!');
+        this.jhiAlertService.error(res.message, null, null);
+        return false;
+      }
+    );
+    return false;
   }
 
   toggleInfoForm(selectedValue): void {
