@@ -395,6 +395,82 @@ figure figcaption {
         width: 45%;
         height: 15%;
    } 
+    
+    /*PLANE 2*/
+    .plane-type-2 .bigDiv {
+        position: absolute;
+        top: 19%;
+        left: 20px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-2 button[class^='id'] {
+        width: 87px;
+        height: 87px;
+        font-size: x-large;
+    }
+
+    .plane-type-2 .bigDiv button:nth-of-type(4n+2) {
+        margin-right: 60px;
+    }
+    
+    .plane-type-2 .bigDiv button:nth-of-type(35n) {
+        margin-bottom: 80px;
+    }
+
+    #planes .secondBigDiv #plane2img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    
+    /*PLANE 3*/
+    .plane-type-3 .bigDiv {
+        position: absolute;
+        top: 18.5%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-3 button[class^='id'] {
+        width: 50px;
+        height: 50px;
+        font-size: large;
+    }
+
+    #planes .secondBigDiv #plane3img {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    /*PLANE 4*/
+    .plane-type-4 .bigDiv {
+        position: absolute;
+        top: 19%;
+        left: 35px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-4 button[class^='id'] {
+        width: 53px;
+        height: 53px;
+        font-size: large;
+    }
+
+    .plane-type-4 .bigDiv button:nth-of-type(6n + 3) {
+        margin-right: 70px;
+    }
+
+    #planes .secondBigDiv #plane4img {
+        width: 700px;
+        margin: 0 auto;
+    }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
