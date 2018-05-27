@@ -240,6 +240,72 @@
 
 /* MEDIA QUERIES*/
 
+@media screen and (min-width: 320px) and (max-width: 767px) {
+    #wrapperSeats {
+        height: 100%;
+        grid-template-areas:
+            "planes" 
+            "detailsWrapper";
+        grid-template-columns: 1fr;
+        grid-template-rows: 7fr 1fr;
+    }
+
+    #detailsContent {
+        position: relative;
+    }
+    
+    #legend{
+        display: none;
+        visibility: hidden;
+    }
+
+    /deep/ .jh-navbar , /deep/ .jh-card {
+        width: 700px;
+    }
+
+    /*PLANE 1*/
+    .plane-type-1 .bigDiv {
+        position: absolute;
+        top: 19%;
+        left: 15px;
+        right: 0;
+        width: 450px;
+        height: 30%;
+        margin: auto;
+    }
+    .plane-type-1 button[class^='id'] {
+        width: 32px;
+        height: 32px;
+    }
+
+    .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
+        margin-right: 36px;
+    }
+    
+    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
+        margin-right: 36px;
+    }
+
+    #planes .secondBigDiv #plane1img {
+        width: 700px;
+        margin: 0 auto;
+    }
+
+    #planes .secondBigDiv {
+        width: 700px;
+        margin: 0 auto;
+    }
+    
+    #selectedSeats{
+        position: fixed;
+        z-index: 3000;
+        background: white;
+        bottom: 10px;
+        width: 45%;
+        height: 15%;
+    } 
+}
+
 @media screen and (min-width: 768px) and (max-width: 1023px) {
     #wrapperSeats {
         height: 100%;
@@ -359,7 +425,7 @@
     /*PLANE 4*/
 }
 
-@media screen and (min-width: 1881) {
+@media screen and (min-width: 1881px) {
 
     /*PLANE 1*/
     .plane-type-1{
