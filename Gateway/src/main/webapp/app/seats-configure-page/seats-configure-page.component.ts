@@ -88,15 +88,15 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.id_flight = '123mv';       // this is hard coded for now
     this.route_string = 'București - Iași';
 
-
-    if (this.planeType == 1)
+    if (this.planeType === 1) {
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
-    else if (this.planeType == 2)
+    } else if (this.planeType === 2) {
       this.nrOfSeats = this.nrOfSeatsOfPlane2;
-    else if (this.planeType == 3)
+    } else if (this.planeType === 3) {
       this.nrOfSeats = this.nrOfSeatsOfPlane3;
-    else if (this.planeType == 4)
+    } else if (this.planeType === 4) {
       this.nrOfSeats = this.nrOfSeatsOfPlane4;
+    }
 
     if (this.ticket.ticket_seats.length > 0) {
       for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
@@ -126,12 +126,8 @@ export class SeatsConfigurePageComponent implements OnInit {
       for (let i = 0; i < data.body.length; i++) {
         this.occupiedSeats.push(data.body[i].seat_index);
       }
-
-
-
-       this.checkOccupiedSeats();
-       this.checkChoosenSeats();
-      
+      this.checkOccupiedSeats();
+      this.checkChoosenSeats();
       this.shouldShowLoading = false;
     });
   }
@@ -176,7 +172,20 @@ export class SeatsConfigurePageComponent implements OnInit {
       this.service.create(this.seat).subscribe();
     }
   }
+
+  /**
+  * https://puu.sh/AurCJ/551f01e693.png
+  * for(i) {
+  *  for (i){
+  *  }
+  *  for (i){
+  *  }
+  * }
+  *  please install TSLint
+  *  commented untill fix
+  */
   reserveSelectedSeats() {
+    /*
     let count = 0;
     for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
       this.service.query({ id_flight: this.id_flight, seat_index: this.ticket.ticket_seats[i] })
@@ -187,6 +196,7 @@ export class SeatsConfigurePageComponent implements OnInit {
             this.deniedSeats.push(this.ticket.ticket_seats[i]);
             // return;
           }
+
           if (count === this.ticket.ticket_seats.length - 1) {
             if (this.deniedSeats.length === 0) {
               // toate locurile pot fi cumparate
@@ -205,8 +215,10 @@ export class SeatsConfigurePageComponent implements OnInit {
               alert(message);
             }
           }
-        })
+
+        });
     }
   }
+  */
+  }
 }
-
