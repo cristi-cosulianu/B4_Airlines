@@ -190,6 +190,12 @@ export class FlightsPageComponent implements OnInit {
       reviewInput.setAttribute('type', 'text');
       reviewInput.setAttribute('class', 'form-control reviewInput');
       reviewColumn.appendChild(reviewInput);
+      const submitReview = this.createElement('button');
+      submitReview.setAttribute('class', 'btn btn-primary btn-sm');
+      submitReview.setAttribute('type', 'submit');
+      submitReview.addEventListener('click', (event) => this.submitReview(flightId, rowNum));
+      submitReview.innerText = 'Submit';
+      reviewColumn.appendChild(submitReview);
       reviewRow.appendChild(reviewColumn);
       this.recreateNode(document.getElementById('reviewButton' + rowNum), false);
       const reviewButton = document.getElementById('reviewButton' + rowNum);
@@ -208,6 +214,13 @@ export class FlightsPageComponent implements OnInit {
     const reviewButton = document.getElementById('reviewButton' + rowNum);
     reviewButton.innerText = 'Show';
     reviewButton.addEventListener('click', (event) => this.displayFlightReviews(flightId, rowNum));
+  }
+
+  submitReview(flightIdParameter, rowNum) {
+    const review: Review = {flightId: flightIdParameter, description: 'inputText', userId: '888888545445756544'};
+    console.log('Submit!' + review);
+    this.reviewsService.create(review);
+    this.removeFlightReviews(flightIdParameter, rowNum);
   }
 
   recreateNode(el, withChildren) {
