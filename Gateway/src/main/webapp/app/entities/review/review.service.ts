@@ -37,7 +37,7 @@ export class ReviewService {
         return this.http.get<Review[]>(this.resourceUrl, { params: options, observe: 'response' })
             .map((res: HttpResponse<Review[]>) => this.convertArrayResponse(res));
     }
-    
+
     reviewsForFlight(flightId: number): Observable<HttpResponse<Review[]>> {
         const flights = 'flights';
         return this.http.get<Review[]>(`${this.resourceUrl}/${flights}/${flightId}`, { observe: 'response' })

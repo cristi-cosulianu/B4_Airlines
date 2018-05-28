@@ -190,6 +190,7 @@ export class FlightsPageComponent implements OnInit {
         tableBody.appendChild(reviewRow);
       }
       const reviewInput = this.createElement('textarea');
+      reviewInput.setAttribute('id', 'textarea' + rowNum);
       reviewInput.setAttribute('type', 'text');
       reviewInput.setAttribute('class', 'form-control reviewInput');
       reviewColumn.appendChild(reviewInput);
@@ -220,10 +221,18 @@ export class FlightsPageComponent implements OnInit {
   }
 
   submitReview(flightIdParameter, rowNum) {
-    // const review: Review = {flightId: flightIdParameter, description: 'inputText', userId: this.userInfo.id};
-    // console.log('Submit!' + review);
-    // this.reviewsService.create(review);
-    // this.removeFlightReviews(flightIdParameter, rowNum);
+    this.userInfo.query().subscribe((data) => {
+      const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
+      const textAreaReview = textArea.value;
+      if (textAreaReview.length > 20) {
+        const users = data.body;
+        const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: users[0].id};
+        this.reviewsService.create(review).subscribe((data1) => {
+          this.removeFlightReviews(flightIdParameter, rowNum);
+        });
+      }
+    });
+
   }
 
   recreateNode(el, withChildren) {
