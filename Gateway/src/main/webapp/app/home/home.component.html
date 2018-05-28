@@ -1,7 +1,7 @@
 <div class="slider-wrapper">
     <nav class="nav">
         <p [ngSwitch]="isAuthenticated()"> Welcome to B4 Airlines! Explore your travel opportunities
-            <a class="booking-link" routerLink="/flights-page" *ngSwitchCase="true"> here. </a>
+            <a class="booking-link" (click)="engage()" *ngSwitchCase="true"> here. </a>
             <a class="booking-link" (click)="login()" *ngSwitchCase="false"> here. </a>
         </p>
     </nav>

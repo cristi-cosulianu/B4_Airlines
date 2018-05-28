@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Principal, AccountService } from '../../shared';
+import { Principal, AccountService, User } from '../../shared';
 import { Userinfo, UserinfoService } from '../../entities/userinfo';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { JhiEventManager } from 'ng-jhipster';
 import { Review, ReviewService } from '../../entities/review';
+import { DataService } from '../../data.service';
 
 @Component({
     selector: 'jhi-settings',
@@ -13,26 +14,29 @@ import { Review, ReviewService } from '../../entities/review';
     styleUrls: ['./settings.css']
 })
 export class SettingsComponent implements OnInit {
+
     error: string;
     success: string;
-    settingsAccount: any;
-    myAccount: Account;
     languages: any[];
     settingsOption: string;
-    userinfo: Userinfo;
     reviews: Review[];
+    settingsAccount: any;
+    userinfo: Userinfo;
+    myAccount: Account;
 
     constructor(
+        private dataService: DataService,
         private account: AccountService,
+        private userService: UserinfoService,
         private principal: Principal,
         private eventManager: JhiEventManager,
-        private userService: UserinfoService,
         private reviewService: ReviewService
     ) {
     }
 
     ngOnInit() {
-        this.userinfo = new Userinfo();
+        this.dataService.user.subscribe((_data) => this.userinfo = _data);
+        this.dataService.updateUser(this.userinfo);
 
         this.principal.identity().then((account) => {
             this.settingsAccount = this.copyAccount(account);
@@ -67,7 +71,7 @@ export class SettingsComponent implements OnInit {
                     month: this.userinfo.expiringDate.getMonth() + 1,
                     day: this.userinfo.expiringDate.getDate()
                 };
-
+                this.dataService.updateUser(this.userinfo);
                 break;
             }
         }
@@ -84,6 +88,7 @@ export class SettingsComponent implements OnInit {
             this.success = null;
             this.error = 'ERROR';
         });
+        this.dataService.updateUser(this.userinfo);
     }
 
     copyAccount(account) {
@@ -106,7 +111,7 @@ export class SettingsComponent implements OnInit {
         this.settingsOption = option;
         if (option === 'Reviews') {
             this.reviewService.query(`userid=aa1111111111111111`).subscribe(
-                (res: HttpResponse<Review[]>) => { this.reviews = res.body ; });
+                (res: HttpResponse<Review[]>) => { this.reviews = res.body; });
         }
     }
 
@@ -115,7 +120,7 @@ export class SettingsComponent implements OnInit {
         let date = this.userinfo.dateOfBirth.day;
         if (parseInt(date, 10) < 10) {
             res = res + '0' + date;
-        }else {
+        } else {
             res = res + date;
         }
         date = this.userinfo.dateOfBirth.month;
@@ -139,6 +144,7 @@ export class SettingsComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.userService.create(this.userinfo));
         }
+        this.dataService.updateUser(this.userinfo);
     }
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<Userinfo>>) {

@@ -39,7 +39,7 @@ export function init() {
     });
 
     function setActive(element) {
-        console.log(element);
+        // console.log(element);
         const clickedIndex = element.index();
         slideIndex = clickedIndex;
 
@@ -60,7 +60,7 @@ export function init() {
         const slidesNav = document.getElementsByClassName('slider');
         let i;
         for (i = 0; i < slide.length; i++) {
-            console.log(i + ' ' + slides[i].className);
+            // console.log(i + ' ' + slides[i].className);
             slides[i].className = 'slide';
             slidesNav[i + 1].className = 'slider';
         }

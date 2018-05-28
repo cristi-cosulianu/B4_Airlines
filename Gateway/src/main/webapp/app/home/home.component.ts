@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { Account, LoginModalService, Principal } from '../shared';
+import { Account, LoginModalService, Principal, AccountService } from '../shared';
 
 import * as slider from './slider/slider';
+import { DataService } from '../data.service';
+import { Userinfo, UserinfoService } from '../entities/userinfo';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-home',
@@ -14,13 +17,15 @@ import * as slider from './slider/slider';
         'slider/slider.css',
         'welcome/welcome.css'
     ]
-
 })
 export class HomeComponent implements OnInit {
-    account: Account;
+
+    myAccount: Account;
     modalRef: NgbModalRef;
+    userinfo: Userinfo;
 
     constructor(
+        private dataService: DataService,
         private principal: Principal,
         private loginModalService: LoginModalService,
         private eventManager: JhiEventManager
@@ -28,10 +33,12 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.dataService.user.subscribe((_data) => this.userinfo = _data);
+
         (slider as any).init();
 
         this.principal.identity().then((account) => {
-            this.account = account;
+            this.myAccount = account;
         });
         this.registerAuthenticationSuccess();
     }
@@ -39,9 +46,15 @@ export class HomeComponent implements OnInit {
     registerAuthenticationSuccess() {
         this.eventManager.subscribe('authenticationSuccess', (message) => {
             this.principal.identity().then((account) => {
-                this.account = account;
+                this.myAccount = account;
             });
         });
+    }
+
+    engage() {
+        if (this.userinfo.cnp === undefined) {
+            this.dataService.checkStatus(this.userinfo);
+        }
     }
 
     isAuthenticated() {

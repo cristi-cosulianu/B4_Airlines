@@ -6,6 +6,7 @@ import { ProfileService } from '../profiles/profile.service';
 import { Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION } from '../../app.constants';
+import { DataService } from '../../data.service';
 
 @Component({
     selector: 'jhi-navbar',
@@ -23,6 +24,7 @@ export class NavbarComponent implements OnInit {
     version: string;
 
     constructor(
+        private dataService: DataService,
         private loginService: LoginService,
         private principal: Principal,
         private loginModalService: LoginModalService,
@@ -54,6 +56,7 @@ export class NavbarComponent implements OnInit {
 
     logout() {
         this.collapseNavbar();
+        this.dataService.resetUser();
         this.loginService.logout();
         this.router.navigate(['']);
     }

@@ -22,6 +22,7 @@
     font-weight: 500;
     font-size: 2rem;
 }
+
 .slider {
     background-color: white;
     position: relative;
@@ -36,7 +37,6 @@
     top: 0;
     height: 100%;
     transition-duration: .9s;
-    background-visibility: hidden;
     transition-delay: 0.1s;
     transform: translateZ(0);
 }
@@ -45,7 +45,6 @@
     position: absolute;
     top: 0;
     height: 100%;
-    background-visibility: hidden;
     transition-timing-function: cubic-bezier(0.25, 0.5, 0.25, 1.25);
     transform: translateZ(1) scale(1, 1);
     transition-duration: 0.5s;
@@ -61,17 +60,17 @@
 }
 
 .slide:nth-child(1n) {
-    background: linear-gradient(rgba(20, 20, 20, .4),  rgba(20, 20, 20, .2)), url("img/santorini.png") 50% 20%;
+    background: linear-gradient(rgba(20, 20, 20, .4), rgba(20, 20, 20, .2)), url("img/santorini.png") 50% 20%;
     background-size: cover;
 }
 
 .slide:nth-child(2n) {
-    background: linear-gradient(rgba(20, 20, 20, .4),  rgba(20, 20, 20, .2)), url("img/sevilla.png") 50% 0%;
+    background: linear-gradient(rgba(20, 20, 20, .4), rgba(20, 20, 20, .2)), url("img/sevilla.png") 50% 0%;
     background-size: cover;
 }
 
 .slide:nth-child(3n) {
-    background: linear-gradient(rgba(20, 20, 20, .4),  rgba(20, 20, 20, .1)), url("img/madrid.png") 50% 50%;
+    background: linear-gradient(rgba(20, 20, 20, .4), rgba(20, 20, 20, .1)), url("img/madrid.png") 50% 50%;
     background-size: cover;
 }
 
@@ -84,8 +83,7 @@
     text-align: center;
 }
 
-.slider-nav > div {
-    float: left;
+.slider-nav>div {
     width: 12px;
     height: 12px;
     border: 2px solid white;
@@ -99,11 +97,11 @@
     background-color: transparent;
 }
 
-.slider-nav > div:hover {
+.slider-nav>div:hover {
     opacity: 1;
 }
 
-.slider-nav > div.active {
+.slider-nav>div.active {
     background-color: white;
     transform: scale(1.8);
     opacity: 1;
