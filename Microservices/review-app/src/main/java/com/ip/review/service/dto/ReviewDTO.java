@@ -13,15 +13,14 @@ public class ReviewDTO implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 18, max = 18)
-    private String userId;
-
-    @NotNull
     private Long flightId;
 
     @NotNull
     @Size(min = 5, max = 1000)
     private String description;
+
+    @NotNull
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -29,14 +28,6 @@ public class ReviewDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Long getFlightId() {
@@ -53,6 +44,14 @@ public class ReviewDTO implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -80,9 +79,9 @@ public class ReviewDTO implements Serializable {
     public String toString() {
         return "ReviewDTO{" +
             "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
             ", flightId=" + getFlightId() +
             ", description='" + getDescription() + "'" +
+            ", userId=" + getUserId() +
             "}";
     }
 }

@@ -41,14 +41,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = ReviewappApp.class)
 public class ReviewResourceIntTest {
 
-    private static final String DEFAULT_USER_ID = "AAAAAAAAAAAAAAAAAA";
-    private static final String UPDATED_USER_ID = "BBBBBBBBBBBBBBBBBB";
-
     private static final Long DEFAULT_FLIGHT_ID = 1L;
     private static final Long UPDATED_FLIGHT_ID = 2L;
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_USER_ID = 1L;
+    private static final Long UPDATED_USER_ID = 2L;
 
     @Autowired
     private ReviewRepository reviewRepository;
@@ -94,9 +94,9 @@ public class ReviewResourceIntTest {
      */
     public static Review createEntity(EntityManager em) {
         Review review = new Review()
-            .userId(DEFAULT_USER_ID)
             .flightId(DEFAULT_FLIGHT_ID)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .userId(DEFAULT_USER_ID);
         return review;
     }
 
@@ -121,9 +121,9 @@ public class ReviewResourceIntTest {
         List<Review> reviewList = reviewRepository.findAll();
         assertThat(reviewList).hasSize(databaseSizeBeforeCreate + 1);
         Review testReview = reviewList.get(reviewList.size() - 1);
-        assertThat(testReview.getUserId()).isEqualTo(DEFAULT_USER_ID);
         assertThat(testReview.getFlightId()).isEqualTo(DEFAULT_FLIGHT_ID);
         assertThat(testReview.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testReview.getUserId()).isEqualTo(DEFAULT_USER_ID);
     }
 
     @Test
@@ -144,25 +144,6 @@ public class ReviewResourceIntTest {
         // Validate the Review in the database
         List<Review> reviewList = reviewRepository.findAll();
         assertThat(reviewList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    public void checkUserIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = reviewRepository.findAll().size();
-        // set the field null
-        review.setUserId(null);
-
-        // Create the Review, which fails.
-        ReviewDTO reviewDTO = reviewMapper.toDto(review);
-
-        restReviewMockMvc.perform(post("/api/reviews")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(reviewDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Review> reviewList = reviewRepository.findAll();
-        assertThat(reviewList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -205,6 +186,25 @@ public class ReviewResourceIntTest {
 
     @Test
     @Transactional
+    public void checkUserIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = reviewRepository.findAll().size();
+        // set the field null
+        review.setUserId(null);
+
+        // Create the Review, which fails.
+        ReviewDTO reviewDTO = reviewMapper.toDto(review);
+
+        restReviewMockMvc.perform(post("/api/reviews")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(reviewDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Review> reviewList = reviewRepository.findAll();
+        assertThat(reviewList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllReviews() throws Exception {
         // Initialize the database
         reviewRepository.saveAndFlush(review);
@@ -214,9 +214,9 @@ public class ReviewResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(review.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.toString())))
             .andExpect(jsonPath("$.[*].flightId").value(hasItem(DEFAULT_FLIGHT_ID.intValue())))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
     }
 
     @Test
@@ -230,9 +230,9 @@ public class ReviewResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(review.getId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.toString()))
             .andExpect(jsonPath("$.flightId").value(DEFAULT_FLIGHT_ID.intValue()))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()));
     }
 
     @Test
@@ -255,9 +255,9 @@ public class ReviewResourceIntTest {
         // Disconnect from session so that the updates on updatedReview are not directly saved in db
         em.detach(updatedReview);
         updatedReview
-            .userId(UPDATED_USER_ID)
             .flightId(UPDATED_FLIGHT_ID)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .userId(UPDATED_USER_ID);
         ReviewDTO reviewDTO = reviewMapper.toDto(updatedReview);
 
         restReviewMockMvc.perform(put("/api/reviews")
@@ -269,9 +269,9 @@ public class ReviewResourceIntTest {
         List<Review> reviewList = reviewRepository.findAll();
         assertThat(reviewList).hasSize(databaseSizeBeforeUpdate);
         Review testReview = reviewList.get(reviewList.size() - 1);
-        assertThat(testReview.getUserId()).isEqualTo(UPDATED_USER_ID);
         assertThat(testReview.getFlightId()).isEqualTo(UPDATED_FLIGHT_ID);
         assertThat(testReview.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testReview.getUserId()).isEqualTo(UPDATED_USER_ID);
     }
 
     @Test

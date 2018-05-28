@@ -33,12 +33,12 @@ describe('Review e2e test', () => {
 
     it('should create and save Reviews', () => {
         reviewComponentsPage.clickOnCreateButton();
-        reviewDialogPage.setUserIdInput('userId');
-        expect(reviewDialogPage.getUserIdInput()).toMatch('userId');
         reviewDialogPage.setFlightIdInput('5');
         expect(reviewDialogPage.getFlightIdInput()).toMatch('5');
         reviewDialogPage.setDescriptionInput('description');
         expect(reviewDialogPage.getDescriptionInput()).toMatch('description');
+        reviewDialogPage.setUserIdInput('5');
+        expect(reviewDialogPage.getUserIdInput()).toMatch('5');
         reviewDialogPage.save();
         expect(reviewDialogPage.getSaveButton().isPresent()).toBeFalsy();
     });
@@ -65,21 +65,13 @@ export class ReviewDialogPage {
     modalTitle = element(by.css('h4#myReviewLabel'));
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
-    userIdInput = element(by.css('input#field_userId'));
     flightIdInput = element(by.css('input#field_flightId'));
     descriptionInput = element(by.css('input#field_description'));
+    userIdInput = element(by.css('input#field_userId'));
 
     getModalTitle() {
         return this.modalTitle.getText();
     }
-
-    setUserIdInput = function(userId) {
-        this.userIdInput.sendKeys(userId);
-    };
-
-    getUserIdInput = function() {
-        return this.userIdInput.getAttribute('value');
-    };
 
     setFlightIdInput = function(flightId) {
         this.flightIdInput.sendKeys(flightId);
@@ -95,6 +87,14 @@ export class ReviewDialogPage {
 
     getDescriptionInput = function() {
         return this.descriptionInput.getAttribute('value');
+    };
+
+    setUserIdInput = function(userId) {
+        this.userIdInput.sendKeys(userId);
+    };
+
+    getUserIdInput = function() {
+        return this.userIdInput.getAttribute('value');
     };
 
     save() {

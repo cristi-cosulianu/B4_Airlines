@@ -22,11 +22,6 @@ public class Review implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 18, max = 18)
-    @Column(name = "user_id", length = 18, nullable = false)
-    private String userId;
-
-    @NotNull
     @Column(name = "flight_id", nullable = false)
     private Long flightId;
 
@@ -35,6 +30,10 @@ public class Review implements Serializable {
     @Column(name = "description", length = 1000, nullable = false)
     private String description;
 
+    @NotNull
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -42,19 +41,6 @@ public class Review implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public Review userId(String userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Long getFlightId() {
@@ -82,6 +68,19 @@ public class Review implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Review userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -108,9 +107,9 @@ public class Review implements Serializable {
     public String toString() {
         return "Review{" +
             "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
             ", flightId=" + getFlightId() +
             ", description='" + getDescription() + "'" +
+            ", userId=" + getUserId() +
             "}";
     }
 }

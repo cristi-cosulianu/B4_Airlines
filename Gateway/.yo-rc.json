@@ -2,7 +2,7 @@
   "generator-jhipster": {
     "promptValues": {
       "packageName": "com.ip.gateway",
-      "microservicePath": "../Microservices/rating-app"
+      "microservicePath": "../Microservices/review-app"
     },
     "jhipsterVersion": "4.14.3",
     "baseName": "Gateway",
