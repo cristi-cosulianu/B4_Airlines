@@ -70,6 +70,7 @@ export class PaymentPageComponent implements OnInit {
   };
 
   getText: any = {
+    'back': 'Change selected seat',
     'title': 'Fill in the form below',
     // tslint:disable-next-line:max-line-length
     'subTitle': 'To​​ comply with the TSA Secure Flight program, the traveler information listed here must exactly match the information on the government - issued photo ID that the traveler presents at the airport.',
