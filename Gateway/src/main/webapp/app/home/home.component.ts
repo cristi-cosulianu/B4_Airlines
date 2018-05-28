@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
     userinfo: Userinfo;
 
     constructor(
+        private router: Router,
         private dataService: DataService,
         private principal: Principal,
         private loginModalService: LoginModalService,
@@ -54,6 +55,8 @@ export class HomeComponent implements OnInit {
     engage() {
         if (this.userinfo.cnp === undefined) {
             this.dataService.checkStatus(this.userinfo);
+        } else {
+            this.router.navigate(['/flights-page']);
         }
     }
 

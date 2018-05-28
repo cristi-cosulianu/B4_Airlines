@@ -7,7 +7,7 @@ import { Review, ReviewService } from '../entities/review';
 import { RatingService } from '../entities/rating';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
-import { Userinfo } from '../entities/userinfo';
+import { Userinfo, UserinfoService } from '../entities/userinfo';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -25,7 +25,7 @@ export class FlightsPageComponent implements OnInit {
   public ticket = new TicketModel();
   constructor(private data: DataService,
     private router: Router,
-    private userInfo: Userinfo,
+    private userInfo: UserinfoService,
     private flightsService: FlightsService,
     private reviewsService: ReviewService,
     private ratingService: RatingService,
