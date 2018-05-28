@@ -190,7 +190,7 @@
 
         <div class="review-main" *ngSwitchCase="'Reviews'">
             <div class="review-item" *ngFor="let review of reviews">
-                <h2>{{review.flightId}}</h2>
+                <h2>{{review.departure}} - {{review.arrival}}</h2>
                 <span>{{review.description}}</span>
             </div>
         </div>

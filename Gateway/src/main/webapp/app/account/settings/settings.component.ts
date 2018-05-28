@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { JhiEventManager } from 'ng-jhipster';
 import { Review, ReviewService } from '../../entities/review';
 import { DataService } from '../../data.service';
+import { SettingsReview } from './models/review.model';
+import { FlightsService, EntityResponseType } from '../../entities/flights';
 
 @Component({
     selector: 'jhi-settings',
@@ -19,7 +21,7 @@ export class SettingsComponent implements OnInit {
     success: string;
     languages: any[];
     settingsOption: string;
-    reviews: Review[];
+    reviews: SettingsReview[];
     settingsAccount: any;
     userinfo: Userinfo;
     myAccount: Account;
@@ -30,7 +32,8 @@ export class SettingsComponent implements OnInit {
         private userService: UserinfoService,
         private principal: Principal,
         private eventManager: JhiEventManager,
-        private reviewService: ReviewService
+        private reviewService: ReviewService,
+        private flightsService: FlightsService
     ) {
     }
 
@@ -110,9 +113,29 @@ export class SettingsComponent implements OnInit {
     setSettingsOption(option: string) {
         this.settingsOption = option;
         if (option === 'Reviews') {
-            this.reviewService.query(`userid=aa1111111111111111`).subscribe(
-                (res: HttpResponse<Review[]>) => { this.reviews = res.body; });
+            this.initReviews();
         }
+    }
+
+    initReviews() {
+        this.reviews = [];
+        this.reviewService.query(`userid=` + this.userinfo.uid).subscribe(
+            (res: HttpResponse<Review[]>) => {
+                for (const rev of res.body) {
+                    if ( this.userinfo.uid === rev.userId) {
+                        const review = new SettingsReview(rev.id, rev.flightId, rev.description);
+                        this.flightsService.find(rev.flightId).subscribe(
+                            (response: EntityResponseType) => {
+                                const flight = response.body;
+                                review.company = flight.company;
+                                review.departure = flight.departure;
+                                review.arrival = flight.arrival;
+                                review.rating = flight.rating;
+                            });
+                        this.reviews.push(review);
+                    }
+                }
+            });
     }
 
     builduserid() {

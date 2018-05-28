@@ -17,7 +17,8 @@
 .review-main {
     position: relative;
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 4%;
+    max-width: 65%;
 }
 
 .review-item {
