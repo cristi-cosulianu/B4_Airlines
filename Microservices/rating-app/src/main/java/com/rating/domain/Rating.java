@@ -22,11 +22,6 @@ public class Rating implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 18, max = 18)
-    @Column(name = "user_id", length = 18, nullable = false)
-    private String userId;
-
-    @NotNull
     @Column(name = "flight_id", nullable = false)
     private Long flightId;
 
@@ -36,6 +31,10 @@ public class Rating implements Serializable {
     @Column(name = "rating", nullable = false)
     private Integer rating;
 
+    @NotNull
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -43,19 +42,6 @@ public class Rating implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public Rating userId(String userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Long getFlightId() {
@@ -83,6 +69,19 @@ public class Rating implements Serializable {
     public void setRating(Integer rating) {
         this.rating = rating;
     }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Rating userId(Long userId) {
+        this.userId = userId;
+        return this;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -109,9 +108,9 @@ public class Rating implements Serializable {
     public String toString() {
         return "Rating{" +
             "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
             ", flightId=" + getFlightId() +
             ", rating=" + getRating() +
+            ", userId=" + getUserId() +
             "}";
     }
 }

@@ -9,10 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,17 +76,6 @@ public class RatingServiceImpl implements RatingService {
         return ratingMapper.toDto(rating);
     }
 
-    @Override
-    public List<RatingDTO> findByFlightId(Long flightId) {
-        List<Rating> ratings = ratingRepository.findByFlightId(flightId);
-        if(ratings.isEmpty()){
-            return Collections.emptyList();
-        }
-        else{
-            return ratings.stream().map(ratingMapper::toDto).collect(Collectors.toList());
-        }
-    }
-
     /**
      * Delete the rating by id.
      *
@@ -98,5 +85,16 @@ public class RatingServiceImpl implements RatingService {
     public void delete(Long id) {
         log.debug("Request to delete Rating : {}", id);
         ratingRepository.delete(id);
+    }
+
+    @Override
+    public List<RatingDTO> findByFlightId(Long flightId) {
+        List<Rating> ratings = ratingRepository.findByFlightId(flightId);
+        if(ratings.isEmpty()){
+            return Collections.emptyList();
+        }
+        else{
+            return ratings.stream().map(ratingMapper::toDto).collect(Collectors.toList());
+        }
     }
 }

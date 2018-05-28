@@ -3,7 +3,6 @@ package com.rating.service;
 import com.rating.service.dto.RatingDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 
 /**
@@ -40,7 +39,7 @@ public interface RatingService {
      *
      * @param id the id of the entity
      */
+    void delete(Long id);
 
     List<RatingDTO> findByFlightId(Long flightId);
-    void delete(Long id);
 }

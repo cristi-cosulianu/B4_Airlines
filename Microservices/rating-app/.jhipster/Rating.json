@@ -3,17 +3,6 @@
     "relationships": [],
     "fields": [
         {
-            "fieldName": "userId",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required",
-                "minlength",
-                "maxlength"
-            ],
-            "fieldValidateRulesMinlength": "18",
-            "fieldValidateRulesMaxlength": "18"
-        },
-        {
             "fieldName": "flightId",
             "fieldType": "Long",
             "fieldValidateRules": [
@@ -30,6 +19,13 @@
             ],
             "fieldValidateRulesMin": "1",
             "fieldValidateRulesMax": "5"
+        },
+        {
+            "fieldName": "userId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180525134237",
