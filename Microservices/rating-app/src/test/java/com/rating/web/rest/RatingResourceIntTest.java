@@ -41,14 +41,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = RatingApp.class)
 public class RatingResourceIntTest {
 
-    private static final String DEFAULT_USER_ID = "AAAAAAAAAAAAAAAAAA";
-    private static final String UPDATED_USER_ID = "BBBBBBBBBBBBBBBBBB";
-
     private static final Long DEFAULT_FLIGHT_ID = 1L;
     private static final Long UPDATED_FLIGHT_ID = 2L;
 
     private static final Integer DEFAULT_RATING = 1;
     private static final Integer UPDATED_RATING = 2;
+
+    private static final Long DEFAULT_USER_ID = 1L;
+    private static final Long UPDATED_USER_ID = 2L;
 
     @Autowired
     private RatingRepository ratingRepository;
@@ -94,9 +94,9 @@ public class RatingResourceIntTest {
      */
     public static Rating createEntity(EntityManager em) {
         Rating rating = new Rating()
-            .userId(DEFAULT_USER_ID)
             .flightId(DEFAULT_FLIGHT_ID)
-            .rating(DEFAULT_RATING);
+            .rating(DEFAULT_RATING)
+            .userId(DEFAULT_USER_ID);
         return rating;
     }
 
@@ -121,9 +121,9 @@ public class RatingResourceIntTest {
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeCreate + 1);
         Rating testRating = ratingList.get(ratingList.size() - 1);
-        assertThat(testRating.getUserId()).isEqualTo(DEFAULT_USER_ID);
         assertThat(testRating.getFlightId()).isEqualTo(DEFAULT_FLIGHT_ID);
         assertThat(testRating.getRating()).isEqualTo(DEFAULT_RATING);
+        assertThat(testRating.getUserId()).isEqualTo(DEFAULT_USER_ID);
     }
 
     @Test
@@ -144,25 +144,6 @@ public class RatingResourceIntTest {
         // Validate the Rating in the database
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeCreate);
-    }
-
-    @Test
-    @Transactional
-    public void checkUserIdIsRequired() throws Exception {
-        int databaseSizeBeforeTest = ratingRepository.findAll().size();
-        // set the field null
-        rating.setUserId(null);
-
-        // Create the Rating, which fails.
-        RatingDTO ratingDTO = ratingMapper.toDto(rating);
-
-        restRatingMockMvc.perform(post("/api/ratings")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Rating> ratingList = ratingRepository.findAll();
-        assertThat(ratingList).hasSize(databaseSizeBeforeTest);
     }
 
     @Test
@@ -205,6 +186,25 @@ public class RatingResourceIntTest {
 
     @Test
     @Transactional
+    public void checkUserIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = ratingRepository.findAll().size();
+        // set the field null
+        rating.setUserId(null);
+
+        // Create the Rating, which fails.
+        RatingDTO ratingDTO = ratingMapper.toDto(rating);
+
+        restRatingMockMvc.perform(post("/api/ratings")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(ratingDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Rating> ratingList = ratingRepository.findAll();
+        assertThat(ratingList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllRatings() throws Exception {
         // Initialize the database
         ratingRepository.saveAndFlush(rating);
@@ -214,9 +214,9 @@ public class RatingResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(rating.getId().intValue())))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.toString())))
             .andExpect(jsonPath("$.[*].flightId").value(hasItem(DEFAULT_FLIGHT_ID.intValue())))
-            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)));
+            .andExpect(jsonPath("$.[*].rating").value(hasItem(DEFAULT_RATING)))
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
     }
 
     @Test
@@ -230,9 +230,9 @@ public class RatingResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(rating.getId().intValue()))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.toString()))
             .andExpect(jsonPath("$.flightId").value(DEFAULT_FLIGHT_ID.intValue()))
-            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING));
+            .andExpect(jsonPath("$.rating").value(DEFAULT_RATING))
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()));
     }
 
     @Test
@@ -255,9 +255,9 @@ public class RatingResourceIntTest {
         // Disconnect from session so that the updates on updatedRating are not directly saved in db
         em.detach(updatedRating);
         updatedRating
-            .userId(UPDATED_USER_ID)
             .flightId(UPDATED_FLIGHT_ID)
-            .rating(UPDATED_RATING);
+            .rating(UPDATED_RATING)
+            .userId(UPDATED_USER_ID);
         RatingDTO ratingDTO = ratingMapper.toDto(updatedRating);
 
         restRatingMockMvc.perform(put("/api/ratings")
@@ -269,9 +269,9 @@ public class RatingResourceIntTest {
         List<Rating> ratingList = ratingRepository.findAll();
         assertThat(ratingList).hasSize(databaseSizeBeforeUpdate);
         Rating testRating = ratingList.get(ratingList.size() - 1);
-        assertThat(testRating.getUserId()).isEqualTo(UPDATED_USER_ID);
         assertThat(testRating.getFlightId()).isEqualTo(UPDATED_FLIGHT_ID);
         assertThat(testRating.getRating()).isEqualTo(UPDATED_RATING);
+        assertThat(testRating.getUserId()).isEqualTo(UPDATED_USER_ID);
     }
 
     @Test

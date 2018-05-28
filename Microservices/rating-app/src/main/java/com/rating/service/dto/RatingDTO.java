@@ -13,10 +13,6 @@ public class RatingDTO implements Serializable {
     private Long id;
 
     @NotNull
-    @Size(min = 18, max = 18)
-    private String userId;
-
-    @NotNull
     private Long flightId;
 
     @NotNull
@@ -24,20 +20,15 @@ public class RatingDTO implements Serializable {
     @Max(value = 5)
     private Integer rating;
 
+    @NotNull
+    private Long userId;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public Long getFlightId() {
@@ -54,6 +45,14 @@ public class RatingDTO implements Serializable {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -81,9 +80,9 @@ public class RatingDTO implements Serializable {
     public String toString() {
         return "RatingDTO{" +
             "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
             ", flightId=" + getFlightId() +
             ", rating=" + getRating() +
+            ", userId=" + getUserId() +
             "}";
     }
 }

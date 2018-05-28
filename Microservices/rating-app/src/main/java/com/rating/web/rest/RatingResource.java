@@ -1,7 +1,6 @@
 package com.rating.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.rating.domain.Rating;
 import com.rating.service.RatingService;
 import com.rating.web.rest.errors.BadRequestAlertException;
 import com.rating.web.rest.util.HeaderUtil;
@@ -125,6 +124,7 @@ public class RatingResource {
         ratingService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+
 
     @GetMapping("/ratings/stats/{id}")
     @Timed

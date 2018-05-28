@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  * Service Implementation for managing Review.
  */
@@ -82,6 +83,7 @@ public class ReviewServiceImpl implements ReviewService {
         log.debug("Request to delete Review : {}", id);
         reviewRepository.delete(id);
     }
+
 
     @Override
     public Page<ReviewDTO> getByFlightId(Pageable pageable, Long flightId) {

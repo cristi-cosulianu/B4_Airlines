@@ -7,6 +7,7 @@ import { Review, ReviewService } from '../entities/review';
 import { RatingService } from '../entities/rating';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { Userinfo, UserinfoService } from '../entities/userinfo';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -24,6 +25,7 @@ export class FlightsPageComponent implements OnInit {
   public ticket = new TicketModel();
   constructor(private data: DataService,
     private router: Router,
+    private userInfo: UserinfoService,
     private flightsService: FlightsService,
     private reviewsService: ReviewService,
     private ratingService: RatingService,
@@ -33,6 +35,7 @@ export class FlightsPageComponent implements OnInit {
     config.readonly = false;
   }
   ngOnInit() {
+
     console.log(this.ticket);
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
@@ -187,9 +190,16 @@ export class FlightsPageComponent implements OnInit {
         tableBody.appendChild(reviewRow);
       }
       const reviewInput = this.createElement('textarea');
+      reviewInput.setAttribute('id', 'textarea' + rowNum);
       reviewInput.setAttribute('type', 'text');
       reviewInput.setAttribute('class', 'form-control reviewInput');
       reviewColumn.appendChild(reviewInput);
+      const submitReview = this.createElement('button');
+      submitReview.setAttribute('class', 'btn btn-primary btn-sm');
+      submitReview.setAttribute('type', 'submit');
+      submitReview.addEventListener('click', (event) => this.submitReview(flightId, rowNum));
+      submitReview.innerText = 'Submit';
+      reviewColumn.appendChild(submitReview);
       reviewRow.appendChild(reviewColumn);
       this.recreateNode(document.getElementById('reviewButton' + rowNum), false);
       const reviewButton = document.getElementById('reviewButton' + rowNum);
@@ -208,6 +218,21 @@ export class FlightsPageComponent implements OnInit {
     const reviewButton = document.getElementById('reviewButton' + rowNum);
     reviewButton.innerText = 'Show';
     reviewButton.addEventListener('click', (event) => this.displayFlightReviews(flightId, rowNum));
+  }
+
+  submitReview(flightIdParameter, rowNum) {
+    this.userInfo.query().subscribe((data) => {
+      const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
+      const textAreaReview = textArea.value;
+      if (textAreaReview.length > 20) {
+        const users = data.body;
+        const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: users[0].id};
+        this.reviewsService.create(review).subscribe((data1) => {
+          this.removeFlightReviews(flightIdParameter, rowNum);
+        });
+      }
+    });
+
   }
 
   recreateNode(el, withChildren) {

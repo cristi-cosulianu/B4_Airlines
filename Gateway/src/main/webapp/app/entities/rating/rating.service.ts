@@ -37,7 +37,7 @@ export class RatingService {
         return this.http.get<Rating[]>(this.resourceUrl, { params: options, observe: 'response' })
             .map((res: HttpResponse<Rating[]>) => this.convertArrayResponse(res));
     }
-
+    
     ratingForFlight(flightId: number): Observable<any> {
         return this.http.get<any>(`${this.resourceUrl}/stats/${flightId}`, { observe: 'response'});
     }
