@@ -31,8 +31,12 @@ table {
 #flights-table .price {
     color: #02b002;
 }
-#flights-table .star-rating .fa-star {
-    color: #f4e400;
+#flights-table .star {
+	font-size: 1.5rem;
+	color: #b0c4de;
+}
+#flights-table .filled {
+	color: #f4e400;
 }
 #flights-table .btn-sm {
     min-height: 31px;
