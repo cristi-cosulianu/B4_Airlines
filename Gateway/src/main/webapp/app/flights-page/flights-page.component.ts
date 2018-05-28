@@ -7,6 +7,7 @@ import { Review, ReviewService } from '../entities/review';
 import { RatingService } from '../entities/rating';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { Userinfo } from '../entities/userinfo';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -24,6 +25,7 @@ export class FlightsPageComponent implements OnInit {
   public ticket = new TicketModel();
   constructor(private data: DataService,
     private router: Router,
+    private userInfo: Userinfo,
     private flightsService: FlightsService,
     private reviewsService: ReviewService,
     private ratingService: RatingService,
@@ -33,6 +35,7 @@ export class FlightsPageComponent implements OnInit {
     config.readonly = false;
   }
   ngOnInit() {
+
     console.log(this.ticket);
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
@@ -217,10 +220,10 @@ export class FlightsPageComponent implements OnInit {
   }
 
   submitReview(flightIdParameter, rowNum) {
-    const review: Review = {flightId: flightIdParameter, description: 'inputText', userId: '888888545445756544'};
-    console.log('Submit!' + review);
-    this.reviewsService.create(review);
-    this.removeFlightReviews(flightIdParameter, rowNum);
+    // const review: Review = {flightId: flightIdParameter, description: 'inputText', userId: this.userInfo.id};
+    // console.log('Submit!' + review);
+    // this.reviewsService.create(review);
+    // this.removeFlightReviews(flightIdParameter, rowNum);
   }
 
   recreateNode(el, withChildren) {
