@@ -149,11 +149,11 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.user.subscribe((_data) => this.user);
     this.ticketPrice = this.flight.priceRangeMax;
     this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-    this.flightInfos.departLocation=this.flight.departure;
-    this.flightInfos.departTime=this.flight.departureTime;
-    this.flightInfos.landLocation=this.flight.arrival;
-    this.flightInfos.landTime=this.flight.arrivalTime;
-    this.flightInfos.flightDate=this.flight.company;
+    this.flightInfos.departLocation = this.flight.departure;
+    this.flightInfos.departTime = this.flight.departureTime;
+    this.flightInfos.landLocation = this.flight.arrival;
+    this.flightInfos.landTime = this.flight.arrivalTime;
+    this.flightInfos.flightDate = this.flight.company;
   }
 
   submit() {
@@ -166,7 +166,7 @@ export class PaymentPageComponent implements OnInit {
       this.passengerIDInfos.card.cvv
     ).subscribe(
       (res: HttpResponse<Bank>) => {
-        this.bank=res.body;
+        this.bank = res.body;
         console.log('Funtioneaza! ' + res.body.id );
       },
       (res: HttpErrorResponse) => {
@@ -209,14 +209,14 @@ export class PaymentPageComponent implements OnInit {
         },
         (res: HttpErrorResponse) => {
           console.log('Bank Error!');
-          //rollback
+          // rollback
           this.paymentCompensation();
           this.jhiAlertService.error(res.message, null, null);
           return false;
         }
       );
     } else {
-      //afiseaza mesaj pe front end
+      // afiseaza mesaj pe front end
       console.log('Fonduri insuficinte! ');
       return false;
     }
@@ -244,7 +244,7 @@ export class PaymentPageComponent implements OnInit {
       },
       (res: HttpErrorResponse) => {
           console.log('Card Error!');
-          //rollback
+          // rollback
           this.paymentCompensation(this.bank);
           this.jhiAlertService.error(res.message, null, null);
           return false;
@@ -261,8 +261,8 @@ export class PaymentPageComponent implements OnInit {
       },
       (res: HttpErrorResponse) => {
         console.log('OrderHistory Error!');
-        //rollback
-        this.paymentCompensation(this.bank,this.card);
+        // rollback
+        this.paymentCompensation(this.bank, this.card);
         this.jhiAlertService.error(res.message, null, null);
         return false;
       }
@@ -272,7 +272,7 @@ export class PaymentPageComponent implements OnInit {
 
   private paymentCompensation(bank?: Bank, card?: Card, history?: OrderHistory) {
     // Work in progress
-    let message = 'Something went wrong. Sorry! \n';
+    const message = 'Something went wrong. Sorry! \n';
     if (bank !== undefined) {
       this.bankCompensation(bank);
       // message = message + 'Bank Account';
