@@ -35,9 +35,12 @@ export class FlightsPageComponent implements OnInit {
     config.readonly = false;
   }
   ngOnInit() {
-
-    this.data.user.subscribe((_data) => this.userInfo = _data);
+    // for (let i = 2614; i <= 2676; i++) {
+    //   this.ratingService.delete(i).subscribe((_data) => {});
+    // }
+    console.log(this.ticket);
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
+    this.data.user.subscribe((_data) => this.userInfo = _data);
     this.data.updateTicket(this.ticket);
     this.flightsService.query().subscribe((_data) => {
       this.removeAllRows();
@@ -113,6 +116,7 @@ export class FlightsPageComponent implements OnInit {
         ratingDiv.setAttribute('class', 'star-rating');
         ratingDiv.addEventListener('mouseleave', (event) => this.displayRating(obj.id, iterator) );
         this.ratingService.ratingForFlight(obj.id).subscribe((response) => {
+          console.log(response);
           for (let i = 0; i < 5; i++) {
             // Create stars.
             const span = this.createElement('span');
@@ -159,8 +163,8 @@ export class FlightsPageComponent implements OnInit {
           row.appendChild(reviews);
           row.appendChild(select);
           // Add row to table body.
-          tableBody.appendChild(row);
         });
+        tableBody.appendChild(row);
       }
     }
   }
@@ -220,15 +224,16 @@ export class FlightsPageComponent implements OnInit {
   }
 
   submitReview(flightIdParameter, rowNum) {
-    const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
-    const textAreaReview = textArea.value;
-    if (textAreaReview.length > 20) {
-      console.log(this.userInfo.id);
-      const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: 123123123123123};
-      this.reviewsService.create(review).subscribe((data) => {
-        this.removeFlightReviews(flightIdParameter, rowNum);
-      });
-    }
+      const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
+      const textAreaReview = textArea.value;
+      if (textAreaReview.length > 20) {
+        console.log(this.userInfo.id);
+        const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: 123123123123123};
+        this.reviewsService.create(review).subscribe((data) => {
+          this.removeFlightReviews(flightIdParameter, rowNum);
+        });
+      }
+
   }
 
   recreateNode(el, withChildren) {
@@ -267,7 +272,7 @@ export class FlightsPageComponent implements OnInit {
   }
 
   changeStarInUnfilled(starNumber, rowNum) {
-    for (let iterator = starNumber; iterator < 5; iterator++) {
+    for (let iterator = starNumber + 1; iterator < 5; iterator++) {
       const star = document.getElementById('row' + rowNum + 'star' + iterator );
       star.setAttribute('class', 'fa fa-star-o');
     }

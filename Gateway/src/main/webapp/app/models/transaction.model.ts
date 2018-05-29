@@ -5,7 +5,7 @@ export class Transaction {
         public expirationYear?: number,
         public expirationMonth?: number,
         public name?: string,
-        public cvv?: string,
+        public ccv?: string,
         public amount?: number,
         public isReversed?: boolean
     ) {}

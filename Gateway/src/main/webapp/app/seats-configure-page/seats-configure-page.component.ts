@@ -19,7 +19,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   private seat: Seats;
   private id_flight: string;
   private route_string: string;
-  private planeType: number;
+  private type: number;
   private nrOfSeats: number;
   private nrOfSeatsOfPlane1: number;
   private nrOfSeatsOfPlane2: number;
@@ -33,31 +33,9 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.shouldShowLoading = true;
   }
 
-  modulo6(index) {
-    if ((index + 1) % 6 === 0 && index !== 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  modulo3(index) {
-    if ((index + 1) % 3 === 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   getPlaneType() {
-    return this.planeType;
+    return this.type;
   }
-
-  // spacing(index) {
-  //   if (index === 29 || index === 65) {
-  //     return true;
-  //   }
-  // }
 
   checkOccupiedSeats() {
     // console.log(this.occupiedSeats);
@@ -82,19 +60,19 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    // this.planeType = this.ticket.ticket_planeType;
-    // this.id_flight = this.ticket.ticket_flightID.toString();
-    this.planeType = 2;             // this is hard coded for now
+    // this.type = this.ticket.ticket_flightID.toString();
+    // this.id_flight = this.ticket.ticket_planeType;
+    this.type = 1;             // this is hard coded for now
     this.id_flight = '123mv';       // this is hard coded for now
     this.route_string = 'București - Iași';
 
-    if (this.planeType === 1) {
+    if (this.type === 1) {
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
-    } else if (this.planeType === 2) {
+    } else if (this.type === 2) {
       this.nrOfSeats = this.nrOfSeatsOfPlane2;
-    } else if (this.planeType === 3) {
+    } else if (this.type === 3) {
       this.nrOfSeats = this.nrOfSeatsOfPlane3;
-    } else if (this.planeType === 4) {
+    } else if (this.type === 4) {
       this.nrOfSeats = this.nrOfSeatsOfPlane4;
     }
 
@@ -121,7 +99,7 @@ export class SeatsConfigurePageComponent implements OnInit {
 
   queryOccupiedSeats() {
     this.shouldShowLoading = false;
-    this.service.query({ id_flight: this.id_flight }).subscribe((data) => {
+    this.service.findByFlightId(this.type).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
         this.occupiedSeats.push(data.body[i].seat_index);
@@ -215,7 +193,6 @@ export class SeatsConfigurePageComponent implements OnInit {
               alert(message);
             }
           }
-
         });
     }
   }

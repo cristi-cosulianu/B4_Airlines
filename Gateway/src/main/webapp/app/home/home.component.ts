@@ -53,11 +53,7 @@ export class HomeComponent implements OnInit {
     }
 
     engage() {
-        if (this.userinfo.cnp === undefined) {
-            this.dataService.checkStatus(this.userinfo);
-        } else {
-            this.router.navigate(['/flights-page']);
-        }
+        this.dataService.check(this.userinfo);
     }
 
     isAuthenticated() {
