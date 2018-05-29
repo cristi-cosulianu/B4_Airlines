@@ -12,6 +12,7 @@ export type EntityResponseType = HttpResponse<OrderHistory>;
 export class OrderHistoryService {
 
     private resourceUrl =  SERVER_API_URL + 'payment/api/order-histories';
+    private resourceUrlticket = SERVER_API_URL + 'payment/api/order-histories/ticket';
 
     constructor(private http: HttpClient) { }
 
@@ -29,6 +30,11 @@ export class OrderHistoryService {
 
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<OrderHistory>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
+    }
+
+    findByUid(ticketUserId: string): Observable<EntityResponseType> {
+        return this.http.get<OrderHistory>(`${this.resourceUrlticket}/${ticketUserId}`, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 

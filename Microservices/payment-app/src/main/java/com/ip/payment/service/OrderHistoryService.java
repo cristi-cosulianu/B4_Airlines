@@ -37,4 +37,11 @@ public interface OrderHistoryService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+    /**
+     * Get the orderHistory of ticketUserId
+     * 
+     * @param ticketUserId the id of the user from the ticket
+     */
+    List<OrderHistoryDTO> findByUserId(String ticketUserId);
 }
