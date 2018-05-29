@@ -14,6 +14,7 @@ import { Userinfo } from '../entities/userinfo/userinfo.model';
 import { Bank } from '../entities/bank/bank.model';
 import { resolveSoa } from 'dns';
 import { OrderHistory, OrderHistoryService } from '../entities/order-history';
+import { Transaction } from '../models/transaction.model';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -49,6 +50,8 @@ export class PaymentPageComponent implements OnInit {
   private order: OrderHistory;
   private bank: Bank;
   private card: Card;
+  private transaction: Transaction;
+
   showInfoForm = false;
   private ticketPrice: number;
   private totalPrice: number;
@@ -147,8 +150,9 @@ export class PaymentPageComponent implements OnInit {
       this.paymentCompensation();
     });
     this.dataService.user.subscribe((_data) => this.user);
-    this.ticketPrice = this.flight.priceRangeMax;
-    this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
+    // this.ticketPrice = this.flight.priceRangeMax;
+    // this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
+    this.totalPrice = 500;
     this.flightInfos.departLocation = this.flight.departure;
     this.flightInfos.departTime = this.flight.departureTime;
     this.flightInfos.landLocation = this.flight.arrival;
@@ -156,72 +160,59 @@ export class PaymentPageComponent implements OnInit {
     this.flightInfos.flightDate = this.flight.company;
   }
 
-  submit() {
-    this.checkInvalidfields();
+  // submit() {
+  //   this.transaction = new Transaction(
+  //     this.passengerIDInfos.card.number,
+  //     this.passengerIDInfos.card.expirationYear,
+  //     this.passengerIDInfos.card.expirationMonth,
+  //     this.passengerIDInfos.card.name,
+  //     this.passengerIDInfos.card.cvv,
+  //     this.totalPrice
+  //   );
+  //   if ( this.updateBank(this.transaction) ) {
+  //     this.card = new Card(
+  //       null,
+  //       this.passengerIDInfos.card.number,
+  //       this.passengerIDInfos.card.number,
+  //       this.passengerIDInfos.card.expirationYear,
+  //       this.passengerIDInfos.card.name,
+  //       this.passengerIDInfos.card.cvv,
+  //       this.passengerIDInfos.card.cardType
+  //     );
+  //     if ( this.updateCard(this.card) ) {
+  //       let i = 0;
+  //       this.order = new OrderHistory(
+  //         null,
+  //         this.ticket.ticket_userID,
+  //         this.ticket.ticket_flightID,
+  //         this.ticket.ticket_planeType,
+  //         this.totalPrice,
+  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+  //         this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
+  //         this.card.id
+  //       );
+  //       this.updateOrderHistory(this.order);
+  //     }
+  //   }
+  // }
 
-    this.parseExpirationDate();
-    this.bankService.getBankInfo(
-      this.passengerIDInfos.card.number,
-      this.passengerIDInfos.card.expirationYear,
-      this.passengerIDInfos.card.expirationMonth,
-      this.passengerIDInfos.card.name,
-      this.passengerIDInfos.card.cvv
-    ).subscribe(
+  updateBank(transaction: Transaction): boolean {
+    this.bankService.updateBankAmount(transaction).subscribe(
       (res: HttpResponse<Bank>) => {
-        this.bank = res.body;
-        console.log('Funtioneaza! ' + res.body.id);
+        console.log('Updated succesfully! ' + res.body.id + res.body.amount);
+        return true;
       },
       (res: HttpErrorResponse) => {
-        if (res.status === 404) {
-          console.log('Card not found');
-          // De afisat faptul ca informatiile despre card sunt incorecte.
-        } else {
-          console.log('Other Error!');
-          this.paymentCompensation();
-        }
+        console.log('Bank Error!');
+        // rollback
+        this.paymentCompensation();
         this.jhiAlertService.error(res.message, null, null);
+        return false;
       }
     );
-    this.updateBank(this.bank);
-    this.updateCard(this.card);
-    this.updateOrderHistory(this.order);
-    // this.cardService.update(cardInfo).subscribe(
-    //   (res: HttpResponse<Card>) => {
-    //     console.log("Functioneaza! " + res.body.id);
-    //   },
-    //   (res: HttpErrorResponse) => this.jhiAlertService.error(res.message, null, null)
-    // );
-  }
-
-  updateBank(bank: Bank): boolean {
-    if (bank.amount >= this.totalPrice) {
-      bank.amount -= this.totalPrice;
-      this.bankService.update(bank).subscribe(
-        (res: HttpResponse<Bank>) => {
-          console.log('Updated succesfully! ' + res.body.id + res.body.amount);
-          this.card = new Card(
-            null,
-            this.passengerIDInfos.card.number,
-            this.passengerIDInfos.card.expirationMonth,
-            this.passengerIDInfos.card.expirationYear,
-            this.passengerIDInfos.card.name,
-            this.passengerIDInfos.card.cvv,
-            this.passengerIDInfos.card.cardType
-          );
-        },
-        (res: HttpErrorResponse) => {
-          console.log('Bank Error!');
-          // rollback
-          this.paymentCompensation();
-          this.jhiAlertService.error(res.message, null, null);
-          return false;
-        }
-      );
-    } else {
-      // afiseaza mesaj pe front end
-      console.log('Fonduri insuficinte! ');
-      return false;
-    }
     return false;
   }
 
@@ -229,19 +220,7 @@ export class PaymentPageComponent implements OnInit {
     this.cardService.update(card).subscribe(
       (res: HttpResponse<Card>) => {
         console.log('Card updated succesfully! ' + res.body.id);
-        let i = 0;
-        this.order = new OrderHistory(null,
-          this.ticket.ticket_userID,
-          this.ticket.ticket_flightID,
-          this.ticket.ticket_planeType,
-          this.totalPrice,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
-          card.id
-        );
+        this.card = res.body;
         return true;
       },
       (res: HttpErrorResponse) => {
@@ -259,6 +238,7 @@ export class PaymentPageComponent implements OnInit {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
         console.log('Order updated succesfully! ' + res.body.id);
+        this.order = res.body;
         return true;
       },
       (res: HttpErrorResponse) => {
@@ -272,11 +252,11 @@ export class PaymentPageComponent implements OnInit {
     return false;
   }
 
-  private paymentCompensation(bank?: Bank, card?: Card, history?: OrderHistory) {
+  private paymentCompensation(transaction?: Transaction, card?: Card, history?: OrderHistory) {
     // Work in progress
     const message = 'Something went wrong. Sorry! \n';
-    if (bank !== undefined) {
-      this.bankCompensation(bank);
+    if (transaction !== undefined) {
+      this.bankCompensation(transaction);
       // message = message + 'Bank Account';
     }
     if (card !== undefined) {
@@ -309,8 +289,13 @@ export class PaymentPageComponent implements OnInit {
   }
 
   // Posibil sa fie nevoie de pasi aditionali aici
-  bankCompensation(bank: Bank): void {
-    this.updateBank(bank);
+  bankCompensation(transaction: Transaction): void {
+    this.bankService.updateBankAmount(transaction).subscribe((res: HttpResponse<Bank>) => {
+
+    }, (error: HttpErrorResponse) => {
+      console.log(error.message);
+      this.bankCompensation(transaction);
+    });
   }
 
   toggleInfoForm(selectedValue): void {

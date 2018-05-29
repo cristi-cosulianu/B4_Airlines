@@ -42,4 +42,6 @@ public interface RatingService {
     void delete(Long id);
 
     List<RatingDTO> findByFlightId(Long flightId);
+
+    RatingDTO findByUserId(Long userId , Long flightId);
 }

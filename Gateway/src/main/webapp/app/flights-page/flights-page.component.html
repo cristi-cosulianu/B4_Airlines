@@ -37,7 +37,7 @@
         <th>Flight</th>
         <th>Departure</th>
         <th>Destination</th>
-        <th>Price</th>
+        <th>Price range</th>
         <th>Company</th>
         <th>Plane</th>
         <th>Rating</th>
@@ -54,19 +54,19 @@
         <td>BlueAir</td>
         <td>1</td>
         <td>
-          <ngb-rating [(rate)]="currentRate" (hover)="hovered=$event" (click)="calculateRate()">
+          <!-- <ngb-rating [(rate)]="currentRate" (hover)="hovered=$event" (click)="calculateRate()">
             <ng-template let-fill="fill">
               <span class="star" [class.filled]="fill === 100">&#9733;</span>
             </ng-template>
-          </ngb-rating>
+          </ngb-rating> -->
 
-          <!-- <div class="star-rating">
+          <div class="star-rating">
             <span class="fa fa-star" data-rating="1"></span>
             <span class="fa fa-star" data-rating="2"></span>
             <span class="fa fa-star" data-rating="3"></span>
             <span class="fa fa-star-o" data-rating="4"></span>
             <span class="fa fa-star-o" data-rating="5"></span>
-          </div> -->
+          </div>
         </td>
         
 		<!-- COLLAPSE -->

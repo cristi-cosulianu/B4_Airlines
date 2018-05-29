@@ -41,4 +41,5 @@ public interface ReviewService {
     void delete(Long id);
 
     Page<ReviewDTO> getByFlightId(Pageable pageable, Long flightId);
+    Page<ReviewDTO> getByUserId(Pageable pageable, Long userId);
 }

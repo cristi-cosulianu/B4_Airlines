@@ -1,12 +1,11 @@
 <div>
     <div class="options">
         <ul>
-            <li class="option-item" (click)="setSettingsOption('Account')">Account details</li>
-            <li class="option-item" (click)="setSettingsOption('Personal')">Personal Details</li>
-            <li class="option-item" (click)="setSettingsOption('Password')">Change password</li>
-            <li class="option-item" (click)="setSettingsOption('Active')">Active tickets</li>
-            <li class="option-item" (click)="setSettingsOption('History')">Ticket history</li>
-            <li class="option-item" (click)="setSettingsOption('Reviews')">My reviews</li>
+            <li class="option-item" (click)="setSettingsOption('Account')">Account details</li><br/>
+            <li class="option-item" (click)="setSettingsOption('Personal')">Personal Details</li><br/>
+            <li class="option-item" (click)="setSettingsOption('Password')">Change password</li><br/>
+            <li class="option-item" (click)="setSettingsOption('History')">Ticket history</li><br/>
+            <li class="option-item" (click)="setSettingsOption('Reviews')">My reviews</li><br/>
         </ul>
     </div>
 
@@ -108,90 +107,29 @@
             <jhi-password></jhi-password>
         </div>
 
-        <div class="ticket-main" *ngSwitchCase="'Active'">
-            <div class="ticket-item-active">
-                <h4 class="ticket-trip">Bucharest - London</h4>
-                <div class="ticket-info-left">
-                    <div>Date: 01.06.2018</div>
-                    <div>Seat: 23</div>
-                    <div>Class: First class</div>
-                </div>
-                <div class="ticket-info-right">
-                    <div>Departure: 13:30</div>
-                    <div>Boarding: 13:00</div>
-                </div>
-                <span style="clear: both;"></span>
-            </div>
-            <div class="ticket-item-active">
-                <h4 class="ticket-trip">Paris - Iasi</h4>
-                <div class="ticket-info-left">
-                    <div>Date: 25.11.2018</div>
-                    <div>Seat: 1</div>
-                    <div>Class: Second class</div>
-                </div>
-                <div class="ticket-info-right">
-                    <div>Departure: 17:30</div>
-                    <div>Boarding: 16:50</div>
-                </div>
-            </div>
-            <div class="ticket-item-active">
-                <h4 class="ticket-trip">Brussels - Bacau</h4>
-                <div class="ticket-info-left">
-                    <div>Date: 17.02.2019</div>
-                    <div>Seat: 134</div>
-                    <div>Class: Second class</div>
-                </div>
-                <div class="ticket-info-right">
-                    <div>Departure: 09:20</div>
-                    <div>Boarding: 08:50</div>
-                </div>
-            </div>
-        </div>
-
         <div class="ticket-main" *ngSwitchCase="'History'">
-            <div class="ticket-item-expired">
-                <h4 class="ticket-trip">Bucharest - London</h4>
+            <div class="ticket-item" *ngFor="let ticket of ticketHistory">
+                <h4 class="ticket-trip">{{ticket.departure}} - {{ticket.arrival}}</h4>
                 <div class="ticket-info-left">
-                    <div>Date: 01.06.2018</div>
-                    <div>Seat: 23</div>
-                    <div>Class: First class</div>
+                    <div>Departure: {{ticket.departureTime}}</div>
+                    <div>Arrival: {{ticket.arrivalTime}}</div>
                 </div>
                 <div class="ticket-info-right">
-                    <div>Departure: 13:30</div>
-                    <div>Boarding: 13:00</div>
+                    <div>Price: {{ticket.price}}</div>
                 </div>
                 <span style="clear: both;"></span>
-            </div>
-            <div class="ticket-item-expired">
-                <h4 class="ticket-trip">Paris - Iasi</h4>
-                <div class="ticket-info-left">
-                    <div>Date: 25.11.2018</div>
-                    <div>Seat: 1</div>
-                    <div>Class: Second class</div>
-                </div>
-                <div class="ticket-info-right">
-                    <div>Departure: 17:30</div>
-                    <div>Boarding: 16:50</div>
-                </div>
-            </div>
-            <div class="ticket-item-expired">
-                <h4 class="ticket-trip">Brussels - Bacau</h4>
-                <div class="ticket-info-left">
-                    <div>Date: 17.02.2019</div>
-                    <div>Seat: 134</div>
-                    <div>Class: Second class</div>
-                </div>
-                <div class="ticket-info-right">
-                    <div>Departure: 09:20</div>
-                    <div>Boarding: 08:50</div>
-                </div>
             </div>
         </div>
 
         <div class="review-main" *ngSwitchCase="'Reviews'">
             <div class="review-item" *ngFor="let review of reviews">
                 <h2>{{review.departure}} - {{review.arrival}}</h2>
+                <p>Company: {{review.company}}</p>
                 <span>{{review.description}}</span>
+                <br>
+                <div class="inline-div" *ngFor="let n of range(review.rating)">
+                    <i style="font-size:20px" class="fa">&#xf005;</i>
+                </div>
             </div>
         </div>
 

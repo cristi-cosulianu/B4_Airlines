@@ -1,17 +1,48 @@
 .options {
     float: left;
 }
+.inline-div{
+    display: inline-block;
+}
 
+.inline-div i {
+    margin : 5px;
+    background: radial-gradient(circle at 33% 100%, #ffff4d 4%, #ffff00 30%, #e6e600 62%, #cccc00 85%, #cccc00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 .option-item {
     list-style-type: none;
     font-size: 18px;
     cursor: pointer;
     line-height: 2rem;
+    display: inline-block;
+    position: relative;
 }
 
 .option-item:hover {
     color: #5648db;
-    text-decoration: underline;
+    text-decoration: none;
+}
+
+.option-item:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    bottom: 0;
+    left: 0;
+    background-color:#5648db;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+}
+.option-item:hover:before {
+visibility: visible;
+-webkit-transform: scaleX(1);
+transform: scaleX(1);
 }
 
 .review-main {
@@ -23,9 +54,11 @@
 
 .review-item {
     padding: 5px 10px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     border-radius: 10px;
     margin-bottom: 20px;
+    background: linear-gradient(-150deg, #559dfc, 	#6722DC);
+    color: white;
 }
 
 .ticket-main {
@@ -34,8 +67,7 @@
     font-size: 14pt;
 }
 
-.ticket-item-active,
-.ticket-item-expired {
+.ticket-item {
     padding: 5pt 10pt;
     border: 1px solid black;
     border-radius: 10pt;
@@ -43,13 +75,6 @@
     margin-left: 4%;
     width: 45%;
     float: left;
-}
-
-.ticket-item-active {
-    background-color: #f0f0ff;
-}
-
-.ticket-item-expired {
     background-color: #fff0f0;
 }
 

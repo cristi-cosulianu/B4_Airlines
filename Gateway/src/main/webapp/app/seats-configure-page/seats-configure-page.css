@@ -27,19 +27,6 @@
     min-height: 0; 
 }
 
-
-.plane-type-1{
- 
-}
-
-.plane-type-2{
- 
-}
-
-.plane-type-3{
- 
-}
-
 #planes .secondBigDiv {
     text-align: center;
     width: 100%;
@@ -158,7 +145,7 @@ figure figcaption {
 
 .seatCards {
     margin-top: 3%;
-    padding: 2%;
+    padding: 10px;
     margin-left: 2%;
     margin-right: 2%;
     background-color: #A1CFEE;
@@ -329,6 +316,11 @@ figure figcaption {
 
 
 /* MEDIA QUERIES*/
+@media screen and (min-width: 0px) and (max-width: 320px) {
+    #wrapperSeats {
+        display: none;
+    }
+}
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
     #wrapperSeats {
@@ -423,6 +415,10 @@ figure figcaption {
     #planes .secondBigDiv #plane2img {
         width: 700px;
         margin: 0 auto;
+    }
+
+    #selectedSeats {
+        background-color: white;
     }
 
     
@@ -529,10 +525,10 @@ figure figcaption {
     #selectedSeats{
         position: fixed;
         z-index: 3000;
-        background: white;
+        background: rgba(255, 255, 255, 0.85);
         bottom: 20px;
         width: 85%;
-        height: 30%;
+        height: 300px;
     }
 
     /*PLANE 2*/
@@ -869,14 +865,6 @@ figure figcaption {
         height: 50px;
         font-size: large;
     }
-
-    /* .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
-        margin-right: 36px;
-    }
-    
-    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
-        margin-right: 36px;
-    } */
 
     #planes .secondBigDiv #plane3img {
         width: 700px;

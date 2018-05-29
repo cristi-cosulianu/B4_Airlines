@@ -14,4 +14,5 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> getByFlightId(Pageable pageable, Long flightId);
+    Page<Review> getByUserId(Pageable pageable, Long userId);
 }

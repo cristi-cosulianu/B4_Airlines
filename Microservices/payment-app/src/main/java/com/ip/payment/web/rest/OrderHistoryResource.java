@@ -104,6 +104,20 @@ public class OrderHistoryResource {
     }
 
     /**
+     * GET  /order-histories/:ticketUserId : get all the orderHistories with ticketUserId.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of orderHistories in body
+     */
+    @GetMapping("/order-histories/ticket/{ticketUserId}")
+    @Timed
+    public List<OrderHistoryDTO> getOrderHistories(@PathVariable String ticketUserId) {
+        log.debug("REST request to get all OrderHistories with ticketUserId" );
+        return orderHistoryService.findByUserId(ticketUserId);
+    }
+
+
+
+    /**
      * DELETE  /order-histories/:id : delete the "id" orderHistory.
      *
      * @param id the id of the orderHistoryDTO to delete

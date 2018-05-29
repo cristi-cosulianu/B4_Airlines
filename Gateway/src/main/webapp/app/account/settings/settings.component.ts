@@ -8,7 +8,9 @@ import { JhiEventManager } from 'ng-jhipster';
 import { Review, ReviewService } from '../../entities/review';
 import { DataService } from '../../data.service';
 import { SettingsReview } from './models/review.model';
-import { FlightsService, EntityResponseType } from '../../entities/flights';
+import { FlightsService, EntityResponseType, Flights } from '../../entities/flights';
+import { Ticket } from './models/ticket.model';
+import { OrderHistoryService, OrderHistory } from '../../entities/order-history';
 
 @Component({
     selector: 'jhi-settings',
@@ -25,6 +27,7 @@ export class SettingsComponent implements OnInit {
     settingsAccount: any;
     userinfo: Userinfo;
     myAccount: Account;
+    ticketHistory: Ticket[];
 
     constructor(
         private dataService: DataService,
@@ -33,7 +36,8 @@ export class SettingsComponent implements OnInit {
         private principal: Principal,
         private eventManager: JhiEventManager,
         private reviewService: ReviewService,
-        private flightsService: FlightsService
+        private flightsService: FlightsService,
+        private historyService: OrderHistoryService
     ) {
     }
 
@@ -114,16 +118,26 @@ export class SettingsComponent implements OnInit {
         this.settingsOption = option;
         if (option === 'Reviews') {
             this.initReviews();
+        } else if (option === 'Active') {
+            this.initHistory();
         }
     }
 
     initReviews() {
         this.reviews = [];
-        this.reviewService.query(`userid=` + this.userinfo.uid).subscribe(
+        this.reviewService.query('userid=' + this.userinfo.uid).subscribe(
             (res: HttpResponse<Review[]>) => {
                 for (const rev of res.body) {
+<<<<<<< HEAD
                     if ( this.userinfo.uid === 'rev.userId') {
                         const review = new SettingsReview(rev.id, rev.flightId, rev.description);
+=======
+                    if (this.userinfo.id === rev.userId) {
+                        const review = new SettingsReview();
+                        review.id = rev.id;
+                        review.flightId = rev.flightId;
+                        review.description = rev.description;
+>>>>>>> d20bfe73487fcccf7b6d6e8213cba00ce787ada6
                         this.flightsService.find(rev.flightId).subscribe(
                             (response: EntityResponseType) => {
                                 const flight = response.body;
@@ -136,6 +150,37 @@ export class SettingsComponent implements OnInit {
                     }
                 }
             });
+    }
+
+    initHistory() {
+        this.ticketHistory = [];
+        this.historyService.query().subscribe(
+            (res: HttpResponse<OrderHistory[]>) => {
+                for (const order of res.body) {
+                    if (this.userinfo.id === +order.ticketUserId) {
+                        const ticket = new Ticket();
+                        ticket.price = order.ticketPrice;
+                        this.flightsService.find(order.ticketFlightID).subscribe(
+                            (flight: EntityResponseType) => {
+                                const flightInfo = flight.body;
+                                ticket.arrival = flightInfo.arrival;
+                                ticket.arrivalTime = flightInfo.arrivalTime;
+                                ticket.departure = flightInfo.departure;
+                                ticket.departureTime = flightInfo.departureTime;
+                            });
+                        this.ticketHistory.push(ticket);
+                    }
+                }
+            }
+        );
+    }
+
+    range(count): number[] {
+        const list = [];
+        for (let i = 0; i < count; i++) {
+            list.push(1);
+        }
+        return list;
     }
 
     builduserid() {

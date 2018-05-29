@@ -136,4 +136,11 @@ public class RatingResource {
             return new ResponseEntity<Integer>(ratings.stream().mapToInt(rating -> rating.getRating()).sum() / ratings.size() , HttpStatus.OK);
         }
     }
+
+    @GetMapping("/ratings/{userId}/{flightId}")
+    @Timed
+    public ResponseEntity<RatingDTO> getUserRating(@PathVariable Long userId , @PathVariable Long flightId) {
+        RatingDTO ratingDTO = ratingService.findByUserId(userId , flightId);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(ratingDTO));
+    }
 }

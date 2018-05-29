@@ -97,4 +97,10 @@ public class RatingServiceImpl implements RatingService {
             return ratings.stream().map(ratingMapper::toDto).collect(Collectors.toList());
         }
     }
+
+    @Override
+    public RatingDTO findByUserId(Long userId , Long flightId) {
+        Rating rating = ratingRepository.findByUserIdAndFlightId(userId , flightId);
+        return ratingMapper.toDto(rating);
+    }
 }
