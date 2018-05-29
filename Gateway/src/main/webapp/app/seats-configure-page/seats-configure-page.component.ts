@@ -17,7 +17,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   public ticket = new TicketModel();
   public ticketForPost = new TicketModel();
   private seat: Seats;
-  private id_flight: string;
+  private id_flight: number;
   private route_string: string;
   private type: number;
   private nrOfSeats: number;
@@ -60,13 +60,14 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    // this.type = this.ticket.ticket_flightID.toString();
-    // this.id_flight = this.ticket.ticket_planeType;
-    this.type = 1;             // this is hard coded for now
-    this.id_flight = '1234';       // this is hard coded for now
-    this.route_string = 'București - Iași';
-    this.ticket.ticket_flightID = 1234;
-    this.ticket.ticket_planeType = 3;
+    // this.type = this.ticket.ticket_planeType;
+    // this.id_flight = this.ticket.ticket_flightID;
+    // this.route_string = this.ticket.ticket_departure + '-' + this.ticket.ticket_destination;
+    this.ticket.ticket_planeType = 1;                   // this is hard coded for now
+    this.ticket.ticket_flightID = 1234;                 // this is hard coded for now
+    this.route_string = 'București - Iași';             // this is hard coded for now
+    this.type = this.ticket.ticket_planeType;
+    this.id_flight = this.ticket.ticket_flightID;
 
     if (this.type === 1) {
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
@@ -146,7 +147,7 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.data.ticketInfo.subscribe((_data) => this.ticketForPost = _data);
     this.seat = new Seats();
     this.seat.type = this.ticketForPost.ticket_planeType;
-    this.seat.id_flight = this.id_flight;
+    this.seat.id_flight = this.id_flight.toString();
     for (let i = 0; i < this.ticketForPost.ticket_seats.length; i++) {
       this.seat.seat_index = this.ticketForPost.ticket_seats[i];
       this.service.create(this.seat).subscribe();
@@ -199,32 +200,32 @@ export class SeatsConfigurePageComponent implements OnInit {
     }
   }
   */
-  let deniedSeats : Array<number> = new Array();
-  this.service.findByFlightId(this.type).subscribe((data) => {
-    console.log(data);
-    for (let i = 0; i < data.body.length; i++) {
-      // this.occupiedSeats.push(data.body[i].seat_index);
-      if(this.ticket.ticket_seats.indexOf(data.body[i].seat_index) > -1){
-        deniedSeats.push(data.body[i].seat_index);
+    let deniedSeats: Array<number> = new Array();
+    this.service.findByFlightId(this.type).subscribe((data) => {
+      console.log(data);
+      for (let i = 0; i < data.body.length; i++) {
+        // this.occupiedSeats.push(data.body[i].seat_index);
+        if (this.ticket.ticket_seats.indexOf(data.body[i].seat_index) > -1) {
+          deniedSeats.push(data.body[i].seat_index);
+        }
       }
-    }
-    if(deniedSeats.length === 0 ) {
-      let newSeat : Seats;
-      for(let j=0; j<this.ticket.ticket_seats.length; j++) {
-        newSeat = new Seats();
-        newSeat.type = this.ticket.ticket_flightID;
-        newSeat.seat_index = this.ticket.ticket_seats[j];
-        newSeat.id_flight = this.ticket.ticket_planeType.toString();
-        this.service.create(newSeat);
-      }
-    } else {
-      let message = 'These seats can not be reserved as they are already taken: ';
+      if (deniedSeats.length === 0) {
+        let newSeat: Seats;
+        for (let j = 0; j < this.ticket.ticket_seats.length; j++) {
+          newSeat = new Seats();
+          newSeat.type = this.ticket.ticket_flightID;
+          newSeat.seat_index = this.ticket.ticket_seats[j];
+          newSeat.id_flight = this.ticket.ticket_planeType.toString();
+          this.service.create(newSeat);
+        }
+      } else {
+        let message = 'These seats can not be reserved as they are already taken: ';
         for (let k = 0; k < deniedSeats.length; k++) {
           this.ticket.ticket_seats.slice(deniedSeats[k]);
-                message = message + deniedSeats[k].toString() + ' ';
-              }
+          message = message + deniedSeats[k].toString() + ' ';
+        }
         alert(message);
-    }
-  });
+      }
+    });
   }
 }
