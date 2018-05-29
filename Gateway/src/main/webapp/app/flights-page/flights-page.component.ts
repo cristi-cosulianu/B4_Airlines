@@ -163,8 +163,8 @@ export class FlightsPageComponent implements OnInit {
           row.appendChild(reviews);
           row.appendChild(select);
           // Add row to table body.
-          tableBody.appendChild(row);
         });
+        tableBody.appendChild(row);
       }
     }
   }
