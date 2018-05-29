@@ -3,11 +3,11 @@ export class SettingsReview {
     public arrival: string;
     public company: string;
     public rating: number;
+    public id: number;
+    public flightId: number;
+    public description: string;
 
     constructor(
-        public id: number,
-        public flightId: number,
-        public description: string,
     ) {
     }
 }

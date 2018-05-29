@@ -1,17 +1,29 @@
 .options {
     float: left;
 }
+.inline-div{
+    display: inline-block;
+}
 
+.inline-div i {
+    margin : 5px;
+    background: radial-gradient(circle at 33% 100%, #ffff4d 4%, #ffff00 30%, #e6e600 62%, #cccc00 85%, #cccc00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 .option-item {
     list-style-type: none;
     font-size: 18px;
     cursor: pointer;
     line-height: 2rem;
+    border-bottom: 1px solid blue;
 }
 
 .option-item:hover {
     color: #5648db;
-    text-decoration: underline;
+    text-decoration: none;
+    border-bottom: 3px solid blue;
+    transition: border 1s linear;
 }
 
 .review-main {
@@ -23,9 +35,11 @@
 
 .review-item {
     padding: 5px 10px;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     border-radius: 10px;
     margin-bottom: 20px;
+    background: linear-gradient(-150deg, #559dfc, 	#6722DC);
+    color: white;
 }
 
 .ticket-main {
