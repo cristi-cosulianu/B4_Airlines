@@ -1,5 +1,5 @@
-package com.ip.seatsapp.repository;
 
+package com.ip.seatsapp.repository;
 
 import com.ip.seatsapp.domain.Seats;
 import com.ip.seatsapp.service.dto.SeatsDTO;
