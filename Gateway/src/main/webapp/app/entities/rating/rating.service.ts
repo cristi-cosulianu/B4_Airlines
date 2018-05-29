@@ -16,6 +16,9 @@ export class RatingService {
     constructor(private http: HttpClient) { }
 
     create(rating: Rating): Observable<EntityResponseType> {
+        console.log(rating.flightId);
+        console.log(rating.rating);
+        console.log(rating.userId);
         const copy = this.convert(rating);
         return this.http.post<Rating>(this.resourceUrl, copy, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
@@ -37,7 +40,7 @@ export class RatingService {
         return this.http.get<Rating[]>(this.resourceUrl, { params: options, observe: 'response' })
             .map((res: HttpResponse<Rating[]>) => this.convertArrayResponse(res));
     }
-    
+
     ratingForFlight(flightId: number): Observable<any> {
         return this.http.get<any>(`${this.resourceUrl}/stats/${flightId}`, { observe: 'response'});
     }

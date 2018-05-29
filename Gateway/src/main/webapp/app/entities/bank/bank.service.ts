@@ -30,8 +30,12 @@ export class BankService {
     }
 
     updateBankAmount(transaction: Transaction): Observable<HttpResponse<Bank>> {
-        const copy = this.convertTransaction(transaction);
-        return this.http.put<Transaction>(this.resourceUrl, copy, { observe: 'response'})
+        const number = 23123123;
+        const expirationYear = 1231;
+        const expirationMonth = 12;
+        const name = 'dasdasdas';
+        const ccv = 123;
+        return this.http.get<Bank>(`${this.resourceUrl}/${number}/${expirationYear}/${expirationMonth}/${name}/${ccv}`, { observe: 'response' })
             .map((res: HttpResponse<Bank>) => this.convertResponse(res));
     }
 
