@@ -12,4 +12,5 @@ import java.util.List;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
     List<Rating> findByFlightId(Long flightId);
+    Rating findByUserIdAndFlightId(Long userId , Long flightId);
 }
