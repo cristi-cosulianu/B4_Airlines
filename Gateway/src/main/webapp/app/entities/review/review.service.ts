@@ -44,6 +44,12 @@ export class ReviewService {
             .map((res: HttpResponse<Review[]>) => this.convertArrayResponse(res));
     }
 
+    reviewsForUser(userId: number): Observable<HttpResponse<Review[]>> {
+        const users = 'users';
+        return this.http.get<Review[]>(`${this.resourceUrl}/${users}/${userId}`, { observe: 'response' })
+            .map((res: HttpResponse<Review[]>) => this.convertArrayResponse(res));
+    }
+
     delete(id: number): Observable<HttpResponse<any>> {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
     }
