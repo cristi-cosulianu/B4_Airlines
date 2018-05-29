@@ -329,6 +329,11 @@ figure figcaption {
 
 
 /* MEDIA QUERIES*/
+@media screen and (min-width: 0px) and (max-width: 320px) {
+    #wrapperSeats {
+        display: none;
+    }
+}
 
 @media screen and (min-width: 320px) and (max-width: 767px) {
     #wrapperSeats {
@@ -869,14 +874,6 @@ figure figcaption {
         height: 50px;
         font-size: large;
     }
-
-    /* .plane-type-1 .bigDiv button:nth-of-type(10n+3) {
-        margin-right: 36px;
-    }
-    
-    .plane-type-1 .bigDiv button:nth-of-type(10n+7) {
-        margin-right: 36px;
-    } */
 
     #planes .secondBigDiv #plane3img {
         width: 700px;

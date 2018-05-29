@@ -17,7 +17,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   public ticket = new TicketModel();
   public ticketForPost = new TicketModel();
   private seat: Seats;
-  private id_flight: string;
+  private id_flight: number;
   private route_string: string;
   private type: number;
   private nrOfSeats: number;
@@ -85,8 +85,8 @@ export class SeatsConfigurePageComponent implements OnInit {
     // this.planeType = this.ticket.ticket_planeType;
     // this.id_flight = this.ticket.ticket_flightID.toString();
     this.type = 1;             // this is hard coded for now
-    this.id_flight = '123mv';       // this is hard coded for now
-    this.route_string = 'București - Iași';
+    this.id_flight = 12314 ;       // this is hard coded for now
+    this.route_string = 'London - Bucharest';
 
     if (this.type === 1) {
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
@@ -166,7 +166,7 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.data.ticketInfo.subscribe((_data) => this.ticketForPost = _data);
     this.seat = new Seats();
     this.seat.type = this.ticketForPost.ticket_planeType;
-    this.seat.id_flight = this.id_flight;
+    this.seat.id_flight = this.id_flight.toString();
     for (let i = 0; i < this.ticketForPost.ticket_seats.length; i++) {
       this.seat.seat_index = this.ticketForPost.ticket_seats[i];
       this.service.create(this.seat).subscribe();
