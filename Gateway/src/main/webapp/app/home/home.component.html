@@ -1,15 +1,17 @@
 <div class="slider-wrapper">
     <nav class="nav">
-        <p [ngSwitch]="isAuthenticated()"> Welcome to B4 Airlines! Explore your travel opportunities
-            <a class="booking-link" (click)="engage()" *ngSwitchCase="true"> here. </a>
-            <a class="booking-link" (click)="login()" *ngSwitchCase="false"> here. </a>
-        </p>
+        <p class="welcome-text">Welcome to B4 Airlines!</p>
+        <p class="quote-text">Explore your travel opportunities.</p>
+        <div class="book-now" [ngSwitch]="isAuthenticated()">
+            <button class="book-now-btn" (click)="engage()" *ngSwitchCase="true">book now</button>
+            <button class="book-now-btn" (click)="login()" *ngSwitchCase="false">book now</button>
+        </div>
     </nav>
     <div class="slider">
         <div class="slider-inner">
-            <div class="slide active">Santorini</div>
-            <div class="slide">Sevilla</div>
-            <div class="slide">Madrid</div>
+            <div class="slide active"><p>Santorini</p></div>
+            <div class="slide"><p>Sevilla</p></div>
+            <div class="slide"><p>Madrid</p></div>
         </div>
         <nav class="slider-nav">
             <div class="slider active"></div>

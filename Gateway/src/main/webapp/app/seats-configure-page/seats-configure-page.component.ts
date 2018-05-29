@@ -33,31 +33,9 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.shouldShowLoading = true;
   }
 
-  modulo6(index) {
-    if ((index + 1) % 6 === 0 && index !== 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  modulo3(index) {
-    if ((index + 1) % 3 === 0) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   getPlaneType() {
     return this.type;
   }
-
-  // spacing(index) {
-  //   if (index === 29 || index === 65) {
-  //     return true;
-  //   }
-  // }
 
   checkOccupiedSeats() {
     // console.log(this.occupiedSeats);
@@ -82,8 +60,8 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    // this.planeType = this.ticket.ticket_planeType;
-    // this.id_flight = this.ticket.ticket_flightID.toString();
+    // this.type = this.ticket.ticket_flightID.toString();
+    // this.id_flight = this.ticket.ticket_planeType;
     this.type = 1;             // this is hard coded for now
     this.id_flight = 12314 ;       // this is hard coded for now
     this.route_string = 'London - Bucharest';
@@ -215,7 +193,6 @@ export class SeatsConfigurePageComponent implements OnInit {
               alert(message);
             }
           }
-
         });
     }
   }

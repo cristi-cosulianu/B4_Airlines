@@ -82,9 +82,9 @@
             </figure>
         </div>
         <div id="selectedSeats">
-            <h4>Seats selected:<h4>
+            <h4>Seats selected:</h4>
             <div id="seatListScrollableWrapper">
-                <div  *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards">
+                <div  *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards" (click)="buttonClick(number)">
                     {{number}}  
                 </div>
             </div>

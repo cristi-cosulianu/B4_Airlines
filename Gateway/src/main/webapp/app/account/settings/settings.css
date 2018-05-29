@@ -17,7 +17,7 @@
     cursor: pointer;
     line-height: 2rem;
     display: inline-block;
-    position: relative;    
+    position: relative;
 }
 
 .option-item:hover {
@@ -67,8 +67,7 @@ transform: scaleX(1);
     font-size: 14pt;
 }
 
-.ticket-item-active,
-.ticket-item-expired {
+.ticket-item {
     padding: 5pt 10pt;
     border: 1px solid black;
     border-radius: 10pt;
@@ -76,13 +75,6 @@ transform: scaleX(1);
     margin-left: 4%;
     width: 45%;
     float: left;
-}
-
-.ticket-item-active {
-    background-color: #f0f0ff;
-}
-
-.ticket-item-expired {
     background-color: #fff0f0;
 }
 
