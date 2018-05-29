@@ -227,11 +227,12 @@ export class FlightsPageComponent implements OnInit {
       const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
       const textAreaReview = textArea.value;
       if (textAreaReview.length > 20) {
-        console.log(this.userInfo.id);
-        const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: 123123123123123};
-        this.reviewsService.create(review).subscribe((data) => {
-          this.removeFlightReviews(flightIdParameter, rowNum);
-        });
+        if (this.userInfo.id === undefined) {
+          const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: this.userInfo.id};
+          this.reviewsService.create(review).subscribe((data) => {
+            this.removeFlightReviews(flightIdParameter, rowNum);
+          });
+        }
       }
 
   }
@@ -292,10 +293,13 @@ export class FlightsPageComponent implements OnInit {
   }
 
   submitRating(flightIdParameter, rowNum, starNumber) {
-    console.log(this.userInfo.id);
-    const rating: Rating = {userId: 213123123123123132, flightId: flightIdParameter, rating: starNumber + 1};
-    this.ratingService.create(rating).subscribe((data) => {
-      console.log('RESPONSE:' + data);
-    });
+    const rating: Rating = {userId: this.userInfo.id, flightId: flightIdParameter, rating: starNumber + 1};
+    if (this.userInfo.id !== undefined) {
+      this.ratingService.ratingForUserAndFlight(flightIdParameter, this.userInfo.id).subscribe((data) => {
+        if (data != null) {
+          this.ratingService.create(rating).subscribe((_data) => {});
+        }
+      });
+    }
   }
 }
