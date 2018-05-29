@@ -156,7 +156,7 @@ export class SeatsConfigurePageComponent implements OnInit {
 
   conversionSeat (seatNumber:number) {
     let numberPerRow : number;
-    switch(this.id_flight) { 
+    switch(this.type) { 
       case 1 : numberPerRow = 10; break;
       case 2 : numberPerRow = 4; break;
       case 3 : numberPerRow = 7; break;
