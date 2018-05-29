@@ -75,6 +75,20 @@ public class OrderHistoryServiceImpl implements OrderHistoryService {
     }
 
     /**
+     * Get all the orderHistories of ticketUserId.
+     *
+     * @return the list of entities
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrderHistoryDTO> findByUserId(String ticketUserId) {
+        log.debug("Request to get all OrderHistories of : {}", ticketUserId);
+        return orderHistoryRepository.findByTicketUserId(ticketUserId).stream()
+        .map(orderHistoryMapper::toDto)
+        .collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
      * Delete the orderHistory by id.
      *
      * @param id the id of the entity
