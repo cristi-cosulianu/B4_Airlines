@@ -4,11 +4,10 @@ import { TicketModel } from '../models/ticket-model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Flights, FlightsService } from '../entities/flights';
 import { Review, ReviewService } from '../entities/review';
-import { RatingService } from '../entities/rating';
+import { RatingService, Rating } from '../entities/rating';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Userinfo, UserinfoService } from '../entities/userinfo';
-import { $, $$ } from 'protractor';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -22,11 +21,11 @@ export class FlightsPageComponent implements OnInit {
 
   currentRate = 3;
   hovered = 0;
+  userInfo: Userinfo;
 
   public ticket = new TicketModel();
   constructor(private data: DataService,
     private router: Router,
-    private userInfo: UserinfoService,
     private flightsService: FlightsService,
     private reviewsService: ReviewService,
     private ratingService: RatingService,
@@ -37,12 +36,12 @@ export class FlightsPageComponent implements OnInit {
   }
   ngOnInit() {
 
-    console.log(this.ticket);
+    this.data.user.subscribe((_data) => this.userInfo = _data);
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.updateTicket(this.ticket);
-    this.flightsService.query().subscribe((data) => {
+    this.flightsService.query().subscribe((_data) => {
       this.removeAllRows();
-      this.createRowsUsingData(data.body, 'some');
+      this.createRowsUsingData(_data.body, 'some');
     });
   }
 
@@ -99,9 +98,6 @@ export class FlightsPageComponent implements OnInit {
         const select = this.createElement('td');
         // Assign text to simple columns.
         flightId.innerText = obj.id;
-        this.ratingService.ratingForFlight(obj.id).subscribe((data1) => {
-          console.log(data1);
-        });
         departure.innerText = obj.departure + ' ' + obj.departureTime;
         destination.innerText = obj.arrival + ' ' + obj.arrivalTime;
         price.innerText = obj.priceRangeMin + '-' + obj.priceRangeMax;
@@ -115,51 +111,56 @@ export class FlightsPageComponent implements OnInit {
         // Create div container for raiting stars.
         const ratingDiv = this.createElement('div');
         ratingDiv.setAttribute('class', 'star-rating');
-        for (let i = 0; i < 5; i++) {
-          // Create stars.
-          const span = this.createElement('span');
-          span.setAttribute('id', 'row' + iterator + 'star' + i );
-          // Assign stars to be yellow or unfilled.
-          if (i < obj.rating) {
-            span.setAttribute('class', 'fa fa-star');
-          } else {
-            span.setAttribute('class', 'fa fa-star-o');
+        ratingDiv.addEventListener('mouseleave', (event) => this.displayRating(obj.id, iterator) );
+        this.ratingService.ratingForFlight(obj.id).subscribe((response) => {
+          for (let i = 0; i < 5; i++) {
+            // Create stars.
+            const span = this.createElement('span');
+            span.setAttribute('id', 'row' + iterator + 'star' + i );
+            // Assign stars to be yellow or unfilled.
+            if (i < response.body) {
+              span.setAttribute('class', 'fa fa-star');
+            } else {
+              span.setAttribute('class', 'fa fa-star-o');
+            }
+            const ratingNumber = i.toString();
+            span.setAttribute('data-rating', ratingNumber);
+            span.addEventListener('mouseenter', (event) => this.changeStarInYellow(i, iterator) );
+            span.addEventListener('mouseleave', (event) => this.changeStarInUnfilled(i, iterator) );
+            span.addEventListener('click', (event) => this.submitRating(obj.id, iterator, i) );
+            ratingDiv.appendChild(span);
           }
-          const ratingNumber = i.toString();
-          span.setAttribute('data-rating', ratingNumber);
-          span.addEventListener('mouseenter', (event) => this.changeStarInYellow(i, iterator) );
-          ratingDiv.appendChild(span);
-        }
-        rating.appendChild(ratingDiv);
-        // Create button for reviews.
-        const reviewButton = this.createElement('button');
-        reviewButton.setAttribute('type', 'button');
-        reviewButton.setAttribute('id', 'reviewButton' + iterator);
-        reviewButton.setAttribute('class', 'btn btn-outline-primary btn-sm btn-review');
-        reviewButton.setAttribute('aria-expanded', '!isCollapsed1');
-        reviewButton.setAttribute('aria-controls', 'review1');
-        reviewButton.addEventListener('click', (event) => this.displayFlightReviews(obj.id, iterator));
-        reviewButton.innerText = 'Show';
-        reviews.appendChild(reviewButton);
-        // Create select flight button.
-        const selectButton = this.createElement('button');
-        selectButton.setAttribute('class', 'btn btn-primary btn-sm');
-        selectButton.setAttribute('type', 'submit');
-        selectButton.addEventListener('click', (event) => this.populateTicket(obj.id, obj.departure, obj.arrival, obj.planeType));
-        selectButton.innerText = 'Select';
-        select.appendChild(selectButton);
-        // Add all columns to new created row.
-        row.appendChild(flightId);
-        row.appendChild(departure);
-        row.appendChild(destination);
-        row.appendChild(price);
-        row.appendChild(company);
-        row.appendChild(planeType);
-        row.appendChild(rating);
-        row.appendChild(reviews);
-        row.appendChild(select);
-        // Add row to table body.
-        tableBody.appendChild(row);
+          rating.appendChild(ratingDiv);
+          // Create button for reviews.
+          const reviewButton = this.createElement('button');
+          reviewButton.setAttribute('type', 'button');
+          reviewButton.setAttribute('id', 'reviewButton' + iterator);
+          reviewButton.setAttribute('class', 'btn btn-outline-primary btn-sm btn-review');
+          reviewButton.setAttribute('aria-expanded', '!isCollapsed1');
+          reviewButton.setAttribute('aria-controls', 'review1');
+          reviewButton.addEventListener('click', (event) => this.displayFlightReviews(obj.id, iterator));
+          reviewButton.innerText = 'Show';
+          reviews.appendChild(reviewButton);
+          // Create select flight button.
+          const selectButton = this.createElement('button');
+          selectButton.setAttribute('class', 'btn btn-primary btn-sm');
+          selectButton.setAttribute('type', 'submit');
+          selectButton.addEventListener('click', (event) => this.populateTicket(obj.id, obj.departure, obj.arrival, obj.planeType));
+          selectButton.innerText = 'Select';
+          select.appendChild(selectButton);
+          // Add all columns to new created row.
+          row.appendChild(flightId);
+          row.appendChild(departure);
+          row.appendChild(destination);
+          row.appendChild(price);
+          row.appendChild(company);
+          row.appendChild(planeType);
+          row.appendChild(rating);
+          row.appendChild(reviews);
+          row.appendChild(select);
+          // Add row to table body.
+          tableBody.appendChild(row);
+        });
       }
     }
   }
@@ -219,18 +220,15 @@ export class FlightsPageComponent implements OnInit {
   }
 
   submitReview(flightIdParameter, rowNum) {
-    this.userInfo.query().subscribe((data) => {
-      const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
-      const textAreaReview = textArea.value;
-      if (textAreaReview.length > 20) {
-        const users = data.body;
-        const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: users[0].id};
-        this.reviewsService.create(review).subscribe((data1) => {
-          this.removeFlightReviews(flightIdParameter, rowNum);
-        });
-      }
-    });
-
+    const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
+    const textAreaReview = textArea.value;
+    if (textAreaReview.length > 20) {
+      console.log(this.userInfo.id);
+      const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: 123123123123123};
+      this.reviewsService.create(review).subscribe((data) => {
+        this.removeFlightReviews(flightIdParameter, rowNum);
+      });
+    }
   }
 
   recreateNode(el, withChildren) {
@@ -266,5 +264,33 @@ export class FlightsPageComponent implements OnInit {
       const star = document.getElementById('row' + rowNum + 'star' + iterator );
       star.setAttribute('class', 'fa fa-star');
     }
+  }
+
+  changeStarInUnfilled(starNumber, rowNum) {
+    for (let iterator = starNumber; iterator < 5; iterator++) {
+      const star = document.getElementById('row' + rowNum + 'star' + iterator );
+      star.setAttribute('class', 'fa fa-star-o');
+    }
+  }
+
+  displayRating(flightId, rowNum) {
+    this.ratingService.ratingForFlight(flightId).subscribe((data) => {
+      for (let i = 0; i < 5; i++) {
+        const star = document.getElementById('row' + rowNum + 'star' + i);
+        if (i < data.body) {
+          star.setAttribute('class', 'fa fa-star');
+        } else {
+          star.setAttribute('class', 'fa fa-star-o');
+        }
+      }
+    });
+  }
+
+  submitRating(flightIdParameter, rowNum, starNumber) {
+    console.log(this.userInfo.id);
+    const rating: Rating = {userId: 213123123123123132, flightId: flightIdParameter, rating: starNumber + 1};
+    this.ratingService.create(rating).subscribe((data) => {
+      console.log('RESPONSE:' + data);
+    });
   }
 }

@@ -37,9 +37,15 @@ export class RatingService {
         return this.http.get<Rating[]>(this.resourceUrl, { params: options, observe: 'response' })
             .map((res: HttpResponse<Rating[]>) => this.convertArrayResponse(res));
     }
-    
-    ratingForFlight(flightId: number): Observable<any> {
-        return this.http.get<any>(`${this.resourceUrl}/stats/${flightId}`, { observe: 'response'});
+
+    ratingForUserAndFlight(flightId: number, userId: number): Observable<HttpResponse<Rating>> {
+        return this.http.get<Rating>(`${this.resourceUrl}/${flightId}/${userId}`, { observe: 'response'})
+        .map((res: HttpResponse<Rating>) => this.convertResponse(res));
+    }
+
+    ratingForFlight(flightId: number): Observable<HttpResponse<Rating>> {
+        return this.http.get<Rating>(`${this.resourceUrl}/stats/${flightId}`, { observe: 'response'})
+        .map((res: HttpResponse<Rating>) => this.convertResponse(res));
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
