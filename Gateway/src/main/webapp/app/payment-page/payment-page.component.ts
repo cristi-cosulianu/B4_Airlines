@@ -152,7 +152,7 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.user.subscribe((_data) => this.user);
     // this.ticketPrice = this.flight.priceRangeMax;
     // this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-    this.totalPrice = 500;
+    this.totalPrice = 100;
     this.flightInfos.departLocation = this.flight.departure;
     this.flightInfos.departTime = this.flight.departureTime;
     this.flightInfos.landLocation = this.flight.arrival;
@@ -160,6 +160,30 @@ export class PaymentPageComponent implements OnInit {
     this.flightInfos.flightDate = this.flight.company;
   }
 
+  submit() {
+    this.parseExpirationDate();
+    this.transaction = new Transaction(
+          this.passengerIDInfos.card.number,
+          this.passengerIDInfos.card.expirationYear,
+          this.passengerIDInfos.card.expirationMonth,
+          this.passengerIDInfos.card.name,
+          this.passengerIDInfos.card.cvv,
+          this.totalPrice,
+          false
+        );
+
+    console.log( this.passengerIDInfos.card.number + ' ' +
+      this.passengerIDInfos.card.expirationYear + ' ' +
+      this.passengerIDInfos.card.expirationMonth + ' ' +
+      this.passengerIDInfos.card.name + ' ' +
+      this.passengerIDInfos.card.cvv + ' ' +
+      this.totalPrice );
+      if ( this.updateBank(this.transaction) ) {
+        console.log('Working');
+      } else {
+        console.log('WError!');
+      }
+  }
   // submit() {
   //   this.transaction = new Transaction(
   //     this.passengerIDInfos.card.number,
@@ -206,7 +230,7 @@ export class PaymentPageComponent implements OnInit {
         return true;
       },
       (res: HttpErrorResponse) => {
-        console.log('Bank Error!');
+        console.log('Bank Error! ' + res.status );
         // rollback
         this.paymentCompensation();
         this.jhiAlertService.error(res.message, null, null);
@@ -348,7 +372,9 @@ export class PaymentPageComponent implements OnInit {
     const getFormId = document.getElementById('passangerInfoForm');
     if (this.hasClass(getFormId, 'ng-valid') === true) {
       console.log('Apelez submit');
-      // this.submit();
+      const sumbitFeedback = '404';
+      // In loc de error functia target_popup primeste ca argument this.submit()
+      this.target_popup(sumbitFeedback);
     }
   }
 
@@ -356,8 +382,61 @@ export class PaymentPageComponent implements OnInit {
     return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
   }
 
-  target_popup(form) {
-  window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars');
-  form.target = 'formpopup';
- }
+  target_popup(message): void {
+    const popupDiv = document.getElementById('feedMess') as HTMLElement;
+    const innerDiv = document.createElement('div') as HTMLElement;
+    const mTitle = document.createElement('strong') as HTMLElement;
+    const desc = document.createElement('p') as HTMLElement;
+    switch (message) {
+      case '404':
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-danger');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Oh snap!';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'We\'re sorry, but your payment was not successful.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+      case '200':
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-success');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Well done!';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'You successfully book this ticket.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+      default:
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-warning');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Sorry !';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'Please try again later.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+    }
+  }
+
+  removeFeedMess() {
+    const displayResults = document.getElementById('feedMess') as HTMLDivElement;
+    while (displayResults.hasChildNodes()) {
+      displayResults.removeChild(displayResults.lastChild);
+    }
+  }
 }

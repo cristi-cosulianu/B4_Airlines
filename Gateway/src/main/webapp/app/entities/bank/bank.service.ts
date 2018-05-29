@@ -25,13 +25,13 @@ export class BankService {
 
     update(bank: Bank): Observable<EntityResponseType> {
         const copy = this.convert(bank);
-        return this.http.put<Bank>(this.transactionResourceUrl, copy, { observe: 'response' })
+        return this.http.put<Bank>(this.resourceUrl, copy, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
     updateBankAmount(transaction: Transaction): Observable<HttpResponse<Bank>> {
         const copy = this.convertTransaction(transaction);
-        return this.http.put<any>(this.resourceUrl, copy, { observe: 'response'})
+        return this.http.put<any>(this.transactionResourceUrl, copy, { observe: 'response'})
             .map((res: HttpResponse<Bank>) => this.convertResponse(res));
     }
 

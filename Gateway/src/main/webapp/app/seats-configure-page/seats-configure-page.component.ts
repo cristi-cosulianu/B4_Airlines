@@ -26,7 +26,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   private nrOfSeatsOfPlane3: number;
   private nrOfSeatsOfPlane4: number;
   private shouldShowLoading: boolean;
-  private deniedSeats: Array<number> = new Array<number>();
+  //private deniedSeats: Array<number> = new Array<number>();
   private localData: DataService;
 
   constructor(private data: DataService, private service: SeatsService) {
@@ -60,11 +60,14 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    // this.type = this.ticket.ticket_flightID.toString();
-    // this.id_flight = this.ticket.ticket_planeType;
-    this.type = 4;             // this is hard coded for now
-    this.id_flight = 4;       // this is hard coded for now
-    this.route_string = 'London - Bucharest';
+    // this.type = this.ticket.ticket_planeType;
+    // this.id_flight = this.ticket.ticket_flightID;
+    // this.route_string = this.ticket.ticket_departure + '-' + this.ticket.ticket_destination;
+    this.ticket.ticket_planeType = 1;                   // this is hard coded for now
+    this.ticket.ticket_flightID = 1234;                 // this is hard coded for now
+    this.route_string = 'București - Iași';             // this is hard coded for now
+    this.type = this.ticket.ticket_planeType;
+    this.id_flight = this.ticket.ticket_flightID;
 
     if (this.type === 1) {
       this.nrOfSeats = this.nrOfSeatsOfPlane1;
@@ -99,7 +102,7 @@ export class SeatsConfigurePageComponent implements OnInit {
 
   queryOccupiedSeats() {
     this.shouldShowLoading = true;
-    this.service.findByFlightId(this.type).subscribe((data) => {
+    this.service.findByFlightId(this.ticket.ticket_flightID).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
         this.occupiedSeats.push(data.body[i].seat_index);
@@ -210,5 +213,32 @@ export class SeatsConfigurePageComponent implements OnInit {
     }
   }
   */
+    let deniedSeats: Array<number> = new Array();
+    this.service.findByFlightId(this.type).subscribe((data) => {
+      console.log(data);
+      for (let i = 0; i < data.body.length; i++) {
+        // this.occupiedSeats.push(data.body[i].seat_index);
+        if (this.ticket.ticket_seats.indexOf(data.body[i].seat_index) > -1) {
+          deniedSeats.push(data.body[i].seat_index);
+        }
+      }
+      if (deniedSeats.length === 0) {
+        let newSeat: Seats;
+        for (let j = 0; j < this.ticket.ticket_seats.length; j++) {
+          newSeat = new Seats();
+          newSeat.type = this.ticket.ticket_flightID;
+          newSeat.seat_index = this.ticket.ticket_seats[j];
+          newSeat.id_flight = this.ticket.ticket_planeType.toString();
+          this.service.create(newSeat);
+        }
+      } else {
+        let message = 'These seats can not be reserved as they are already taken: ';
+        for (let k = 0; k < deniedSeats.length; k++) {
+          this.ticket.ticket_seats.slice(deniedSeats[k]);
+          message = message + deniedSeats[k].toString() + ' ';
+        }
+        alert(message);
+      }
+    });
   }
 }

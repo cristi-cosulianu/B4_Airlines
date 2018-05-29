@@ -131,28 +131,10 @@ public class BankResource {
                     .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME,result.getId().toString()))
                     .body(result);
             } else {
-                return (ResponseEntity<BankDTO>) ResponseEntity.status(HttpStatus.NOT_FOUND); // not working 
+                return new ResponseEntity<BankDTO>(HttpStatus.NOT_FOUND);
             }
         } catch( InsufficientFundsException e ) {
-            return (ResponseEntity<BankDTO>) ResponseEntity.status(HttpStatus.NOT_MODIFIED); // not working 
+            return new ResponseEntity<BankDTO>(HttpStatus.NOT_MODIFIED); 
         }
     }
-
-    // @GetMapping("/banks/{number}/{expirationYear}/{expirationMonth}/{name}/{ccv}/{amount}")
-    // @Timed
-	// public ResponseEntity<BankDTO> getBank(@PathVariable String number,
-	// 		@PathVariable Integer expirationYear,
-    //         @PathVariable Integer expirationMonth,
-    //         @PathVariable String name,
-    //         @PathVariable String ccv,
-    //         @PathVariable Integer amount) {
-    //     try {
-    //         BankDTO bank = bankService.updateBank( );
-    //         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(bank));
-    //     } catch( InsuficientFundsException e) {
-
-    //     }
-    //     return null;	
-
-	// }
 }
