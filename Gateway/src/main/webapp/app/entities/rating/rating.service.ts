@@ -39,7 +39,7 @@ export class RatingService {
     }
 
     ratingForUserAndFlight(flightId: number, userId: number): Observable<HttpResponse<Rating>> {
-        return this.http.get<Rating>(`${this.resourceUrl}/${flightId}/${userId}`, { observe: 'response'})
+        return this.http.get<Rating>(`${this.resourceUrl}/${userId}/${flightId}`, { observe: 'response'})
         .map((res: HttpResponse<Rating>) => this.convertResponse(res));
     }
 

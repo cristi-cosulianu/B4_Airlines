@@ -35,10 +35,15 @@ export class FlightsPageComponent implements OnInit {
     config.readonly = false;
   }
   ngOnInit() {
-    // for (let i = 2614; i <= 2676; i++) {
+    // for (let i = 2701; i <= 2753; i++) {
     //   this.ratingService.delete(i).subscribe((_data) => {});
     // }
-    console.log(this.ticket);
+    // this.ratingService.ratingForUserAndFlight(951, 975).subscribe((data) => {
+    //   console.log(data);
+    // },
+    // (err) => {
+    //   console.log(err);
+    // });
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.user.subscribe((_data) => this.userInfo = _data);
     this.data.updateTicket(this.ticket);
@@ -50,7 +55,6 @@ export class FlightsPageComponent implements OnInit {
 
   calculateRate() {
     this.currentRate = ((this.currentRate + this.hovered) / 2);
-    console.log(this.currentRate);
   }
 
   sendSubmision() {
@@ -116,7 +120,6 @@ export class FlightsPageComponent implements OnInit {
         ratingDiv.setAttribute('class', 'star-rating');
         ratingDiv.addEventListener('mouseleave', (event) => this.displayRating(obj.id, iterator) );
         this.ratingService.ratingForFlight(obj.id).subscribe((response) => {
-          console.log(response);
           for (let i = 0; i < 5; i++) {
             // Create stars.
             const span = this.createElement('span');
@@ -212,7 +215,6 @@ export class FlightsPageComponent implements OnInit {
   }
 
   removeFlightReviews(flightId, rowNum) {
-    console.log('Sterg review!');
     const tableBody = document.getElementById('tableBody');
     const reviewList = document.getElementById('reviewList' + rowNum);
     tableBody.removeChild(reviewList);
@@ -227,7 +229,7 @@ export class FlightsPageComponent implements OnInit {
       const textArea = (document.getElementById('textarea' + rowNum) as HTMLTextAreaElement);
       const textAreaReview = textArea.value;
       if (textAreaReview.length > 20) {
-        if (this.userInfo.id === undefined) {
+        if (this.userInfo.id !== undefined) {
           const review: Review = {flightId: flightIdParameter, description: textAreaReview, userId: this.userInfo.id};
           this.reviewsService.create(review).subscribe((data) => {
             this.removeFlightReviews(flightIdParameter, rowNum);
@@ -295,10 +297,8 @@ export class FlightsPageComponent implements OnInit {
   submitRating(flightIdParameter, rowNum, starNumber) {
     const rating: Rating = {userId: this.userInfo.id, flightId: flightIdParameter, rating: starNumber + 1};
     if (this.userInfo.id !== undefined) {
-      this.ratingService.ratingForUserAndFlight(flightIdParameter, this.userInfo.id).subscribe((data) => {
-        if (data != null) {
+      this.ratingService.ratingForUserAndFlight(flightIdParameter, this.userInfo.id).subscribe((data) => {}, (err) => {
           this.ratingService.create(rating).subscribe((_data) => {});
-        }
       });
     }
   }
