@@ -2,12 +2,15 @@ package com.ip.payment.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.ip.payment.service.BankService;
+import com.ip.payment.service.InsufficientFundsException;
 import com.ip.payment.web.rest.errors.BadRequestAlertException;
 import com.ip.payment.web.rest.util.HeaderUtil;
 import com.ip.payment.service.dto.BankDTO;
+import com.ip.payment.service.dto.TransactionDTO;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,15 +120,39 @@ public class BankResource {
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 
-    @GetMapping("/banks/{number}/{expirationYear}/{expirationMonth}/{name}/{ccv}")
+    @PutMapping("/transaction")
     @Timed
-	public ResponseEntity<BankDTO> getBank(@PathVariable String number,
-			@PathVariable Integer expirationYear,
-            @PathVariable Integer expirationMonth,
-            @PathVariable String name,
-            @PathVariable String ccv) {
-		BankDTO bank = bankService.findBank( number, expirationYear, expirationMonth, name, ccv);
-		return ResponseUtil.wrapOrNotFound(Optional.ofNullable(bank));
+    public ResponseEntity<BankDTO> updateBankAmount(@Valid @RequestBody TransactionDTO transactionDTO) throws URISyntaxException {
+        log.debug("REST request to update Bank : {}",transactionDTO);
+        try {
+            BankDTO result = bankService.updateBank(transactionDTO);
+            if( result != null ) {
+                return ResponseEntity.ok()
+                    .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME,result.getId().toString()))
+                    .body(result);
+            } else {
+                return (ResponseEntity<BankDTO>) ResponseEntity.status(HttpStatus.NOT_FOUND); // not working 
+            }
+        } catch( InsufficientFundsException e ) {
+            return (ResponseEntity<BankDTO>) ResponseEntity.status(HttpStatus.NOT_MODIFIED); // not working 
+        }
+    }
 
-	}
+    // @GetMapping("/banks/{number}/{expirationYear}/{expirationMonth}/{name}/{ccv}/{amount}")
+    // @Timed
+	// public ResponseEntity<BankDTO> getBank(@PathVariable String number,
+	// 		@PathVariable Integer expirationYear,
+    //         @PathVariable Integer expirationMonth,
+    //         @PathVariable String name,
+    //         @PathVariable String ccv,
+    //         @PathVariable Integer amount) {
+    //     try {
+    //         BankDTO bank = bankService.updateBank( );
+    //         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(bank));
+    //     } catch( InsuficientFundsException e) {
+
+    //     }
+    //     return null;	
+
+	// }
 }

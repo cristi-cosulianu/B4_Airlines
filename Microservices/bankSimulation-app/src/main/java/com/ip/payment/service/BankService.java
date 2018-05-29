@@ -1,7 +1,9 @@
 package com.ip.payment.service;
 
 import com.ip.payment.service.dto.BankDTO;
+import com.ip.payment.service.InsufficientFundsException;
 import java.util.List;
+import com.ip.payment.service.dto.TransactionDTO;
 
 /**
  * Service Interface for managing Bank.
@@ -38,9 +40,5 @@ public interface BankService {
      */
     void delete(Long id);
 
-    BankDTO findBank(String number,
-    Integer expirationYear,
-    Integer expirationMonth,
-    String name,
-    String ccv);
+    BankDTO updateBank(TransactionDTO transactionDTO) throws InsufficientFundsException;
 }

@@ -208,4 +208,14 @@ public class Bank implements Serializable {
             ", expired='" + isExpired() + "'" +
             "}";
     }
+
+    @Override
+    public Bank clone() {
+        try {
+          return (Bank) super.clone();
+        } catch (CloneNotSupportedException e) {
+          System.out.println("Cloning not allowed.");
+          return this;
+        }
+    }
 }

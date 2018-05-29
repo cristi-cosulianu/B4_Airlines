@@ -14,6 +14,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ip.payment.service.CurrencyConverter;
+import com.ip.payment.service.InsufficientFundsException;
+import com.ip.payment.service.dto.TransactionDTO;
+
 /**
  * Service Implementation for managing Bank.
  */
@@ -55,9 +59,8 @@ public class BankServiceImpl implements BankService {
     @Transactional(readOnly = true)
     public List<BankDTO> findAll() {
         log.debug("Request to get all Banks");
-        return bankRepository.findAll().stream()
-            .map(bankMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return bankRepository.findAll().stream().map(bankMapper::toDto)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -86,12 +89,25 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public BankDTO findBank(String number,
-    Integer expirationYear,
-    Integer expirationMonth,
-    String name,
-    String ccv) {
-        Bank bank = bankRepository.findByNumberAndExpirationYearAndExpirationMonthAndNameAndCcv(number, expirationYear, expirationMonth, name, ccv);
-        return bankMapper.toDto(bank);
+    public BankDTO updateBank(TransactionDTO transactionDTO) throws InsufficientFundsException {
+        Bank bank = bankRepository.findByNumberAndExpirationYearAndExpirationMonthAndNameAndCcv(
+                transactionDTO.getNumber(), transactionDTO.getExpirationYear(), transactionDTO.getExpirationMonth(),
+                transactionDTO.getName(), transactionDTO.getCcv());
+        CurrencyConverter cc = new CurrencyConverter();
+        Float value;
+        try {
+            value = cc.getUsdRate(bank.getCurrency());
+        } catch (NullPointerException e) {
+            return null;
+        }
+        Float result = value * bank.getAmount();
+        if (result >= transactionDTO.getAmount()) {
+            bank.setAmount(Math.round(
+                    1 / value * ((transactionDTO.getIsReversed() == false) ? (result - transactionDTO.getAmount())
+                            : (result + transactionDTO.getAmount()))));
+            return bankMapper.toDto(bank);
+        } else {
+            throw new InsufficientFundsException();
+        }
     }
 }

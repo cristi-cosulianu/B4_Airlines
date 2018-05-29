@@ -5,6 +5,7 @@ import { SERVER_API_URL } from '../../app.constants';
 
 import { Bank } from './bank.model';
 import { createRequestOption } from '../../shared';
+import { Transaction } from './../../models/transaction.model';
 
 export type EntityResponseType = HttpResponse<Bank>;
 
@@ -12,6 +13,7 @@ export type EntityResponseType = HttpResponse<Bank>;
 export class BankService {
 
     private resourceUrl =  SERVER_API_URL + 'banksimulation/api/banks';
+    private transactionResourceUrl = SERVER_API_URL + 'banksimulation/api/transaction';
 
     constructor(private http: HttpClient) { }
 
@@ -23,8 +25,14 @@ export class BankService {
 
     update(bank: Bank): Observable<EntityResponseType> {
         const copy = this.convert(bank);
-        return this.http.put<Bank>(this.resourceUrl, copy, { observe: 'response' })
+        return this.http.put<Bank>(this.transactionResourceUrl, copy, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
+    }
+
+    updateBankAmount(transaction: Transaction): Observable<HttpResponse<Bank>> {
+        const copy = this.convertTransaction(transaction);
+        return this.http.put<Transaction>(this.resourceUrl, copy, { observe: 'response'})
+            .map((res: HttpResponse<Bank>) => this.convertResponse(res));
     }
 
     find(id: number): Observable<EntityResponseType> {
@@ -74,6 +82,11 @@ export class BankService {
      */
     private convert(bank: Bank): Bank {
         const copy: Bank = Object.assign({}, bank);
+        return copy;
+    }
+
+    private convertTransaction(transaction: Transaction): Transaction {
+        const copy: Transaction = Object.assign({}, transaction);
         return copy;
     }
 }
