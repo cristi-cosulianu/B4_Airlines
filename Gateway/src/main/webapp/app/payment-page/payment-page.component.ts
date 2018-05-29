@@ -355,4 +355,9 @@ export class PaymentPageComponent implements OnInit {
   hasClass(element, className) {
     return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
   }
+
+  target_popup(form) {
+  window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars');
+  form.target = 'formpopup';
+ }
 }

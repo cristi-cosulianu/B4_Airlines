@@ -128,16 +128,11 @@ export class SettingsComponent implements OnInit {
         this.reviewService.query('userid=' + this.userinfo.uid).subscribe(
             (res: HttpResponse<Review[]>) => {
                 for (const rev of res.body) {
-<<<<<<< HEAD
-                    if ( this.userinfo.uid === 'rev.userId') {
-                        const review = new SettingsReview(rev.id, rev.flightId, rev.description);
-=======
                     if (this.userinfo.id === rev.userId) {
                         const review = new SettingsReview();
                         review.id = rev.id;
                         review.flightId = rev.flightId;
                         review.description = rev.description;
->>>>>>> d20bfe73487fcccf7b6d6e8213cba00ce787ada6
                         this.flightsService.find(rev.flightId).subscribe(
                             (response: EntityResponseType) => {
                                 const flight = response.body;
