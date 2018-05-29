@@ -347,7 +347,8 @@ export class PaymentPageComponent implements OnInit {
     this.checkInvalidfields();
     const getFormId = document.getElementById('passangerInfoForm');
     if (this.hasClass(getFormId, 'ng-valid') === true) {
-      this.submit();
+      console.log('Apelez submit');
+      // this.submit();
     }
   }
 
