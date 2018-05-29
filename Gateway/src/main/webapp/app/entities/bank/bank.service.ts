@@ -31,7 +31,7 @@ export class BankService {
 
     updateBankAmount(transaction: Transaction): Observable<HttpResponse<Bank>> {
         const copy = this.convertTransaction(transaction);
-        return this.http.put<Transaction>(this.resourceUrl, copy, { observe: 'response'})
+        return this.http.put<any>(this.resourceUrl, copy, { observe: 'response'})
             .map((res: HttpResponse<Bank>) => this.convertResponse(res));
     }
 
