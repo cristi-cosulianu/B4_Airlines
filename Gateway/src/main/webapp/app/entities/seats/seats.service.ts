@@ -11,7 +11,7 @@ export type EntityResponseType = HttpResponse<Seats>;
 @Injectable()
 export class SeatsService {
 
-    private resourceUrl =  SERVER_API_URL + 'seatsapp/api/seats';
+    private resourceUrl = SERVER_API_URL + 'seatsapp/api/seats';
 
     constructor(private http: HttpClient) { }
 
@@ -28,7 +28,7 @@ export class SeatsService {
     }
 
     find(id: number): Observable<EntityResponseType> {
-        return this.http.get<Seats>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+        return this.http.get<Seats>(`${this.resourceUrl}/${id}`, { observe: 'response' })
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
@@ -39,12 +39,17 @@ export class SeatsService {
     }
 
     delete(id: number): Observable<HttpResponse<any>> {
-        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response'});
+        return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+    }
+
+    findByFlightId(id: number): Observable<HttpResponse<Seats[]>> {
+        return this.http.get<Seats[]>(`${this.resourceUrl}/flights/${id}`, { observe: 'response' })
+            .map((res: HttpResponse<Seats[]>) => this.convertArrayResponse(res));
     }
 
     private convertResponse(res: EntityResponseType): EntityResponseType {
         const body: Seats = this.convertItemFromServer(res.body);
-        return res.clone({body});
+        return res.clone({ body });
     }
 
     private convertArrayResponse(res: HttpResponse<Seats[]>): HttpResponse<Seats[]> {
@@ -53,7 +58,7 @@ export class SeatsService {
         for (let i = 0; i < jsonResponse.length; i++) {
             body.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return res.clone({body});
+        return res.clone({ body });
     }
 
     /**
