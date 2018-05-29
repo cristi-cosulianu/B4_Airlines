@@ -1,8 +1,8 @@
-<!--<div class="loadingDiv" [hidden]="!shouldShowLoading">
+<div class="loadingDiv" [hidden]="!shouldShowLoading">
     <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
--->
-<div id="wrapperSeats">
+
+<div id="wrapperSeats" [hidden]="shouldShowLoading" >
 <div [ngSwitch]="getPlaneType()" id="planes" [class]="'plane-type-' + getPlaneType()">
     <!--Type 1-->
     <div *ngSwitchCase="1">
@@ -13,9 +13,9 @@
         <div  class='bigDiv'>
             
             <button class="id{{number}}" *ngFor="let number of seatsVector"
-                id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+                id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)" ></button>
         </div>
-    </div>
+    </div>  
     <!--Type 2-->
     <div *ngSwitchCase="2">
         <h3>Flight {{id_flight}} with route {{route_string}}</h3>
@@ -24,7 +24,7 @@
         </div>
         <div  class='bigDiv'>
             <button class="id{{number}}" *ngFor="let number of seatsVector"
-                id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+                id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)" ></button>
         </div>
     </div>
     <div *ngSwitchCase="3">
@@ -35,7 +35,7 @@
         </div>
         <div  class='bigDiv'>
             <button class="id{{number}}" *ngFor="let number of seatsVector"
-                id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+                id="button@{{ number }}" (click)="buttonClick(number)"[innerHTML]="conversionSeat(number)" ></button>
         </div>
     </div>
     <!--Type 4-->
@@ -47,7 +47,7 @@
             </div>
             <div  class='bigDiv'>
                 <button class="id{{number}}" *ngFor="let number of seatsVector"
-                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+                    id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)"></button>
             </div>
     </div>
 
@@ -84,8 +84,7 @@
         <div id="selectedSeats">
             <h4>Seats selected:</h4>
             <div id="seatListScrollableWrapper">
-                <div  *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards" (click)="buttonClick(number)">
-                    {{number}}  
+                <div  *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards" (click)="buttonClick(number)"  [innerHTML]="conversionSeat(number)" >
                 </div>
             </div>
             <button (click)="saveSeats()" routerLink="/payment-page" id="nextPageButton">

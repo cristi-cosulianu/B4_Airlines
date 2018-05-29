@@ -62,8 +62,8 @@ export class SeatsConfigurePageComponent implements OnInit {
   initialTicketConfiguration() {
     // this.type = this.ticket.ticket_flightID.toString();
     // this.id_flight = this.ticket.ticket_planeType;
-    this.type = 1;             // this is hard coded for now
-    this.id_flight = 12314 ;       // this is hard coded for now
+    this.type = 4;             // this is hard coded for now
+    this.id_flight = 4;       // this is hard coded for now
     this.route_string = 'London - Bucharest';
 
     if (this.type === 1) {
@@ -98,7 +98,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   queryOccupiedSeats() {
-    this.shouldShowLoading = false;
+    this.shouldShowLoading = true;
     this.service.findByFlightId(this.type).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
@@ -150,6 +150,19 @@ export class SeatsConfigurePageComponent implements OnInit {
       this.service.create(this.seat).subscribe();
     }
   }
+
+  conversionSeat (seatNumber:number) {
+    let numberPerRow : number;
+    switch(this.id_flight) { 
+      case 1 : numberPerRow = 10; break;
+      case 2 : numberPerRow = 4; break;
+      case 3 : numberPerRow = 7; break;
+      case 4 : numberPerRow = 6; break; 
+      default : numberPerRow = 0; 
+    }
+    let numberPerColumn = seatNumber%numberPerRow ; 
+    return (Math.floor(seatNumber/numberPerRow) + 1) + String.fromCharCode(numberPerColumn + 65) ;
+  } 
 
   /**
   * https://puu.sh/AurCJ/551f01e693.png
