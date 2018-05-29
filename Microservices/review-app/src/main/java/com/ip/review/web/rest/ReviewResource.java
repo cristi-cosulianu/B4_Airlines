@@ -132,4 +132,12 @@ public class ReviewResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/reviews/flights/{flightId}");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("/reviews/users/{userId}")
+    @Timed
+    public ResponseEntity<List<ReviewDTO>> getByUserId(Pageable pageable, @PathVariable Long userId) {
+        Page<ReviewDTO> page = reviewService.getByUserId(pageable, userId);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/reviews/users/{userId}");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 }

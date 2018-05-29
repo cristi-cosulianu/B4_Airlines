@@ -89,4 +89,9 @@ public class ReviewServiceImpl implements ReviewService {
     public Page<ReviewDTO> getByFlightId(Pageable pageable, Long flightId) {
         return reviewRepository.getByFlightId(pageable, flightId).map(reviewMapper::toDto);
     }
+
+    @Override
+    public Page<ReviewDTO> getByUserId(Pageable pageable, Long userId) {
+        return reviewRepository.getByUserId(pageable, userId).map(reviewMapper::toDto);
+    }
 }
