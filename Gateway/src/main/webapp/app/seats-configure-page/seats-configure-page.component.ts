@@ -26,7 +26,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   private nrOfSeatsOfPlane3: number;
   private nrOfSeatsOfPlane4: number;
   private shouldShowLoading: boolean;
-  //private deniedSeats: Array<number> = new Array<number>();
+  // private deniedSeats: Array<number> = new Array<number>();
   private localData: DataService;
 
   constructor(private data: DataService, private service: SeatsService) {
@@ -60,12 +60,12 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    // this.type = this.ticket.ticket_planeType;
-    // this.id_flight = this.ticket.ticket_flightID;
-    // this.route_string = this.ticket.ticket_departure + '-' + this.ticket.ticket_destination;
-    this.ticket.ticket_planeType = 1;                   // this is hard coded for now
-    this.ticket.ticket_flightID = 1234;                 // this is hard coded for now
-    this.route_string = 'București - Iași';             // this is hard coded for now
+    this.type = this.ticket.ticket_planeType;
+    this.id_flight = this.ticket.ticket_flightID;
+    this.route_string = this.ticket.ticket_departure + '-' + this.ticket.ticket_destination;
+    // this.ticket.ticket_planeType = 1;                   // this is hard coded for now
+    // this.ticket.ticket_flightID = 1234;                 // this is hard coded for now
+    // this.route_string = 'București - Iași';             // this is hard coded for now
     this.type = this.ticket.ticket_planeType;
     this.id_flight = this.ticket.ticket_flightID;
 
@@ -101,7 +101,7 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   queryOccupiedSeats() {
-    this.shouldShowLoading = false;
+    this.shouldShowLoading = true;
     this.service.findByFlightId(this.ticket.ticket_flightID).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
@@ -136,75 +136,18 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   saveSeats() {
-    this.ticket.ticket_seats = [];
+    this.ticket.ticket_seats = new Array<number>();
     for (let i = 0; i < this.chosenSeats.length; i++) {
       this.ticket.ticket_seats.push(this.chosenSeats[i]);
     }
     this.data.updateTicket(this.ticket);
   }
 
-  post_seats() {
-    this.data.ticketInfo.subscribe((_data) => this.ticketForPost = _data);
-    this.seat = new Seats();
-    this.seat.type = this.ticketForPost.ticket_planeType;
-    this.seat.id_flight = this.id_flight.toString();
-    for (let i = 0; i < this.ticketForPost.ticket_seats.length; i++) {
-      this.seat.seat_index = this.ticketForPost.ticket_seats[i];
-      this.service.create(this.seat).subscribe();
-    }
-  }
-
-  /**
-  * https://puu.sh/AurCJ/551f01e693.png
-  * for(i) {
-  *  for (i){
-  *  }
-  *  for (i){
-  *  }
-  * }
-  *  please install TSLint
-  *  commented untill fix
-  */
   reserveSelectedSeats() {
-    /*
-    let count = 0;
-    for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
-      this.service.query({ id_flight: this.id_flight, seat_index: this.ticket.ticket_seats[i] })
-        .subscribe((data) => {
-          count++;
-          console.log(data);
-          if (data.status === 200) {
-            this.deniedSeats.push(this.ticket.ticket_seats[i]);
-            // return;
-          }
-
-          if (count === this.ticket.ticket_seats.length - 1) {
-            if (this.deniedSeats.length === 0) {
-              // toate locurile pot fi cumparate
-              for (let i = 0; i < this.ticket.ticket_seats.length; i++) {
-                this.seat = new Seats();
-                this.seat.id_flight = this.ticket.ticket_flightID.toString();
-                this.seat.seat_index = this.ticket.ticket_seats[i];
-                this.service.create(this.seat);
-              }
-            } else {
-              // exista locuri deja cumparate in lista de locuri rezervate
-              let message = 'These seats can not be reserved as they are already taken: ';
-              for (let i = 0; i < this.deniedSeats.length; i++) {
-                message = message + this.deniedSeats[i].toString() + ' ';
-              }
-              alert(message);
-            }
-          }
-        });
-    }
-  }
-  */
-    let deniedSeats: Array<number> = new Array();
-    this.service.findByFlightId(this.type).subscribe((data) => {
+    const deniedSeats: Array<number> = new Array();
+    this.service.findByFlightId(this.ticket.ticket_flightID).subscribe((data) => {
       console.log(data);
       for (let i = 0; i < data.body.length; i++) {
-        // this.occupiedSeats.push(data.body[i].seat_index);
         if (this.ticket.ticket_seats.indexOf(data.body[i].seat_index) > -1) {
           deniedSeats.push(data.body[i].seat_index);
         }
@@ -216,7 +159,7 @@ export class SeatsConfigurePageComponent implements OnInit {
           newSeat.type = this.ticket.ticket_flightID;
           newSeat.seat_index = this.ticket.ticket_seats[j];
           newSeat.id_flight = this.ticket.ticket_planeType.toString();
-          this.service.create(newSeat);
+          this.service.create(newSeat).subscribe();
         }
       } else {
         let message = 'These seats can not be reserved as they are already taken: ';
