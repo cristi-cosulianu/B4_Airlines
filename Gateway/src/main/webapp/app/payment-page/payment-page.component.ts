@@ -366,4 +366,22 @@ export class PaymentPageComponent implements OnInit {
     this.passengerIDInfos.card.expirationYear = this.passengerIDInfos.card.expirationDate.substring(0, 4);
     this.passengerIDInfos.card.expirationMonth = this.passengerIDInfos.card.expirationDate.substring(5, 8);
   }
+
+  editFormvalid(): void {
+    this.checkInvalidfields();
+    const getFormId = document.getElementById('passangerInfoForm');
+    if (this.hasClass(getFormId, 'ng-valid') === true) {
+      console.log('Apelez submit');
+      // this.submit();
+    }
+  }
+
+  hasClass(element, className) {
+    return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
+  }
+
+  target_popup(form) {
+  window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars');
+  form.target = 'formpopup';
+ }
 }
