@@ -8,6 +8,7 @@ import { RatingService } from '../entities/rating';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { Userinfo, UserinfoService } from '../entities/userinfo';
+import { $, $$ } from 'protractor';
 
 @Component({
   selector: 'jhi-flights-page',
@@ -103,7 +104,7 @@ export class FlightsPageComponent implements OnInit {
         });
         departure.innerText = obj.departure + ' ' + obj.departureTime;
         destination.innerText = obj.arrival + ' ' + obj.arrivalTime;
-        price.innerText = obj.priceRangeMin;
+        price.innerText = obj.priceRangeMin + '-' + obj.priceRangeMax;
         planeType.innerText = obj.planeType;
         company.innerText = obj.company;
         // Assign text and $ sign to price column.
@@ -117,19 +118,16 @@ export class FlightsPageComponent implements OnInit {
         for (let i = 0; i < 5; i++) {
           // Create stars.
           const span = this.createElement('span');
-          // Assign to stras to be yellow or unfilled.
+          span.setAttribute('id', 'row' + iterator + 'star' + i );
+          // Assign stars to be yellow or unfilled.
           if (i < obj.rating) {
             span.setAttribute('class', 'fa fa-star');
           } else {
             span.setAttribute('class', 'fa fa-star-o');
           }
-          switch (i) {
-            case 0: span.setAttribute('data-rating', '1'); break;
-            case 1: span.setAttribute('data-rating', '2'); break;
-            case 2: span.setAttribute('data-rating', '3'); break;
-            case 3: span.setAttribute('data-rating', '4'); break;
-            case 4: span.setAttribute('data-rating', '5'); break;
-          }
+          const ratingNumber = i.toString();
+          span.setAttribute('data-rating', ratingNumber);
+          span.addEventListener('mouseenter', (event) => this.changeStarInYellow(i, iterator) );
           ratingDiv.appendChild(span);
         }
         rating.appendChild(ratingDiv);
@@ -261,5 +259,12 @@ export class FlightsPageComponent implements OnInit {
     // I don't know what is that but is needed.
     element.setAttribute('_ngcontent-c0', '');
     return element;
+  }
+
+  changeStarInYellow(starNumber, rowNum) {
+    for (let iterator = 0; iterator <= starNumber; iterator++) {
+      const star = document.getElementById('row' + rowNum + 'star' + iterator );
+      star.setAttribute('class', 'fa fa-star');
+    }
   }
 }
