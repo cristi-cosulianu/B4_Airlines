@@ -40,25 +40,36 @@ export class DataService {
     }
 
     checkStatus(userinfo) {
-        if (!this.set) {
-            if (userinfo.cnp === undefined) {
-                console.log('start to get user');
+            console.log('start to get user');
 
-                this.principal.identity().then((account) => {
-                    this.settingsAccount = this.copyAccount(account);
-                    userinfo.name = this.settingsAccount.lastName;
-                    userinfo.prenume = this.settingsAccount.firstName;
+            this.principal.identity().then((account) => {
+                this.settingsAccount = this.copyAccount(account);
+                userinfo.name = this.settingsAccount.lastName;
+                userinfo.prenume = this.settingsAccount.firstName;
+            });
+            this.principal.identity().then((account) => {
+                this.myAccount = account;
+                this.userService.query().subscribe((data) => {
+                    this.assignquerydata(data.body, userinfo);
                 });
-                this.principal.identity().then((account) => {
-                    this.myAccount = account;
-                    this.userService.query().subscribe((data) => {
-                        this.assignquerydata(data.body, userinfo);
-                    });
-                    userinfo.loginid = this.myAccount.id;
-                });
+                userinfo.loginid = this.myAccount.id;
+            });
+    }
+
+    check(userinfo) {
+        if (userinfo.id !== undefined) {
+            if (userinfo.cnp === null || userinfo.name === null ||
+                userinfo.prenume === null || userinfo.dateOfBirth === null ||
+                userinfo.adress === null || userinfo.phoneNumber === null ||
+                userinfo.idType === null || userinfo.serialNumber === null ||
+                userinfo.emittingCountry === null || userinfo.expiringDate === null) {
+                this.checkStatus(userinfo);
+            } else {
+                this.router.navigate(['/flights-page']);
             }
+        } else {
+            this.checkStatus(userinfo);
         }
-        this.router.navigate(['/flights-page']);
     }
 
     copyAccount(account) {
@@ -93,13 +104,10 @@ export class DataService {
 
                 this.set = true;
                 this.service_user.next(userinfo);
+                this.router.navigate(['/flights-page']);
                 break;
             }
         }
-        if (this.set) {
-            this.router.navigate(['/flights-page']);
-        } else {
-            this.router.navigate(['/settings']);
-        }
+        this.router.navigate(['/settings']);
     }
 }
