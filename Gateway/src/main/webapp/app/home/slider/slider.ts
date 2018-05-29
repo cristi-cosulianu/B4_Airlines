@@ -73,6 +73,6 @@ export function init() {
         slides[slideIndex - 1].className += ' active';
         sliderInner.css('transform', 'translateX(-' + (slideIndex - 1) * viewWidth + 'px) translateZ(0)');
 
-        setTimeout(carousel, 3000);
+        setTimeout(carousel, 5000);
     }
 }
