@@ -111,13 +111,6 @@ public class SeatsResource {
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(seatsDTO));
     }
 
-    @GetMapping("/seats/flights/{type}")
-    @Timed
-    public ResponseEntity<List<SeatsDTO>> getSeatsByID(Pageable pageable, @PathVariable Integer type ) {
-        Page<SeatsDTO> page= seatsService.findByType(pageable, type);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/seats/flights/{type}");
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-    }
     /**
      * DELETE  /seats/:id : delete the "id" seats.
      *
@@ -131,6 +124,4 @@ public class SeatsResource {
         seatsService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
-
-    
 }

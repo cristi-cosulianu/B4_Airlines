@@ -5,8 +5,6 @@ import com.ip.seatsapp.domain.Seats;
 import com.ip.seatsapp.repository.SeatsRepository;
 import com.ip.seatsapp.service.dto.SeatsDTO;
 import com.ip.seatsapp.service.mapper.SeatsMapper;
-
-import org.hibernate.internal.util.type.PrimitiveWrapperHelper.IntegerDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -84,11 +82,5 @@ public class SeatsServiceImpl implements SeatsService {
     public void delete(Long id) {
         log.debug("Request to delete Seats : {}", id);
         seatsRepository.delete(id);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<SeatsDTO> findByType(Pageable pageable, Integer type){
-        log.debug("Request to get all Seats with flight id");
-        return seatsRepository.findByType(pageable, type).map(seatsMapper::toDto);
     }
 }

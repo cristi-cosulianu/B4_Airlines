@@ -39,6 +39,4 @@ public interface SeatsService {
      * @param id the id of the entity
      */
     void delete(Long id);
-
-    Page<SeatsDTO> findByType (Pageable pageable, Integer type);
 }
