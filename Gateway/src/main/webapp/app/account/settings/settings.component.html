@@ -1,11 +1,11 @@
 <div>
     <div class="options">
-        <ul>
-            <li class="option-item" (click)="setSettingsOption('Account')">Account details</li><br/>
-            <li class="option-item" (click)="setSettingsOption('Personal')">Personal Details</li><br/>
-            <li class="option-item" (click)="setSettingsOption('Password')">Change password</li><br/>
-            <li class="option-item" (click)="setSettingsOption('History')">Ticket history</li><br/>
-            <li class="option-item" (click)="setSettingsOption('Reviews')">My reviews</li><br/>
+        <ul id="list">
+            <li id="Account" class="option-item active" (click)="setSettingsOption('Account')">Account details</li><br/>
+            <li id="Personal" class="option-item" (click)="setSettingsOption('Personal')">Personal Details</li><br/>
+            <li id="Password" class="option-item" (click)="setSettingsOption('Password')">Change password</li><br/>
+            <li id="History" class="option-item" (click)="setSettingsOption('History')">Ticket history</li><br/>
+            <li id="Reviews" class="option-item" (click)="setSettingsOption('Reviews')">My reviews</li><br/>
         </ul>
     </div>
 
@@ -106,9 +106,9 @@
         <div *ngSwitchCase="'Password'">
             <jhi-password></jhi-password>
         </div>
-
         <div class="ticket-main" *ngSwitchCase="'History'">
             <div class="ticket-item" *ngFor="let ticket of ticketHistory">
+                <i style="font-size:24px" class="fa">&#xf140;</i>
                 <h4 class="ticket-trip">{{ticket.departure}} - {{ticket.arrival}}</h4>
                 <div class="ticket-info-left">
                     <div>Departure: {{ticket.departureTime}}</div>
@@ -120,7 +120,6 @@
                 <span style="clear: both;"></span>
             </div>
         </div>
-
         <div class="review-main" *ngSwitchCase="'Reviews'">
             <div class="review-item" *ngFor="let review of reviews">
                 <h2>{{review.departure}} - {{review.arrival}}</h2>
