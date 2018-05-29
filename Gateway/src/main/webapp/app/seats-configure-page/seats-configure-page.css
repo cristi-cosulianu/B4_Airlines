@@ -176,7 +176,7 @@ figure figcaption {
     margin: 3px;
     width: 35px; 
     z-index: 10;
- } 
+ }
 
 .plane-type-4 .bigDiv {
     left: 0;
@@ -316,7 +316,7 @@ figure figcaption {
 
 
 /* MEDIA QUERIES*/
-@media screen and (min-width: 0px) and (max-width: 320px) {
+@media screen and (min-width: 0px) and (max-width: 319px) {
     #wrapperSeats {
         display: none;
     }
@@ -639,7 +639,9 @@ figure figcaption {
     .plane-type-1 button[class^='id'] {
         width: 28px;
         height: 28px;
-        font-size: xx-small;
+        font-size: xx-small ;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .plane-type-1 .bigDiv button:nth-of-type(10n+3) {

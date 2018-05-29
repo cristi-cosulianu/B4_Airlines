@@ -143,6 +143,30 @@ export class SeatsConfigurePageComponent implements OnInit {
     this.data.updateTicket(this.ticket);
   }
 
+  conversionSeat(seatNumber: number) {
+    let numberPerRow: number;
+    switch (this.type) {
+      case 1: numberPerRow = 10; break;
+      case 2: numberPerRow = 4; break;
+      case 3: numberPerRow = 7; break;
+      case 4: numberPerRow = 6; break;
+      default: numberPerRow = 0;
+    }
+    const numberPerColumn = seatNumber % numberPerRow;
+    return (Math.floor(seatNumber / numberPerRow) + 1) + String.fromCharCode(numberPerColumn + 65);
+  }
+
+  /**
+  * https://puu.sh/AurCJ/551f01e693.png
+  * for(i) {
+  *  for (i){
+  *  }
+  *  for (i){
+  *  }
+  * }
+  *  please install TSLint
+  *  commented untill fix
+  */
   reserveSelectedSeats() {
     const deniedSeats: Array<number> = new Array();
     this.service.findByFlightId(this.ticket.ticket_flightID).subscribe((data) => {
