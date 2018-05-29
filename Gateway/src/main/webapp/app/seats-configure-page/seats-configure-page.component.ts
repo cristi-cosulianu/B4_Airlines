@@ -60,12 +60,12 @@ export class SeatsConfigurePageComponent implements OnInit {
   }
 
   initialTicketConfiguration() {
-    this.type = this.ticket.ticket_planeType;
-    this.id_flight = this.ticket.ticket_flightID;
-    this.route_string = this.ticket.ticket_departure + '-' + this.ticket.ticket_destination;
-    // this.ticket.ticket_planeType = 1;                   // this is hard coded for now
-    // this.ticket.ticket_flightID = 1234;                 // this is hard coded for now
-    // this.route_string = 'București - Iași';             // this is hard coded for now
+    // this.type = this.ticket.ticket_planeType;
+    // this.id_flight = this.ticket.ticket_flightID;
+    // this.route_string = this.ticket.ticket_departure + '-' + this.ticket.ticket_destination;
+    this.ticket.ticket_planeType = 1;                   // this is hard coded for now
+    this.ticket.ticket_flightID = 1234;                 // this is hard coded for now
+    this.route_string = 'București - Iași';             // this is hard coded for now
     this.type = this.ticket.ticket_planeType;
     this.id_flight = this.ticket.ticket_flightID;
 
