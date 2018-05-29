@@ -152,7 +152,7 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.user.subscribe((_data) => this.user);
     // this.ticketPrice = this.flight.priceRangeMax;
     // this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-    this.totalPrice = 500;
+    this.totalPrice = 100;
     this.flightInfos.departLocation = this.flight.departure;
     this.flightInfos.departTime = this.flight.departureTime;
     this.flightInfos.landLocation = this.flight.arrival;
@@ -160,6 +160,30 @@ export class PaymentPageComponent implements OnInit {
     this.flightInfos.flightDate = this.flight.company;
   }
 
+  submit() {
+    this.parseExpirationDate();
+    this.transaction = new Transaction(
+          this.passengerIDInfos.card.number,
+          this.passengerIDInfos.card.expirationYear,
+          this.passengerIDInfos.card.expirationMonth,
+          this.passengerIDInfos.card.name,
+          this.passengerIDInfos.card.cvv,
+          this.totalPrice,
+          false
+        );
+
+    console.log( this.passengerIDInfos.card.number + ' ' +
+      this.passengerIDInfos.card.expirationYear + ' ' +
+      this.passengerIDInfos.card.expirationMonth + ' ' +
+      this.passengerIDInfos.card.name + ' ' +
+      this.passengerIDInfos.card.cvv + ' ' +
+      this.totalPrice );
+      if ( this.updateBank(this.transaction) ) {
+        console.log('Working');
+      } else {
+        console.log('WError!');
+      }
+  }
   // submit() {
   //   this.transaction = new Transaction(
   //     this.passengerIDInfos.card.number,
@@ -206,7 +230,7 @@ export class PaymentPageComponent implements OnInit {
         return true;
       },
       (res: HttpErrorResponse) => {
-        console.log('Bank Error!');
+        console.log('Bank Error! ' + res.status );
         // rollback
         this.paymentCompensation();
         this.jhiAlertService.error(res.message, null, null);

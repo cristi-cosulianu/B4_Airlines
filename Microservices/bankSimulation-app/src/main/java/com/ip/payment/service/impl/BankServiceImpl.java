@@ -101,13 +101,18 @@ public class BankServiceImpl implements BankService {
             return null;
         }
         Float result = value * bank.getAmount();
-        if (result >= transactionDTO.getAmount()) {
-            bank.setAmount(Math.round(
-                    1 / value * ((transactionDTO.getIsReversed() == false) ? (result - transactionDTO.getAmount())
-                            : (result + transactionDTO.getAmount()))));
-            return bankMapper.toDto(bank);
+        if( transactionDTO.getIsReversed() == false ) {
+            if (result >= transactionDTO.getAmount()) {
+                bank.setAmount(Math.round(
+                    1 / value * (result - transactionDTO.getAmount())));
+                return bankMapper.toDto(bank);
+            } else {
+                throw new InsufficientFundsException();
+            }
         } else {
-            throw new InsufficientFundsException();
+            bank.setAmount(Math.round(
+                    1 / value * (result + transactionDTO.getAmount())));
+            return bankMapper.toDto(bank);
         }
     }
 }
