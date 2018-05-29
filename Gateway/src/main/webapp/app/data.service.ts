@@ -57,9 +57,8 @@ export class DataService {
                     userinfo.loginid = this.myAccount.id;
                 });
             }
-        }else {
-            this.router.navigate(['/flights-page']);
         }
+        this.router.navigate(['/flights-page']);
     }
 
     copyAccount(account) {
