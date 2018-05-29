@@ -157,6 +157,8 @@ export class PaymentPageComponent implements OnInit {
   }
 
   submit() {
+    this.checkInvalidfields();
+
     this.parseExpirationDate();
     this.bankService.getBankInfo(
       this.passengerIDInfos.card.number,
@@ -167,10 +169,10 @@ export class PaymentPageComponent implements OnInit {
     ).subscribe(
       (res: HttpResponse<Bank>) => {
         this.bank = res.body;
-        console.log('Funtioneaza! ' + res.body.id );
+        console.log('Funtioneaza! ' + res.body.id);
       },
       (res: HttpErrorResponse) => {
-        if ( res.status === 404 ) {
+        if (res.status === 404) {
           console.log('Card not found');
           // De afisat faptul ca informatiile despre card sunt incorecte.
         } else {
@@ -191,13 +193,13 @@ export class PaymentPageComponent implements OnInit {
     // );
   }
 
-  updateBank( bank: Bank ): boolean {
-    if ( bank.amount >= this.totalPrice ) {
+  updateBank(bank: Bank): boolean {
+    if (bank.amount >= this.totalPrice) {
       bank.amount -= this.totalPrice;
       this.bankService.update(bank).subscribe(
         (res: HttpResponse<Bank>) => {
           console.log('Updated succesfully! ' + res.body.id + res.body.amount);
-           this.card = new Card(
+          this.card = new Card(
             null,
             this.passengerIDInfos.card.number,
             this.passengerIDInfos.card.expirationMonth,
@@ -226,7 +228,7 @@ export class PaymentPageComponent implements OnInit {
   updateCard(card: Card): boolean {
     this.cardService.update(card).subscribe(
       (res: HttpResponse<Card>) => {
-        console.log('Card updated succesfully! ' + res.body.id );
+        console.log('Card updated succesfully! ' + res.body.id);
         let i = 0;
         this.order = new OrderHistory(null,
           this.ticket.ticket_userID,
@@ -243,11 +245,11 @@ export class PaymentPageComponent implements OnInit {
         return true;
       },
       (res: HttpErrorResponse) => {
-          console.log('Card Error!');
-          // rollback
-          this.paymentCompensation(this.bank);
-          this.jhiAlertService.error(res.message, null, null);
-          return false;
+        console.log('Card Error!');
+        // rollback
+        this.paymentCompensation(this.bank);
+        this.jhiAlertService.error(res.message, null, null);
+        return false;
       }
     );
     return false;
@@ -256,7 +258,7 @@ export class PaymentPageComponent implements OnInit {
   updateOrderHistory(order: OrderHistory): boolean {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
-        console.log('Order updated succesfully! ' + res.body.id );
+        console.log('Order updated succesfully! ' + res.body.id);
         return true;
       },
       (res: HttpErrorResponse) => {
@@ -354,5 +356,17 @@ export class PaymentPageComponent implements OnInit {
   parseExpirationDate(): void {
     this.passengerIDInfos.card.expirationYear = this.passengerIDInfos.card.expirationDate.substring(0, 4);
     this.passengerIDInfos.card.expirationMonth = this.passengerIDInfos.card.expirationDate.substring(5, 8);
+  }
+
+  editFormvalid(): void {
+    this.checkInvalidfields();
+    const getFormId = document.getElementById('passangerInfoForm');
+    if (this.hasClass(getFormId, 'ng-valid') === true) {
+      this.submit();
+    }
+  }
+
+  hasClass(element, className) {
+    return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
   }
 }
