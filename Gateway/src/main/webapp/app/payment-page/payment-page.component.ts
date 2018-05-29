@@ -372,7 +372,9 @@ export class PaymentPageComponent implements OnInit {
     const getFormId = document.getElementById('passangerInfoForm');
     if (this.hasClass(getFormId, 'ng-valid') === true) {
       console.log('Apelez submit');
-      // this.submit();
+      const sumbitFeedback = '404';
+      // In loc de error functia target_popup primeste ca argument this.submit()
+      this.target_popup(sumbitFeedback);
     }
   }
 
@@ -380,8 +382,61 @@ export class PaymentPageComponent implements OnInit {
     return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
   }
 
-  target_popup(form) {
-  window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars');
-  form.target = 'formpopup';
- }
+  target_popup(message): void {
+    const popupDiv = document.getElementById('feedMess') as HTMLElement;
+    const innerDiv = document.createElement('div') as HTMLElement;
+    const mTitle = document.createElement('strong') as HTMLElement;
+    const desc = document.createElement('p') as HTMLElement;
+    switch (message) {
+      case '404':
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-danger');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Oh snap!';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'We\'re sorry, but your payment was not successful.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+      case '200':
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-success');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Well done!';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'You successfully book this ticket.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+      default:
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-warning');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Sorry !';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'Please try again later.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+    }
+  }
+
+  removeFeedMess() {
+    const displayResults = document.getElementById('feedMess') as HTMLDivElement;
+    while (displayResults.hasChildNodes()) {
+      displayResults.removeChild(displayResults.lastChild);
+    }
+  }
 }
