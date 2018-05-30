@@ -1,99 +1,91 @@
-<!--<div class="loadingDiv" [hidden]="!shouldShowLoading">
+<div class="loadingDiv" [hidden]="!shouldShowLoading">
     <img class="loadingImg" src="resources/flight-loader-dribbble.gif">
 </div>
--->
-<div id="wrapperSeats">
-<div [ngSwitch]="getPlaneType()" id="planes" [class]="'plane-type-' + getPlaneType()">
-    <!--Type 1-->
-    <div *ngSwitchCase="1">
-        <h3>Flight {{id_flight}} with route {{route_string}}</h3>
-        <div  class='secondBigDiv'>
-            <img src="resources/fat-plane2.png" id="plane1img">
-        </div>
-        <div  class='bigDiv'>
-            
-            <button class="id{{number}}" *ngFor="let number of seatsVector"
-                id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
-        </div>
-    </div>
-    <!--Type 2-->
-    <div *ngSwitchCase="2">
-        <h3>Flight {{id_flight}} with route {{route_string}}</h3>
-        <div  class='secondBigDiv'>
-            <img src="resources/slim-plane3.png" id="plane2img">
-        </div>
-        <div  class='bigDiv'>
-            <button class="id{{number}}" *ngFor="let number of seatsVector"
-                id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
-        </div>
-    </div>
-    <div *ngSwitchCase="3">
-        <h3>Flight {{id_flight}} with route {{route_string}}</h3>
 
-        <div  class='secondBigDiv'>
-            <img src="resources/fat-plane2.png" id="plane3img">
-        </div>
-        <div  class='bigDiv'>
-            <button class="id{{number}}" *ngFor="let number of seatsVector"
-                id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
-        </div>
-    </div>
-    <!--Type 4-->
-    <div *ngSwitchCase="4">
-        <h3>Flight {{id_flight}} with route {{route_string}}</h3>
+<div id="wrapperSeats" [hidden]="shouldShowLoading">
+    <div [ngSwitch]="getPlaneType()" id="planes" [class]="'plane-type-' + getPlaneType()">
+        <!--Type 1-->
+        <div *ngSwitchCase="1">
+            <h3>Flight {{id_flight}} with route {{route_string}}</h3>
+            <div class='secondBigDiv'>
+                <img src="resources/fat-plane2.png" id="plane1img">
+            </div>
+            <div class='bigDiv'>
 
-            <div  class='secondBigDiv'>
+                <button class="id{{number}}" *ngFor="let number of seatsVector" id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)"></button>
+            </div>
+        </div>
+        <!--Type 2-->
+        <div *ngSwitchCase="2">
+            <h3>Flight {{id_flight}} with route {{route_string}}</h3>
+            <div class='secondBigDiv'>
+                <img src="resources/slim-plane3.png" id="plane2img">
+            </div>
+            <div class='bigDiv'>
+                <button class="id{{number}}" *ngFor="let number of seatsVector" id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)"></button>
+            </div>
+        </div>
+        <div *ngSwitchCase="3">
+            <h3>Flight {{id_flight}} with route {{route_string}}</h3>
+
+            <div class='secondBigDiv'>
+                <img src="resources/fat-plane2.png" id="plane3img">
+            </div>
+            <div class='bigDiv'>
+                <button class="id{{number}}" *ngFor="let number of seatsVector" id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)"></button>
+            </div>
+        </div>
+        <!--Type 4-->
+        <div *ngSwitchCase="4">
+            <h3>Flight {{id_flight}} with route {{route_string}}</h3>
+
+            <div class='secondBigDiv'>
                 <img src="resources/fat-plane2.png" id="plane4img">
             </div>
-            <div  class='bigDiv'>
-                <button class="id{{number}}" *ngFor="let number of seatsVector"
-                    id="button@{{ number }}" (click)="buttonClick(number)">{{number}}</button>
+            <div class='bigDiv'>
+                <button class="id{{number}}" *ngFor="let number of seatsVector" id="button@{{ number }}" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)"></button>
             </div>
-    </div>
+        </div>
 
-</div>
-<div id="detailsWrapper" >
-    <div id="detailsContent">
-        <div id="legend">
-            <h4>Legend:</h4>
-           <figure> 
-                <img src="resources/freeSeat.png" id="leg-free-seat">
-                <figcaption>unoccupied seat</figcaption>
-           </figure>
-           <figure>
-                <img src="resources/choosenSeat.png" id="leg-choosen-seat">
-                <figcaption>choosen seat</figcaption>
-            </figure>
-            <figure>
-                <img src="resources/occupiedSeat.png" id="leg-occupied-seat">
-                <figcaption>occupied seat</figcaption>
-            </figure>
-            <figure>
-                <img src="resources/exit.png" id="leg-exit">
-                <figcaption>exit</figcaption>
-            </figure>
-            <figure>
-                <img src="resources/toilets.png" id="leg-toliet">
-                <figcaption>toilet</figcaption>
-            </figure>
-            <figure>
-                <img src="resources/bar.png" id="leg-bar">
-                <figcaption>bar</figcaption>    
-            </figure>
-        </div>
-        <div id="selectedSeats">
-            <h4>Seats selected:</h4>
-            <div id="seatListScrollableWrapper">
-                <div  *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards" (click)="buttonClick(number)">
-                    {{number}}  
-                </div>
+    </div>
+    <div id="detailsWrapper">
+        <div id="detailsContent">
+            <div id="legend">
+                <h4>Legend:</h4>
+                <figure>
+                    <img src="resources/freeSeat.png" id="leg-free-seat">
+                    <figcaption>unoccupied seat</figcaption>
+                </figure>
+                <figure>
+                    <img src="resources/choosenSeat.png" id="leg-choosen-seat">
+                    <figcaption>choosen seat</figcaption>
+                </figure>
+                <figure>
+                    <img src="resources/occupiedSeat.png" id="leg-occupied-seat">
+                    <figcaption>occupied seat</figcaption>
+                </figure>
+                <figure>
+                    <img src="resources/exit.png" id="leg-exit">
+                    <figcaption>exit</figcaption>
+                </figure>
+                <figure>
+                    <img src="resources/toilets.png" id="leg-toliet">
+                    <figcaption>toilet</figcaption>
+                </figure>
+                <figure>
+                    <img src="resources/bar.png" id="leg-bar">
+                    <figcaption>bar</figcaption>
+                </figure>
             </div>
-            <button (click)="saveSeats()" routerLink="/payment-page" id="nextPageButton">
-                Next page
-            </button>
-            <button (click)="reserveSelectedSeats()" id="nextPageButton">
-                Post
-            </button>            
+            <div id="selectedSeats">
+                <h4>Seats selected:</h4>
+                <div id="seatListScrollableWrapper">
+                    <div *ngFor="let number of chosenSeats" [id]="'seatCard' + number" class="seatCards" (click)="buttonClick(number)" [innerHTML]="conversionSeat(number)">
+                    </div>
+                </div>
+                <button (click)="saveSeats()" routerLink="/payment-page" id="nextPageButton">
+                    Next page
+                </button>
+            </div>
         </div>
     </div>
-</div>

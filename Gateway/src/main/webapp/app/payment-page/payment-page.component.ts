@@ -40,7 +40,7 @@ export class PaymentPageComponent implements OnInit {
       expirationMonth: '',
       name: '',
       cvv: '',
-      cardType: 'Debit card'
+      cardType: 'DEBIT'
     }
   };
 
@@ -97,8 +97,8 @@ export class PaymentPageComponent implements OnInit {
       {
         'title': 'Payment',
         'optionsRadio': [
-          'Credit card',
-          'Debit card'
+          'CREDIT',
+          'DEBIT'
         ]
       }
     ],
@@ -142,17 +142,19 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.ticketInfo.subscribe((ticket: TicketModel) => {
       this.ticket = ticket;
     }, () => {
-      this.paymentCompensation();
+      this.target_popup( 0, 'Ticket not provided');
+      // this.paymentCompensation();
     });
     this.flightsService.find(this.ticket.ticket_flightID).subscribe((flight: HttpResponse<Flights>) => {
       this.flight = flight.body;
     }, () => {
-      this.paymentCompensation();
+      this.target_popup( 0, 'Flight microservice not privided!');
+      // this.paymentCompensation();
     });
     this.dataService.user.subscribe((_data) => this.user);
-    // this.ticketPrice = this.flight.priceRangeMax;
-    // this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-    this.totalPrice = 100;
+    this.ticketPrice = this.flight.priceRangeMax;
+    this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
+    // this.totalPrice = 100;
     this.flightInfos.departLocation = this.flight.departure;
     this.flightInfos.departTime = this.flight.departureTime;
     this.flightInfos.landLocation = this.flight.arrival;
@@ -178,120 +180,102 @@ export class PaymentPageComponent implements OnInit {
       this.passengerIDInfos.card.name + ' ' +
       this.passengerIDInfos.card.cvv + ' ' +
       this.totalPrice );
-      if ( this.updateBank(this.transaction) ) {
-        console.log('Working');
-      } else {
-        console.log('WError!');
-      }
-  }
-  // submit() {
-  //   this.transaction = new Transaction(
-  //     this.passengerIDInfos.card.number,
-  //     this.passengerIDInfos.card.expirationYear,
-  //     this.passengerIDInfos.card.expirationMonth,
-  //     this.passengerIDInfos.card.name,
-  //     this.passengerIDInfos.card.cvv,
-  //     this.totalPrice
-  //   );
-  //   if ( this.updateBank(this.transaction) ) {
-  //     this.card = new Card(
-  //       null,
-  //       this.passengerIDInfos.card.number,
-  //       this.passengerIDInfos.card.number,
-  //       this.passengerIDInfos.card.expirationYear,
-  //       this.passengerIDInfos.card.name,
-  //       this.passengerIDInfos.card.cvv,
-  //       this.passengerIDInfos.card.cardType
-  //     );
-  //     if ( this.updateCard(this.card) ) {
-  //       let i = 0;
-  //       this.order = new OrderHistory(
-  //         null,
-  //         this.ticket.ticket_userID,
-  //         this.ticket.ticket_flightID,
-  //         this.ticket.ticket_planeType,
-  //         this.totalPrice,
-  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-  //         this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-  //         this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
-  //         this.card.id
-  //       );
-  //       this.updateOrderHistory(this.order);
-  //     }
-  //   }
-  // }
 
-  updateBank(transaction: Transaction): boolean {
+    this.updateBank(this.transaction);
+  }
+
+  updateBank(transaction: Transaction): void {
     this.bankService.updateBankAmount(transaction).subscribe(
       (res: HttpResponse<Bank>) => {
         console.log('Updated succesfully! ' + res.body.id + res.body.amount);
-        return true;
+        this.card = new Card(
+                null,
+                this.passengerIDInfos.card.number,
+                this.passengerIDInfos.card.expirationMonth,
+                this.passengerIDInfos.card.expirationYear,
+                this.passengerIDInfos.card.name,
+                this.passengerIDInfos.card.cvv,
+                this.passengerIDInfos.card.cardType
+              );
+        this.updateCard(this.card);
       },
       (res: HttpErrorResponse) => {
-        console.log('Bank Error! ' + res.status );
         // rollback
+        if ( res.status === 304 ) {
+          this.target_popup( 404, 'Insuficient funds!');
+        } else if ( res.status === 404 ) {
+          this.target_popup( 404, 'Card not found!');
+        } else {
+          this.target_popup( 404 , 'Update transaction error ' + res.status );
+        }
         this.paymentCompensation();
         this.jhiAlertService.error(res.message, null, null);
-        return false;
       }
     );
-    return false;
   }
 
-  updateCard(card: Card): boolean {
+  updateCard(card: Card): void {
     this.cardService.update(card).subscribe(
       (res: HttpResponse<Card>) => {
         console.log('Card updated succesfully! ' + res.body.id);
         this.card = res.body;
-        return true;
+        let i = 0;
+        this.order = new OrderHistory(
+          null,
+          this.ticket.ticket_userID,
+          this.ticket.ticket_flightID,
+          this.ticket.ticket_planeType,
+          this.totalPrice,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
+          this.card.id
+        );
+        this.updateOrderHistory(this.order);
       },
       (res: HttpErrorResponse) => {
-        console.log('Card Error!');
+        this.target_popup( 404, 'Card error ' + res.status );
         // rollback
-        this.paymentCompensation(this.bank);
+        this.paymentCompensation(this.transaction);
         this.jhiAlertService.error(res.message, null, null);
-        return false;
       }
     );
-    return false;
   }
 
-  updateOrderHistory(order: OrderHistory): boolean {
+  updateOrderHistory(order: OrderHistory): void {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
         console.log('Order updated succesfully! ' + res.body.id);
+        this.target_popup( 200, 'Succesful transaction !');
         this.order = res.body;
-        return true;
       },
       (res: HttpErrorResponse) => {
-        console.log('OrderHistory Error!');
+        this.target_popup( 404, 'OrderHistory error ' + res.status );
         // rollback
-        this.paymentCompensation(this.bank, this.card);
+        this.paymentCompensation(this.transaction, this.card);
         this.jhiAlertService.error(res.message, null, null);
-        return false;
       }
     );
-    return false;
   }
 
   private paymentCompensation(transaction?: Transaction, card?: Card, history?: OrderHistory) {
     // Work in progress
-    const message = 'Something went wrong. Sorry! \n';
+    let message = 'Rollback \n';
     if (transaction !== undefined) {
       this.bankCompensation(transaction);
-      // message = message + 'Bank Account';
+      message = message + ' Bank Account';
     }
     if (card !== undefined) {
       this.cardCompensation(card);
-      // message = message + 'msg2';
+      message = message + ', Card';
     }
     if (history !== undefined) {
       this.historyCompensation(history);
-      // message = message + 'msg3';
+      message = message + ', Order';
     }
-    // De afisat mesaj de eroare pe front end ?
+    this.target_popup( 0 , message );
   }
 
   historyCompensation(history: OrderHistory): void {
@@ -314,6 +298,7 @@ export class PaymentPageComponent implements OnInit {
 
   // Posibil sa fie nevoie de pasi aditionali aici
   bankCompensation(transaction: Transaction): void {
+    transaction.isReversed = true;
     this.bankService.updateBankAmount(transaction).subscribe((res: HttpResponse<Bank>) => {
 
     }, (error: HttpErrorResponse) => {
@@ -372,7 +357,8 @@ export class PaymentPageComponent implements OnInit {
     const getFormId = document.getElementById('passangerInfoForm');
     if (this.hasClass(getFormId, 'ng-valid') === true) {
       console.log('Apelez submit');
-      // this.submit();
+      // In loc de error functia target_popup primeste ca argument this.submit()
+      this.submit();
     }
   }
 
@@ -380,8 +366,61 @@ export class PaymentPageComponent implements OnInit {
     return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
   }
 
-  target_popup(form) {
-  window.open('', 'formpopup', 'width=400,height=400,resizeable,scrollbars');
-  form.target = 'formpopup';
- }
+  target_popup(errorCode: number , message: string ): void {
+    const popupDiv = document.getElementById('feedMess') as HTMLElement;
+    const innerDiv = document.createElement('div') as HTMLElement;
+    const mTitle = document.createElement('strong') as HTMLElement;
+    const desc = document.createElement('p') as HTMLElement;
+    switch (errorCode) {
+      case 404:
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-danger');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Oh snap!';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = message;
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+      case 200:
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-success');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Well done!';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = message;
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+      default:
+        innerDiv.classList.add('alert');
+        innerDiv.classList.add('alert-warning');
+        innerDiv.setAttribute('role', 'alert');
+        mTitle.innerHTML = 'Sorry !';
+        mTitle.style.fontWeight = 'bold';
+        mTitle.style.cssFloat = 'left';
+        mTitle.style.paddingRight = '10px';
+        desc.innerHTML = 'Please try again later.';
+        desc.style.marginBottom = '0';
+        innerDiv.appendChild(mTitle);
+        innerDiv.appendChild(desc);
+        popupDiv.appendChild(innerDiv);
+        break;
+    }
+  }
+
+  removeFeedMess() {
+    const displayResults = document.getElementById('feedMess') as HTMLDivElement;
+    while (displayResults.hasChildNodes()) {
+      displayResults.removeChild(displayResults.lastChild);
+    }
+  }
 }

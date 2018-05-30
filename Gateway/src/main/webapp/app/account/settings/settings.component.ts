@@ -59,6 +59,7 @@ export class SettingsComponent implements OnInit {
             this.userinfo.loginid = this.myAccount.id;
         });
         this.settingsOption = 'Account';
+        // this.setActivePage();
     }
 
     assignquerydata(users) {
@@ -115,20 +116,30 @@ export class SettingsComponent implements OnInit {
     }
 
     setSettingsOption(option: string) {
+        this.resetActivePage(option);
         this.settingsOption = option;
         if (option === 'Reviews') {
             this.initReviews();
-        } else if (option === 'Active') {
+        } else if (option === 'History') {
             this.initHistory();
         }
     }
 
+    resetActivePage(id: string) {
+        const allelements = document.getElementsByClassName('option-item');
+        for (let i = 0; i < allelements.length; i++) {
+            allelements[i].className = allelements[i].className.replace(' active', '');
+        }
+        const btnContainer = document.getElementById(id);
+        btnContainer.className += ' active';
+    }
+
     initReviews() {
         this.reviews = [];
-        this.reviewService.query('userid=' + this.userinfo.uid).subscribe(
+        this.reviewService.reviewsForUser(this.userinfo.id).subscribe(
             (res: HttpResponse<Review[]>) => {
+                console.log(res);
                 for (const rev of res.body) {
-                    if (this.userinfo.id === rev.userId) {
                         const review = new SettingsReview();
                         review.id = rev.id;
                         review.flightId = rev.flightId;
@@ -142,9 +153,9 @@ export class SettingsComponent implements OnInit {
                                 review.rating = flight.rating;
                             });
                         this.reviews.push(review);
-                    }
                 }
-            });
+            }
+        );
     }
 
     initHistory() {

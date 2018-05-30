@@ -40,20 +40,20 @@ export class DataService {
     }
 
     checkStatus(userinfo) {
-            console.log('start to get user');
+        console.log('start to get user');
 
-            this.principal.identity().then((account) => {
-                this.settingsAccount = this.copyAccount(account);
-                userinfo.name = this.settingsAccount.lastName;
-                userinfo.prenume = this.settingsAccount.firstName;
+        this.principal.identity().then((account) => {
+            this.settingsAccount = this.copyAccount(account);
+            userinfo.name = this.settingsAccount.lastName;
+            userinfo.prenume = this.settingsAccount.firstName;
+        });
+        this.principal.identity().then((account) => {
+            this.myAccount = account;
+            this.userService.query().subscribe((data) => {
+                this.assignquerydata(data.body, userinfo);
             });
-            this.principal.identity().then((account) => {
-                this.myAccount = account;
-                this.userService.query().subscribe((data) => {
-                    this.assignquerydata(data.body, userinfo);
-                });
-                userinfo.loginid = this.myAccount.id;
-            });
+            userinfo.loginid = this.myAccount.id;
+        });
     }
 
     check(userinfo) {
