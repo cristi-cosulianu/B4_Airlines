@@ -15,6 +15,7 @@ import { Bank } from '../entities/bank/bank.model';
 import { resolveSoa } from 'dns';
 import { OrderHistory, OrderHistoryService } from '../entities/order-history';
 import { Transaction } from '../models/transaction.model';
+import { FinalSagaService } from '../final-saga.service';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -133,7 +134,8 @@ export class PaymentPageComponent implements OnInit {
     private bankService: BankService,
     private dataService: DataService,
     private flightsService: FlightsService,
-    private orderHistoryService: OrderHistoryService
+    private orderHistoryService: OrderHistoryService,
+    private finalSagaService: FinalSagaService
   ) { }
 
   // Recomandat de facut initializarile aici
@@ -142,13 +144,13 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.ticketInfo.subscribe((ticket: TicketModel) => {
       this.ticket = ticket;
     }, () => {
-      this.target_popup( 0, 'Ticket not provided');
+      this.target_popup(0, 'Ticket not provided');
       // this.paymentCompensation();
     });
     this.flightsService.find(this.ticket.ticket_flightID).subscribe((flight: HttpResponse<Flights>) => {
       this.flight = flight.body;
     }, () => {
-      this.target_popup( 0, 'Flight microservice not privided!');
+      this.target_popup(0, 'Flight microservice not privided!');
       // this.paymentCompensation();
     });
     this.dataService.user.subscribe((_data) => this.user);
@@ -165,23 +167,25 @@ export class PaymentPageComponent implements OnInit {
   submit() {
     this.parseExpirationDate();
     this.transaction = new Transaction(
-          this.passengerIDInfos.card.number,
-          this.passengerIDInfos.card.expirationYear,
-          this.passengerIDInfos.card.expirationMonth,
-          this.passengerIDInfos.card.name,
-          this.passengerIDInfos.card.cvv,
-          this.totalPrice,
-          false
-        );
+      this.passengerIDInfos.card.number,
+      this.passengerIDInfos.card.expirationYear,
+      this.passengerIDInfos.card.expirationMonth,
+      this.passengerIDInfos.card.name,
+      this.passengerIDInfos.card.cvv,
+      this.totalPrice,
+      false
+    );
 
-    console.log( this.passengerIDInfos.card.number + ' ' +
+    console.log(this.passengerIDInfos.card.number + ' ' +
       this.passengerIDInfos.card.expirationYear + ' ' +
       this.passengerIDInfos.card.expirationMonth + ' ' +
       this.passengerIDInfos.card.name + ' ' +
       this.passengerIDInfos.card.cvv + ' ' +
-      this.totalPrice );
+      this.totalPrice);
 
-    this.updateBank(this.transaction);
+    if (this.finalSagaService.finaliseTransaction() === true) {
+      this.updateBank(this.transaction);
+    }
   }
 
   updateBank(transaction: Transaction): void {
@@ -189,24 +193,24 @@ export class PaymentPageComponent implements OnInit {
       (res: HttpResponse<Bank>) => {
         console.log('Updated succesfully! ' + res.body.id + res.body.amount);
         this.card = new Card(
-                null,
-                this.passengerIDInfos.card.number,
-                this.passengerIDInfos.card.expirationMonth,
-                this.passengerIDInfos.card.expirationYear,
-                this.passengerIDInfos.card.name,
-                this.passengerIDInfos.card.cvv,
-                this.passengerIDInfos.card.cardType
-              );
+          null,
+          this.passengerIDInfos.card.number,
+          this.passengerIDInfos.card.expirationMonth,
+          this.passengerIDInfos.card.expirationYear,
+          this.passengerIDInfos.card.name,
+          this.passengerIDInfos.card.cvv,
+          this.passengerIDInfos.card.cardType
+        );
         this.updateCard(this.card);
       },
       (res: HttpErrorResponse) => {
         // rollback
-        if ( res.status === 304 ) {
-          this.target_popup( 404, 'Insuficient funds!');
-        } else if ( res.status === 404 ) {
-          this.target_popup( 404, 'Card not found!');
+        if (res.status === 304) {
+          this.target_popup(404, 'Insuficient funds!');
+        } else if (res.status === 404) {
+          this.target_popup(404, 'Card not found!');
         } else {
-          this.target_popup( 404 , 'Update transaction error ' + res.status );
+          this.target_popup(404, 'Update transaction error ' + res.status);
         }
         this.paymentCompensation();
         this.jhiAlertService.error(res.message, null, null);
@@ -236,7 +240,7 @@ export class PaymentPageComponent implements OnInit {
         this.updateOrderHistory(this.order);
       },
       (res: HttpErrorResponse) => {
-        this.target_popup( 404, 'Card error ' + res.status );
+        this.target_popup(404, 'Card error ' + res.status);
         // rollback
         this.paymentCompensation(this.transaction);
         this.jhiAlertService.error(res.message, null, null);
@@ -248,11 +252,11 @@ export class PaymentPageComponent implements OnInit {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
         console.log('Order updated succesfully! ' + res.body.id);
-        this.target_popup( 200, 'Succesful transaction !');
+        this.target_popup(200, 'Succesful transaction !');
         this.order = res.body;
       },
       (res: HttpErrorResponse) => {
-        this.target_popup( 404, 'OrderHistory error ' + res.status );
+        this.target_popup(404, 'OrderHistory error ' + res.status);
         // rollback
         this.paymentCompensation(this.transaction, this.card);
         this.jhiAlertService.error(res.message, null, null);
@@ -275,7 +279,7 @@ export class PaymentPageComponent implements OnInit {
       this.historyCompensation(history);
       message = message + ', Order';
     }
-    this.target_popup( 0 , message );
+    this.target_popup(0, message);
   }
 
   historyCompensation(history: OrderHistory): void {
@@ -366,7 +370,7 @@ export class PaymentPageComponent implements OnInit {
     return element.className && new RegExp('(^|\\s)' + className + '(\\s|$)').test(element.className);
   }
 
-  target_popup(errorCode: number , message: string ): void {
+  target_popup(errorCode: number, message: string): void {
     const popupDiv = document.getElementById('feedMess') as HTMLElement;
     const innerDiv = document.createElement('div') as HTMLElement;
     const mTitle = document.createElement('strong') as HTMLElement;

@@ -214,9 +214,11 @@ export class SettingsComponent implements OnInit {
         if (this.userinfo.id !== undefined) {
             this.subscribeToSaveResponse(
                 this.userService.update(this.userinfo));
+                alert('succes');
         } else {
             this.subscribeToSaveResponse(
                 this.userService.create(this.userinfo));
+                alert('succes');
         }
         this.dataService.updateUser(this.userinfo);
     }

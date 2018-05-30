@@ -30,6 +30,7 @@ import { FlightsPageModule } from './flights-page';
 import { SeatsConfigurePageModule } from './seats-configure-page';
 import { PaymentPageModule } from './payment-page';
 import { DataService } from './data.service';
+import { FinalSagaService } from './final-saga.service';
 
 @NgModule({
     imports: [
@@ -53,6 +54,7 @@ import { DataService } from './data.service';
         FooterComponent
     ],
     providers: [
+        FinalSagaService,
         DataService,
         ProfileService,
         PaginationConfig,
