@@ -146,4 +146,25 @@ public class FlightsResource {
 		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
 
 	}
+
+    @GetMapping("/flights/departure")
+    @Timed
+    public ResponseEntity<List<String>> findDeparture() {
+        List<String> departure = flightsService.findDeparture();
+        if(departure.isEmpty()){
+            return new ResponseEntity<List<String>>(departure , HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<String>>(departure , HttpStatus.OK);
+    }
+
+
+    @GetMapping("/flights/arrival")
+    @Timed
+    public ResponseEntity<List<String>> findArrival() {
+        List<String> arrival = flightsService.findArrival();
+        if(arrival.isEmpty()){
+            return new ResponseEntity<List<String>>(arrival , HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<String>>(arrival , HttpStatus.OK);
+    }
 }

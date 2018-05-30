@@ -12,6 +12,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 
 /**
  * Service Implementation for managing Flights.
@@ -83,10 +88,26 @@ public class FlightsServiceImpl implements FlightsService {
         log.debug("Request to delete Flights : {}", id);
         flightsRepository.delete(id);
     }
-    
+
 	@Override
 	public Page<FlightsDTO> findFlights(Pageable pageable , String departure, String arrival) {
 		Page<Flights> flights = flightsRepository.findByDepartureAndArrival(pageable , departure, arrival);
 		return flights.map(flightsMapper::toDto);
 	}
+
+    @Override
+    public List<String> findDeparture() {
+        List<Flights> flights = flightsRepository.findAll();
+        Set<String> set = new HashSet<>();
+        flights.stream().forEach(flight -> {set.add(flight.getDeparture());});
+        return set.stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findArrival() {
+        List<Flights> flights = flightsRepository.findAll();
+        Set<String> set = new HashSet<>();
+        flights.stream().forEach(flight -> {set.add(flight.getArrival());});
+        return set.stream().collect(Collectors.toList());
+    }
 }

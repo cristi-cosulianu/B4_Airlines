@@ -4,6 +4,8 @@ import com.flights.service.dto.FlightsDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * Service Interface for managing Flights.
  */
@@ -39,6 +41,10 @@ public interface FlightsService {
      * @param id the id of the entity
      */
     void delete(Long id);
-    
+
     Page<FlightsDTO> findFlights(Pageable pageable , String departure , String arrival);
+
+    List<String> findDeparture();
+
+    List<String> findArrival();
 }
