@@ -46,51 +46,6 @@
       </tr>
     </thead>
     <tbody id="tableBody">
-      <tr class="tableRow">       
-        <td>12314</td>                
-        <td>London 16:30</td>
-        <td>Bucharest 18:30</td>
-        <td>100 <span class="price">$</span></td>
-        <td>BlueAir</td>
-        <td>1</td>
-        <td>
-          <!-- <ngb-rating [(rate)]="currentRate" (hover)="hovered=$event" (click)="calculateRate()">
-            <ng-template let-fill="fill">
-              <span class="star" [class.filled]="fill === 100">&#9733;</span>
-            </ng-template>
-          </ngb-rating> -->
-
-          <div class="star-rating">
-            <span class="fa fa-star" data-rating="1"></span>
-            <span class="fa fa-star" data-rating="2"></span>
-            <span class="fa fa-star" data-rating="3"></span>
-            <span class="fa fa-star-o" data-rating="4"></span>
-            <span class="fa fa-star-o" data-rating="5"></span>
-          </div>
-        </td>
-        
-		<!-- COLLAPSE -->
-        <td>
-          <button type="button" class="btn btn-outline-primary btn-sm btn-review" (click)="isCollapsed1 = !isCollapsed1"
-          aria-expanded="!isCollapsed1" aria-controls="review1">
-            Read
-          </button>
-        </td>
-        <td>
-          <button type="submit" class="btn btn-primary btn-sm" routerLink="/seats-configure-page">Book!</button>
-        </td>
-      </tr>
-      <tr id="review1" class="collapse-review" [ngbCollapse]="!isCollapsed1">
-        <td colspan="9">
-          <div>
-            "Our flight left on time and our flight attendants were courteous and amusing. The service was very quick. There was no in-flight movie. Our return trip was delayed because of weather, but the flight was still good. We had the good fortune to sit by the emergency exit door which gave us more leg room. All in all, good flight."
-          </div>
-          <div>
-            "They had a three hour delay due to needing a part. At that point they issued a $100 voucher to everyone. Not bad considering I paid $95 got the flight"
-          </div>
-        </td>
-      </tr>
-
     </tbody>
   </table>
 </div>
