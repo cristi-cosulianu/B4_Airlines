@@ -180,7 +180,7 @@ public class FlightsResource {
 
     @GetMapping("/flights/arrival/{arrival}")
     @Timed
-    public ResponseEntity<List<String>> findDeparture(@PathVariable String arrival) {
+    public ResponseEntity<List<String>> findDepartureByArrival(@PathVariable String arrival) {
         List<String> departure = flightsService.findDepartureByArrival(arrival);
         if(departure.isEmpty()){
             return new ResponseEntity<List<String>>(departure , HttpStatus.NOT_FOUND);
