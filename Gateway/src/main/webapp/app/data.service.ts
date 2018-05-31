@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { TicketModel } from './models/ticket-model';
+import { OrderModel } from './models/order.model';
 import { Userinfo, UserinfoService } from './entities/userinfo';
 import { Router } from '@angular/router';
 import { AccountService, Principal } from './shared';
@@ -18,6 +19,9 @@ export class DataService {
     private service_user = new BehaviorSubject<Userinfo>(new Userinfo());
     public user = this.service_user.asObservable();
 
+    private service_order = new BehaviorSubject<OrderModel>(new OrderModel());
+    private order = this.service_order.asObservable();
+
     constructor(
         private router: Router,
         private account: AccountService,
@@ -32,6 +36,10 @@ export class DataService {
     updateUser(newUser) {
         this.set = true;
         this.service_user.next(newUser);
+    }
+
+    updateOrder(newOrder) {
+        this.service_order.next(newOrder);
     }
 
     resetUser() {
