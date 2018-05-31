@@ -78,6 +78,7 @@ export class FlightsPageComponent implements OnInit {
   createRowsUsingData(data, howMany) {
     // Get parent container <tbody>.
     const tableBody = document.getElementById('tableBody');
+    const planeName = ['', 'Boeing 777', 'Boeing 787', 'Airbus A310', 'Airbus A330'];
 
     let size;
     if (howMany === 'some') {
@@ -108,7 +109,7 @@ export class FlightsPageComponent implements OnInit {
         departure.innerText = obj.departure + ' ' + obj.departureTime;
         destination.innerText = obj.arrival + ' ' + obj.arrivalTime;
         price.innerText = obj.priceRangeMin + '-' + obj.priceRangeMax;
-        planeType.innerText = obj.planeType;
+        planeType.innerText = planeName[obj.planeType];
         company.innerText = obj.company;
         // Assign text and $ sign to price column.
         const dolar = this.createElement('span');
