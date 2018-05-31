@@ -171,7 +171,7 @@ export class PaymentPageComponent implements OnInit {
       this.passengerIDInfos.card.number,
       this.passengerIDInfos.card.expirationYear,
       this.passengerIDInfos.card.expirationMonth,
-      this.passengerIDInfos.card.name,
+      this.passengerIDInfos.card.name.toUpperCase(),
       this.passengerIDInfos.card.cvv,
       this.totalPrice,
       false
@@ -180,7 +180,7 @@ export class PaymentPageComponent implements OnInit {
     console.log(this.passengerIDInfos.card.number + ' ' +
       this.passengerIDInfos.card.expirationYear + ' ' +
       this.passengerIDInfos.card.expirationMonth + ' ' +
-      this.passengerIDInfos.card.name + ' ' +
+      this.passengerIDInfos.card.name.toUpperCase() + ' ' +
       this.passengerIDInfos.card.cvv + ' ' +
       this.totalPrice);
 
