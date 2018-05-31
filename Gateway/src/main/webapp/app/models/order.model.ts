@@ -15,5 +15,4 @@ export class OrderModel {
     public specialNeeds: Array<number>;
     // the card owner's name
     public cardOwnerName: string;
-
 }

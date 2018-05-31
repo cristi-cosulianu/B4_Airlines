@@ -16,6 +16,7 @@ import { resolveSoa } from 'dns';
 import { OrderHistory, OrderHistoryService } from '../entities/order-history';
 import { Transaction } from '../models/transaction.model';
 import { FinalSagaService } from '../final-saga.service';
+import { OrderModel } from '../models/order.model';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -45,9 +46,10 @@ export class PaymentPageComponent implements OnInit {
     }
   };
 
-  private ticket;
+  private ticket: TicketModel;
   private flight: Flights = new Flights;
   private user: Userinfo;
+  private order: OrderModel;
 
   showInfoForm = false;
   private ticketPrice: number;
@@ -184,6 +186,17 @@ export class PaymentPageComponent implements OnInit {
     // } else {
     //   this.target_popup(404, 'Finalise transaction service won\'t respond...');
     // }
+    this.ticket.ticket_price = this.totalPrice;
+    this.dataService.updateTicket(this.ticket);
+    this.order = new OrderModel();
+    this.order.cardCCV = this.passengerIDInfos.card.ccv;
+    this.order.cardExpirationMonth = this.passengerIDInfos.card.expirationMonth;
+    this.order.cardExpirationYear = this.passengerIDInfos.card.expirationYear;
+    this.order.cardNumber = this.passengerIDInfos.card.number;
+    this.order.cardOwnerName = this.passengerIDInfos.card.name.toUpperCase();
+    this.order.cardType = this.passengerIDInfos.card.cardType;
+    this.order.specialNeeds = this.passengerIDInfos.specialNeeds;
+    this.dataService.updateOrder(this.order);
     this.finalSagaService.paymentResult.subscribe((messageRsp) => {
       this.target_popup(messageRsp.status, messageRsp.message);
     });
