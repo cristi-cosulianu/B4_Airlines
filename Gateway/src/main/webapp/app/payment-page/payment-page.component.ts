@@ -46,7 +46,7 @@ export class PaymentPageComponent implements OnInit {
   };
 
   private ticket;
-  private flight: Flights;
+  private flight: Flights = new Flights;
   private user: Userinfo;
   private order: OrderHistory;
   private bank: Bank;
@@ -147,21 +147,22 @@ export class PaymentPageComponent implements OnInit {
       this.target_popup(0, 'Ticket not provided');
       // this.paymentCompensation();
     });
-    this.flightsService.find(this.ticket.ticket_flightID).subscribe((flight: HttpResponse<Flights>) => {
-      this.flight = flight.body;
-    }, () => {
+
+    this.flightsService.find(this.ticket.ticket_flightID).subscribe((data) => {
+      this.flight = data.body;
+      this.dataService.user.subscribe((_data) => this.user);
+      this.ticketPrice = this.flight.priceRangeMax;
+      this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
+      // this.totalPrice = 100;
+      this.flightInfos.departLocation = this.flight.departure;
+      this.flightInfos.departTime = this.flight.departureTime;
+      this.flightInfos.landLocation = this.flight.arrival;
+      this.flightInfos.landTime = this.flight.arrivalTime;
+      this.flightInfos.flightDate = this.flight.company;    }, () => {
       this.target_popup(0, 'Flight microservice not privided!');
       // this.paymentCompensation();
     });
-    this.dataService.user.subscribe((_data) => this.user);
-    this.ticketPrice = this.flight.priceRangeMax;
-    this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-    // this.totalPrice = 100;
-    this.flightInfos.departLocation = this.flight.departure;
-    this.flightInfos.departTime = this.flight.departureTime;
-    this.flightInfos.landLocation = this.flight.arrival;
-    this.flightInfos.landTime = this.flight.arrivalTime;
-    this.flightInfos.flightDate = this.flight.company;
+
   }
 
   submit() {
