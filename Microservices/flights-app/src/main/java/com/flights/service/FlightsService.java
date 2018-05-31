@@ -47,4 +47,8 @@ public interface FlightsService {
     List<String> findDeparture();
 
     List<String> findArrival();
+
+    List<String> findDepartureByArrival(String arrival);
+
+    List<String> findArrivalByDeparture(String departure);
 }

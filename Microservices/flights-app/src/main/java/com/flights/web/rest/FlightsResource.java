@@ -167,4 +167,25 @@ public class FlightsResource {
         }
         return new ResponseEntity<List<String>>(arrival , HttpStatus.OK);
     }
+
+    @GetMapping("/flights/departure/{departure}")
+    @Timed
+    public ResponseEntity<List<String>> findArrivalByDeparture(@PathVariable String departure) {
+        List<String> arrival = flightsService.findArrivalByDeparture(departure);
+        if(arrival.isEmpty()){
+            return new ResponseEntity<List<String>>(arrival , HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<String>>(arrival , HttpStatus.OK);
+    }
+
+    @GetMapping("/flights/arrival/{arrival}")
+    @Timed
+    public ResponseEntity<List<String>> findDeparture(@PathVariable String arrival) {
+        List<String> departure = flightsService.findDepartureByArrival(arrival);
+        if(departure.isEmpty()){
+            return new ResponseEntity<List<String>>(departure , HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<List<String>>(departure , HttpStatus.OK);
+    }
+
 }
