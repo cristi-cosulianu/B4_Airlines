@@ -55,7 +55,7 @@ export class PaymentPageComponent implements OnInit {
 
   showInfoForm = false;
   private ticketPrice: number;
-  private totalPrice: number;
+  private totalPrice = 0;
   optionalNeeds: any = [
     { name: 'Blind', value: 10.07 },
     { name: 'Deaf', value: 20.14 },
@@ -144,7 +144,7 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.ticketInfo.subscribe((ticket: TicketModel) => {
       this.ticket = ticket;
     }, () => {
-      this.target_popup(0, 'Ticket not provided');
+      this.target_popup(0, 'Ticket not provided...');
       // this.paymentCompensation();
     });
 
@@ -153,13 +153,13 @@ export class PaymentPageComponent implements OnInit {
       this.dataService.user.subscribe((_data) => this.user);
       this.ticketPrice = this.flight.priceRangeMax;
       this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-      // this.totalPrice = 100;
+      // this.totalPrice += 100;
       this.flightInfos.departLocation = this.flight.departure;
       this.flightInfos.departTime = this.flight.departureTime;
       this.flightInfos.landLocation = this.flight.arrival;
       this.flightInfos.landTime = this.flight.arrivalTime;
       this.flightInfos.flightDate = this.flight.company;    }, () => {
-      this.target_popup(0, 'Flight microservice not privided!');
+      this.target_popup(0, 'Flight microservice not privided...');
       // this.paymentCompensation();
     });
 
@@ -186,6 +186,8 @@ export class PaymentPageComponent implements OnInit {
 
     if (this.finalSagaService.finaliseTransaction() === true) {
       this.updateBank(this.transaction);
+    } else {
+      this.target_popup(404, 'Finalise transaction service won\'t respond...');
     }
   }
 
@@ -361,8 +363,6 @@ export class PaymentPageComponent implements OnInit {
     this.checkInvalidfields();
     const getFormId = document.getElementById('passangerInfoForm');
     if (this.hasClass(getFormId, 'ng-valid') === true) {
-      console.log('Apelez submit');
-      // In loc de error functia target_popup primeste ca argument this.submit()
       this.submit();
     }
   }
@@ -407,13 +407,13 @@ export class PaymentPageComponent implements OnInit {
         break;
       default:
         innerDiv.classList.add('alert');
-        innerDiv.classList.add('alert-warning');
+        innerDiv.classList.add('alert-dark');
         innerDiv.setAttribute('role', 'alert');
         mTitle.innerHTML = 'Sorry !';
         mTitle.style.fontWeight = 'bold';
         mTitle.style.cssFloat = 'left';
         mTitle.style.paddingRight = '10px';
-        desc.innerHTML = 'Please try again later.';
+        desc.innerHTML = message + '   Please try again later.';
         desc.style.marginBottom = '0';
         innerDiv.appendChild(mTitle);
         innerDiv.appendChild(desc);
