@@ -11,4 +11,6 @@ export class TicketModel {
     public ticket_seats: Array<number> = new Array<number>();
     // the type of the plane
     public ticket_planeType: number;
+    // the price of the ticket
+    public ticket_price: number;
 }

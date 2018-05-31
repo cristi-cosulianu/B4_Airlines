@@ -48,10 +48,6 @@ export class PaymentPageComponent implements OnInit {
   private ticket;
   private flight: Flights = new Flights;
   private user: Userinfo;
-  private order: OrderHistory;
-  private bank: Bank;
-  private card: Card;
-  private transaction: Transaction;
 
   showInfoForm = false;
   private ticketPrice: number;
@@ -131,10 +127,8 @@ export class PaymentPageComponent implements OnInit {
 
   constructor(private cardService: CardService,
     private jhiAlertService: JhiAlertService,
-    private bankService: BankService,
     private dataService: DataService,
     private flightsService: FlightsService,
-    private orderHistoryService: OrderHistoryService,
     private finalSagaService: FinalSagaService
   ) { }
 
@@ -158,7 +152,8 @@ export class PaymentPageComponent implements OnInit {
       this.flightInfos.departTime = this.flight.departureTime;
       this.flightInfos.landLocation = this.flight.arrival;
       this.flightInfos.landTime = this.flight.arrivalTime;
-      this.flightInfos.flightDate = this.flight.company;    }, () => {
+      this.flightInfos.flightDate = this.flight.company;
+    }, () => {
       this.target_popup(0, 'Flight microservice not privided...');
       // this.paymentCompensation();
     });
@@ -167,150 +162,30 @@ export class PaymentPageComponent implements OnInit {
 
   submit() {
     this.parseExpirationDate();
-    this.transaction = new Transaction(
-      this.passengerIDInfos.card.number,
-      this.passengerIDInfos.card.expirationYear,
-      this.passengerIDInfos.card.expirationMonth,
-      this.passengerIDInfos.card.name.toUpperCase(),
-      this.passengerIDInfos.card.cvv,
-      this.totalPrice,
-      false
-    );
+    // this.transaction = new Transaction(
+    //   this.passengerIDInfos.card.number,
+    //   this.passengerIDInfos.card.expirationYear,
+    //   this.passengerIDInfos.card.expirationMonth,
+    //   this.passengerIDInfos.card.name.toUpperCase(),
+    //   this.passengerIDInfos.card.cvv,
+    //   this.totalPrice,
+    //   false
+    // );
 
-    console.log(this.passengerIDInfos.card.number + ' ' +
-      this.passengerIDInfos.card.expirationYear + ' ' +
-      this.passengerIDInfos.card.expirationMonth + ' ' +
-      this.passengerIDInfos.card.name.toUpperCase() + ' ' +
-      this.passengerIDInfos.card.cvv + ' ' +
-      this.totalPrice);
+    // console.log(this.passengerIDInfos.card.number + ' ' +
+    //   this.passengerIDInfos.card.expirationYear + ' ' +
+    //   this.passengerIDInfos.card.expirationMonth + ' ' +
+    //   this.passengerIDInfos.card.name.toUpperCase() + ' ' +
+    //   this.passengerIDInfos.card.cvv + ' ' +
+    //   this.totalPrice);
 
-    if (this.finalSagaService.finaliseTransaction() === true) {
-      this.updateBank(this.transaction);
-    } else {
-      this.target_popup(404, 'Finalise transaction service won\'t respond...');
-    }
-  }
-
-  updateBank(transaction: Transaction): void {
-    this.bankService.updateBankAmount(transaction).subscribe(
-      (res: HttpResponse<Bank>) => {
-        console.log('Updated succesfully! ' + res.body.id + res.body.amount);
-        this.card = new Card(
-          null,
-          this.passengerIDInfos.card.number,
-          this.passengerIDInfos.card.expirationMonth,
-          this.passengerIDInfos.card.expirationYear,
-          this.passengerIDInfos.card.name,
-          this.passengerIDInfos.card.cvv,
-          this.passengerIDInfos.card.cardType
-        );
-        this.updateCard(this.card);
-      },
-      (res: HttpErrorResponse) => {
-        // rollback
-        if (res.status === 304) {
-          this.target_popup(404, 'Insuficient funds!');
-        } else if (res.status === 404) {
-          this.target_popup(404, 'Card not found!');
-        } else {
-          this.target_popup(404, 'Update transaction error ' + res.status);
-        }
-        this.paymentCompensation();
-        this.jhiAlertService.error(res.message, null, null);
-      }
-    );
-  }
-
-  updateCard(card: Card): void {
-    this.cardService.update(card).subscribe(
-      (res: HttpResponse<Card>) => {
-        console.log('Card updated succesfully! ' + res.body.id);
-        this.card = res.body;
-        let i = 0;
-        this.order = new OrderHistory(
-          null,
-          this.ticket.ticket_userID,
-          this.ticket.ticket_flightID,
-          this.ticket.ticket_planeType,
-          this.totalPrice,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
-          this.card.id
-        );
-        this.updateOrderHistory(this.order);
-      },
-      (res: HttpErrorResponse) => {
-        this.target_popup(404, 'Card error ' + res.status);
-        // rollback
-        this.paymentCompensation(this.transaction);
-        this.jhiAlertService.error(res.message, null, null);
-      }
-    );
-  }
-
-  updateOrderHistory(order: OrderHistory): void {
-    this.orderHistoryService.update(order).subscribe(
-      (res: HttpResponse<OrderHistory>) => {
-        console.log('Order updated succesfully! ' + res.body.id);
-        this.target_popup(200, 'Succesful transaction !');
-        this.order = res.body;
-      },
-      (res: HttpErrorResponse) => {
-        this.target_popup(404, 'OrderHistory error ' + res.status);
-        // rollback
-        this.paymentCompensation(this.transaction, this.card);
-        this.jhiAlertService.error(res.message, null, null);
-      }
-    );
-  }
-
-  private paymentCompensation(transaction?: Transaction, card?: Card, history?: OrderHistory) {
-    // Work in progress
-    let message = 'Rollback \n';
-    if (transaction !== undefined) {
-      this.bankCompensation(transaction);
-      message = message + ' Bank Account';
-    }
-    if (card !== undefined) {
-      this.cardCompensation(card);
-      message = message + ', Card';
-    }
-    if (history !== undefined) {
-      this.historyCompensation(history);
-      message = message + ', Order';
-    }
-    this.target_popup(0, message);
-  }
-
-  historyCompensation(history: OrderHistory): void {
-    this.orderHistoryService.delete(history.id).subscribe((res: HttpResponse<any>) => {
-      // history = false;
-    }, (error: HttpErrorResponse) => {
-      console.log(error.message);
-      this.historyCompensation(history);
-    });
-  }
-
-  cardCompensation(card: Card): void {
-    this.cardService.delete(card.id).subscribe((res: HttpResponse<any>) => {
-      // card = false;
-    }, (error: HttpErrorResponse) => {
-      console.log(error.message);
-      this.cardCompensation(card);
-    });
-  }
-
-  // Posibil sa fie nevoie de pasi aditionali aici
-  bankCompensation(transaction: Transaction): void {
-    transaction.isReversed = true;
-    this.bankService.updateBankAmount(transaction).subscribe((res: HttpResponse<Bank>) => {
-
-    }, (error: HttpErrorResponse) => {
-      console.log(error.message);
-      this.bankCompensation(transaction);
+    // if (this.finalSagaService.finaliseTransaction() === true) {
+    //   this.updateBank(this.transaction);
+    // } else {
+    //   this.target_popup(404, 'Finalise transaction service won\'t respond...');
+    // }
+    this.finalSagaService.paymentResult.subscribe((messageRsp) => {
+      this.target_popup(messageRsp.status, messageRsp.message);
     });
   }
 
