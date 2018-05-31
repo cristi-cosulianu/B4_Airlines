@@ -256,6 +256,7 @@ export class FlightsPageComponent implements OnInit {
     this.ticket.ticket_planeType = planeType;
     this.ticket.ticket_departure = departure;
     this.ticket.ticket_destination = destination;
+    this.data.updateTicket(this.ticket);
     this.router.navigate([`./seats-configure-page`]);
   }
 
