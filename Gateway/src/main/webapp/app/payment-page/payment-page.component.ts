@@ -184,11 +184,7 @@ export class PaymentPageComponent implements OnInit {
       this.passengerIDInfos.card.cvv + ' ' +
       this.totalPrice);
 
-    if (this.finalSagaService.finaliseTransaction() === true) {
       this.updateBank(this.transaction);
-    } else {
-      this.target_popup(404, 'Finalise transaction service won\'t respond...');
-    }
   }
 
   updateBank(transaction: Transaction): void {
@@ -254,9 +250,14 @@ export class PaymentPageComponent implements OnInit {
   updateOrderHistory(order: OrderHistory): void {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
-        console.log('Order updated succesfully! ' + res.body.id);
-        this.target_popup(200, 'Succesful transaction !');
         this.order = res.body;
+        if ( this.finalSagaService.finaliseTransaction() === true ) {
+          console.log('Order updated succesfully! ' + res.body.id);
+          this.target_popup(200, 'Succesful transaction !');
+        } else {
+          this.target_popup(404, 'Seats are already taken! ' );
+          this.paymentCompensation(this.transaction, this.card, this.order );
+        }
       },
       (res: HttpErrorResponse) => {
         this.target_popup(404, 'OrderHistory error ' + res.status);
