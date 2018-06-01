@@ -11,17 +11,12 @@
         <label for="departure">From:</label>
         <select id="departure" class="form-control" type="text" name="departure" required>
           <option selected>Select departure</option>
-          <option>Iasi</option>
-          <option>Londra</option>
         </select>
       </div>
       <div class="form-group">
-        <label for="destination">To:</label>
-        <select id="destination" class="form-control" type="text" name="destination" required>
+        <label for="arrival">To:</label>
+        <select id="arrival" class="form-control" type="text" name="arrival" required>
           <option selected>Select destination</option>
-          <option>Bucuresti</option>
-          <option>Roma</option>
-          <option>Suceava</option>
         </select>
       </div>
       <button type="submit" class="btn btn-primary" (click)="sendSubmision()">View flights</button>
