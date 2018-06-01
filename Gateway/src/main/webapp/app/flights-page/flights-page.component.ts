@@ -51,6 +51,12 @@ export class FlightsPageComponent implements OnInit {
       this.removeAllRows();
       this.createRowsUsingData(_data.body, 'some');
     });
+    this.flightsService.selectOptions('departure').subscribe((_data) => {
+      this.buildSelectOptions('departure', _data.body);
+    });
+    this.flightsService.selectOptions('arrival').subscribe((_data) => {
+      this.buildSelectOptions('arrival', _data.body);
+    });
   }
 
   calculateRate() {
@@ -59,7 +65,7 @@ export class FlightsPageComponent implements OnInit {
 
   sendSubmision() {
     const departureCity = (<HTMLInputElement>document.getElementById('departure')).value;
-    const destinationCity = (<HTMLInputElement>document.getElementById('destination')).value;
+    const destinationCity = (<HTMLInputElement>document.getElementById('arrival')).value;
     this.flightsService.submit(departureCity, destinationCity).subscribe((data) => {
       this.removeAllRows();
       this.createRowsUsingData(data.body, 'all');
@@ -303,6 +309,16 @@ export class FlightsPageComponent implements OnInit {
       this.ratingService.ratingForUserAndFlight(flightIdParameter, this.userInfo.id).subscribe((data) => {}, (err) => {
           this.ratingService.create(rating).subscribe((_data) => {});
       });
+    }
+  }
+
+  // option is for departure or arrival
+  buildSelectOptions(selectListName, list) {
+    const selectList = document.getElementById(selectListName);
+    for (let i = 0; i < list.length; i++) {
+      const option = this.createElement('option');
+      option.innerText = list[i];
+      selectList.appendChild(option);
     }
   }
 }

@@ -27,6 +27,10 @@ export class FlightsService {
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 
+    selectOptions(path: string): Observable<any> {
+        return this.http.get<any>(`${this.resourceUrl}/${path}`, {observe: 'response' });
+    }
+
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<Flights>(`${this.resourceUrl}/${id}`, { observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
