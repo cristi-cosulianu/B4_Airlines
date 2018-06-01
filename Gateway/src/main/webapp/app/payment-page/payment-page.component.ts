@@ -223,9 +223,6 @@ export class PaymentPageComponent implements OnInit {
       },
       (res: HttpErrorResponse) => {
         // rollback
-        if (res.status === 500) {
-          this.target_popup(404, 'Can\'t check your card!');
-        }
         if (res.status === 304) {
           this.target_popup(404, 'Insuficient funds!');
         } else if (res.status === 404) {
@@ -233,14 +230,13 @@ export class PaymentPageComponent implements OnInit {
         } else {
           this.target_popup(404, 'Update transaction error ' + res.status);
         }
-        this.paymentCompensation(this.transaction);
+        this.paymentCompensation();
         this.jhiAlertService.error(res.message, null, null);
       }
     );
   }
 
   updateCard(card: Card): void {
-    console.log('Am ajung in updateCard');
     this.cardService.update(card).subscribe(
       (res: HttpResponse<Card>) => {
         console.log('Card updated succesfully! ' + res.body.id);
@@ -252,11 +248,11 @@ export class PaymentPageComponent implements OnInit {
           this.ticket.ticket_flightID,
           this.ticket.ticket_planeType,
           this.totalPrice,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
           this.card.id
         );
         this.updateOrderHistory(this.order);
@@ -274,15 +270,19 @@ export class PaymentPageComponent implements OnInit {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
         this.order = res.body;
-        if ( this.finalSagaService.finaliseTransaction() === true ) {
+
+        this.finalSagaService.transactionResponse.subscribe((rsp: boolean) => {
+        if ( rsp.valueOf() === true ) {
           console.log('Order updated succesfully! ' + res.body.id);
-          this.target_popup(200, 'Succesful transaction !');
           this.showInvoice();
+          // this.target_popup(200, 'Succesful transaction !');
         } else {
           this.target_popup(404, 'Seats are already taken! ' );
           this.paymentCompensation(this.transaction, this.card, this.order );
         }
-      },
+
+        this.finalSagaService.finaliseTransaction();
+      }); },
       (res: HttpErrorResponse) => {
         this.target_popup(404, 'OrderHistory error ' + res.status);
         // rollback
@@ -307,7 +307,7 @@ export class PaymentPageComponent implements OnInit {
       this.historyCompensation(history);
       message = message + ', Order';
     }
-    this.target_popup(0, message);
+    // this.target_popup(0, message);
   }
 
   historyCompensation(history: OrderHistory): void {
