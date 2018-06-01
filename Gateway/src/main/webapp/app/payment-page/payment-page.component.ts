@@ -176,7 +176,6 @@ export class PaymentPageComponent implements OnInit {
         this.passengerIDInfos.phoneNo = this.user.phoneNumber;
         this.passengerIDInfos.firstName = this.user.name;
         this.passengerIDInfos.lastName = this.user.prenume;
-        this.passengerIDInfos.date = this.user.dateOfBirth.substring(8, 11) + '-' + this.user.dateOfBirth.substring(22, 23) + '-' + this.user.dateOfBirth.substring(32, 33);
       }
     });
 
@@ -281,9 +280,8 @@ export class PaymentPageComponent implements OnInit {
             this.target_popup(404, 'Seats are already taken! ');
             this.paymentCompensation(this.transaction, this.card, this.order);
           }
-
-          this.finalSagaService.finaliseTransaction();
         });
+        this.finalSagaService.finaliseTransaction();
       },
       (res: HttpErrorResponse) => {
         this.target_popup(404, 'OrderHistory error ' + res.status);

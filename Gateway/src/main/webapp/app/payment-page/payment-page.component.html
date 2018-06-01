@@ -171,7 +171,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="cc-name noselect">{{getText.formCard.name}}</label>
                         <input type="text" pattern="^(([a-zA-Z]+)(\.)? ?)+[a-zA-Z]*" class="form-control" name="passengerIDInfos.card.name" class="form-control"
-                            [(ngModel)]="passengerIDInfos.card.name" placeholder="FIRST LAST" [ngModelOptions]="{updateOn: 'blur'}" onkeyup="this.value = this.value.toUpperCase(); forceInputUppercase(this.value);"
+                            [(ngModel)]="passengerIDInfos.card.name" placeholder="FIRST LAST" [ngModelOptions]="{updateOn: 'blur'}" onkeypress="this.value = this.value.toUpperCase(); forceInputUppercase(this.value);"
                             required>
                         <small class="text-muted">Full name as displayed on card</small>
                         <div class="invalid-feedback">
@@ -210,27 +210,16 @@
                 </div>
                 <hr class="mb-4">
                 <!-- <p>{{ passengerIDInfos | json }}</p> -->
-                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Continue to checkout" (click)="editFormvalid()"></input>
-                
-                <!-- TREBUIE STERS LA FINAL -->
-                <br>
-                <a (click)="showInvoice();" class="btn btn-xs btn-warning">print dev button <span class="glyphicon glyphicon-question-sign"></span></a>
-                <br>
-                <!-- TREBUIE STERS LA FINAL -->
-                
+                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Continue to checkout" (click)="editFormvalid()"></input>    
                 <div id="feedMess" (click)="removeFeedMess()"></div>
             </form>
         </div>
     </div>
 </div>
 <div id="invoicePayment" style="display: none;">
-
-    <!-- TREBUIE STERS LA FINAL -->
-    <button id="dont-print" (click)="showInvoice()" type="button" class="btn btn-primary">
-        BACK - just on developer mode
+    <button id="dont-print" routerlink="/payment-page" type="button" class="btn btn-primary">
+        Go home
     </button>
-    <!-- TREBUIE STERS LA FINAL -->
-
     <div id="dont-print" class="alert alert-success" role="alert">
         <h4 class="alert-heading">Transaction Successful</h4>
         <p>Thank you for booking your flight on B4 Airlines. Your payment has been processed.</p>
