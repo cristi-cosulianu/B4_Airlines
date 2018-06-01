@@ -1,5 +1,5 @@
-<div class="container">
-    <button (click)="saveSeats()" routerLink="/seats-configure-page" type="button" class="btn btn-primary">
+<div id="paymentForm" class="container">
+    <button routerLink="/seats-configure-page" type="button" class="btn btn-primary">
         {{ getText.back }}
     </button>
     <div class="py-5 text-center">
@@ -12,7 +12,7 @@
         <div class="col-md-4 order-md-2 mb-4">
             <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <h6 class="my-0 noselect">{{getText.checkCart.ticket}}</h6>
+                    <h6 class="my-0 noselect">{{getText.checkCart.ticket + ' (' + flightInfos.quantity + ')'}}</h6>
                     <span class="text-muted">{{ ticketPrice | currency:'USD':true:'1.2-2' }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed" *ngFor="let optionsCheckbox of getText.checkCart.specialNeeds">
@@ -33,12 +33,12 @@
                     <strong>{{getText.checkCart.departed}}</strong>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <small class="text-muted">{{flightInfos.flightDate + ' ' + flightInfos.departLocation + ' - ' + flightInfos.landLocation}}</small>
-                    <small class="text-muted noselect">{{ flightInfos.stops + ' stop'}}</small>
+                    <small class="text-muted">{{ 'Company ' + flightInfos.flightCompany }}</small>
+                    <small class="text-muted noselect">{{ flightInfos.quantity + ' tickets' }}</small>
                 </li>
                 <li class="list-group-item d-flex justify-content-between lh-condensed">
-                    <small class="text-muted">{{flightInfos.departTime}}
-                        <i class="fa fa-arrow-right"></i> {{flightInfos.landTime}}</small>
+                    <small>{{ flightInfos.departLocation + ' - ' + flightInfos.landLocation }}</small>
+                    <small class="text-muted noselect">{{flightInfos.departTime}} <i class="fa fa-arrow-right"></i> {{flightInfos.landTime}}</small>
                 </li>
             </ul>
         </div>
@@ -170,8 +170,8 @@
                 <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="cc-name noselect">{{getText.formCard.name}}</label>
-                        <input type="text" pattern="[a-zA-Z]+(?:(\s)))[a-zA-Z]+" class="form-control" name="passengerIDInfos.card.name" class="form-control"
-                            [(ngModel)]="passengerIDInfos.card.name" [ngModelOptions]="{updateOn: 'blur'}" onkeyup="this.value = this.value.toUpperCase();"
+                        <input type="text" pattern="^(([a-zA-Z]+)(\.)? ?)+[a-zA-Z]*" class="form-control" name="passengerIDInfos.card.name" class="form-control"
+                            [(ngModel)]="passengerIDInfos.card.name" placeholder="FIRST LAST" [ngModelOptions]="{updateOn: 'blur'}" onkeyup="this.value = this.value.toUpperCase(); forceInputUppercase(this.value);"
                             required>
                         <small class="text-muted">Full name as displayed on card</small>
                         <div class="invalid-feedback">
@@ -201,7 +201,7 @@
                     </div>
                     <div class="col-md-3 mb-3">
                         <label for="cc-cvv noselect">{{getText.formCard.cvv}}</label>
-                        <input pattern="^([0-9]{3})\b" type="text" maxlength="3" class="form-control" name="passengerIDInfos.card.cvv" class="form-control"
+                        <input pattern="^([0-9]{3})\b" placeholder="123" type="text" maxlength="3" class="form-control" name="passengerIDInfos.card.cvv" class="form-control"
                             [(ngModel)]="passengerIDInfos.card.cvv" [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
                             Security code required
@@ -209,10 +209,155 @@
                     </div>
                 </div>
                 <hr class="mb-4">
-                <!-- <p>{{ passengerIDInfos | json}}</p> -->
+                <!-- <p>{{ passengerIDInfos | json }}</p> -->
                 <input class="btn btn-primary btn-lg btn-block" type="submit" value="Continue to checkout" (click)="editFormvalid()"></input>
+                
+                <!-- TREBUIE STERS LA FINAL -->
+                <br>
+                <a (click)="showInvoice();" class="btn btn-xs btn-warning">print dev button <span class="glyphicon glyphicon-question-sign"></span></a>
+                <br>
+                <!-- TREBUIE STERS LA FINAL -->
+                
                 <div id="feedMess" (click)="removeFeedMess()"></div>
             </form>
+        </div>
+    </div>
+</div>
+<div id="invoicePayment" style="display: none;">
+
+    <!-- TREBUIE STERS LA FINAL -->
+    <button id="dont-print" (click)="showInvoice()" type="button" class="btn btn-primary">
+        BACK - just on developer mode
+    </button>
+    <!-- TREBUIE STERS LA FINAL -->
+
+    <div id="dont-print" class="alert alert-success" role="alert">
+        <h4 class="alert-heading">Transaction Successful</h4>
+        <p>Thank you for booking your flight on B4 Airlines. Your payment has been processed.</p>
+        <hr>
+        <p class="mb-0">Below you have the invoice with all the details of the flight.</p>
+    </div>
+    <div class="container">
+        <div class="row pad-top-botm ">
+            <div class="col-lg-6 col-md-6 col-sm-6 ">
+                <img src="img/logo.jpg" style="padding-bottom:20px;" />
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <strong class="strong-text"> B4 Airlines</strong>
+                <br/>
+                <b class="strong-text">Address : </b> Iași, <i>700259</i>,
+                <br/> Strada General Henri Mathias 16, Iași,
+                <br/> Romania.
+            </div>
+        </div>
+        <br/>
+        <div class="row text-center contact-info">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <hr>
+                <span>
+                    <strong>Email : </strong> b4airlanes@e-mail.com
+                </span>
+                <span>
+                    <strong>Call : </strong> +95-890-000-0000
+                </span>
+                <span>
+                    <strong>Fax : </strong> +012340-000-000
+                </span>
+                <hr>
+            </div>
+        </div>
+        <br/>
+        <div class="row pad-top-botm client-info">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h4>
+                    <strong class="strong-text" style="text-transform: uppercase;">Client Information</strong>
+                </h4>
+                <strong class="strong-text">{{ passengerIDInfos.firstName + ' ' + passengerIDInfos.lastName}}</strong>
+                <br>
+                <b class="strong-text">CNP : </b> {{ user.cnp }}
+                <br>
+                <b class="strong-text">Address : </b> {{ user.adress }}
+                <br>
+                <b>{{ user.emittingCountry }}</b>
+                <br>
+                <b class="strong-text">Call : </b> {{ passengerIDInfos.phoneNo }}
+                <br>
+                <b class="strong-text" *ngIf="passengerIDInfos.email.length>1; else mail_empty">E-mail : </b> {{ passengerIDInfos.email }}
+                <ng-template #mail_empty><b class="strong-text">E-mail : </b> - </ng-template>
+
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                <h4>
+                    <strong class="strong-text" style="text-transform: uppercase;">Payment Details </strong>
+                </h4>
+                <b>Bill Date : {{ currentDate.getDate() + '/' + currentDateMonth + '/' + currentDate.getFullYear() }}
+                </b>
+                <br>
+                <b class="strong-text">Payment Status : Paid</b>
+                <br>
+                <b>Company : {{ flightInfos.flightCompany }} </b>
+                <br>
+                <b>
+                    <strong class="strong-text">Departed: </strong> {{ flightInfos.departLocation }}
+                    <strong class="strong-text">at</strong> {{ flightInfos.departTime }} </b>
+                <br>
+                <b>
+                    <strong class="strong-text">Land: </strong> {{ flightInfos.landLocation }}
+                    <strong class="strong-text">at</strong> {{ flightInfos.landTime }} </b>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <hr>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Service name</th>
+                                <th>Quantity.</th>
+                                <th>Unit Price</th>
+                                <th>Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ getText.checkCart.ticket + 's' }}</td>
+                                <td>{{ flightInfos.quantity }}</td>
+                                <td>{{ ticketPrice | currency:'USD':true:'1.2-2' }}</td>
+                                <td>{{ totalPrice | currency:'USD':true:'1.2-2' }}</td>
+                            </tr>
+                            <tr *ngFor="let optionsCheckbox of getText.checkCart.specialNeeds">
+                                <td>{{ optionsCheckbox.name }}</td>
+                                <td>1</td>
+                                <td>{{ optionsCheckbox.value | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
+                                <td>{{ optionsCheckbox.value | currency:'USD':'symbol-narrow':'1.2-2'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="ttl-amts">
+                    <h4>
+                        <strong>Bill Amount : {{ totalPrice | currency:'USD':true:'1.2-2' }}</strong>
+                    </h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <strong class="strong-text"> Important: </strong>
+                <ol>
+                    <li>
+                        This is an electronic generated invoice so doesn't require any signature.
+                    </li>
+                </ol>
+            </div>
+        </div>
+        <div id="dont-print" class="row pad-top-botm">
+            <div class="col-lg-12 col-md-12 col-sm-12" style="text-align: center; margin-top: 80px;">
+                <a class="btn btn-lg btn-success" onClick="window.print()" style="color: white">Download PDF</a>
+            </div>
         </div>
     </div>
 </div>

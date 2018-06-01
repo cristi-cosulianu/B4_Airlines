@@ -16,6 +16,8 @@ import { resolveSoa } from 'dns';
 import { OrderHistory, OrderHistoryService } from '../entities/order-history';
 import { Transaction } from '../models/transaction.model';
 import { FinalSagaService } from '../final-saga.service';
+import { AccountService, Principal } from '../shared';
+import { SettingsComponent } from '../account/settings/settings.component';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -25,6 +27,7 @@ import { FinalSagaService } from '../final-saga.service';
 
 export class PaymentPageComponent implements OnInit {
 
+  [x: string]: any;
   passengerIDInfos: any = {
     firstName: '',
     lastName: '',
@@ -49,10 +52,12 @@ export class PaymentPageComponent implements OnInit {
   private flight: Flights = new Flights;
   private user: Userinfo;
   private order: OrderHistory;
+  private accountInfo: any;
   private bank: Bank;
   private card: Card;
   private transaction: Transaction;
-
+  currentDate = new Date();
+  currentDateMonth = this.currentDate.getMonth() + 1;
   showInfoForm = false;
   private ticketPrice: number;
   private totalPrice = 0;
@@ -65,10 +70,10 @@ export class PaymentPageComponent implements OnInit {
   ];
 
   flightInfos: ITicket = {
-    flightDate: '29/02/1996',
+    flightCompany: 'Wizz',
     departLocation: 'London',
     landLocation: 'Bucharest',
-    stops: 1,
+    quantity: 0,
     departTime: '16:30',
     landTime: '18:30'
   };
@@ -121,10 +126,10 @@ export class PaymentPageComponent implements OnInit {
       'cvv': 'CVV'
     },
     'checkCart': {
-      'ticket': 'Ticket (' + 1 + ')',
+      'ticket': 'Ticket',
       'specialNeeds': Array<number>(),
       'total': 'Total',
-      'totalSmall': 'Including taxes and fees',
+      'totalSmall': 'Free taxes and fees',
       'departed': 'Departed'
     }
   };
@@ -135,7 +140,9 @@ export class PaymentPageComponent implements OnInit {
     private dataService: DataService,
     private flightsService: FlightsService,
     private orderHistoryService: OrderHistoryService,
-    private finalSagaService: FinalSagaService
+    private finalSagaService: FinalSagaService,
+    private account: AccountService,
+    private principal: Principal
   ) { }
 
   // Recomandat de facut initializarile aici
@@ -153,16 +160,28 @@ export class PaymentPageComponent implements OnInit {
       this.dataService.user.subscribe((_data) => this.user);
       this.ticketPrice = this.flight.priceRangeMax;
       this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-      // this.totalPrice += 100;
       this.flightInfos.departLocation = this.flight.departure;
       this.flightInfos.departTime = this.flight.departureTime;
       this.flightInfos.landLocation = this.flight.arrival;
       this.flightInfos.landTime = this.flight.arrivalTime;
-      this.flightInfos.flightDate = this.flight.company;    }, () => {
+      this.flightInfos.flightCompany = this.flight.company;    }, () => {
       this.target_popup(0, 'Flight microservice not privided...');
       // this.paymentCompensation();
     });
 
+    this.dataService.user.subscribe((_data) => {
+      this.user = _data;
+      if (this.user.phoneNumber !== undefined) {
+        this.passengerIDInfos.phoneNo = this.user.phoneNumber;
+        this.passengerIDInfos.firstName = this.user.name;
+        this.passengerIDInfos.lastName = this.user.prenume;
+        this.passengerIDInfos.date = this.user.dateOfBirth.substring(8, 11) + '-' + this.user.dateOfBirth.substring(22, 23) + '-' + this.user.dateOfBirth.substring(32, 33);
+      }
+    });
+
+    if (this.ticket.ticket_seats !== undefined) {
+      this.flightInfos.quantity = this.ticket.ticket_seats.length;
+    }
   }
 
   submit() {
@@ -204,6 +223,9 @@ export class PaymentPageComponent implements OnInit {
       },
       (res: HttpErrorResponse) => {
         // rollback
+        if (res.status === 500) {
+          this.target_popup(404, 'Can\'t check your card!');
+        }
         if (res.status === 304) {
           this.target_popup(404, 'Insuficient funds!');
         } else if (res.status === 404) {
@@ -211,13 +233,14 @@ export class PaymentPageComponent implements OnInit {
         } else {
           this.target_popup(404, 'Update transaction error ' + res.status);
         }
-        this.paymentCompensation();
+        this.paymentCompensation(this.transaction);
         this.jhiAlertService.error(res.message, null, null);
       }
     );
   }
 
   updateCard(card: Card): void {
+    console.log('Am ajung in updateCard');
     this.cardService.update(card).subscribe(
       (res: HttpResponse<Card>) => {
         console.log('Card updated succesfully! ' + res.body.id);
@@ -254,6 +277,7 @@ export class PaymentPageComponent implements OnInit {
         if ( this.finalSagaService.finaliseTransaction() === true ) {
           console.log('Order updated succesfully! ' + res.body.id);
           this.target_popup(200, 'Succesful transaction !');
+          this.showInvoice();
         } else {
           this.target_popup(404, 'Seats are already taken! ' );
           this.paymentCompensation(this.transaction, this.card, this.order );
@@ -427,6 +451,28 @@ export class PaymentPageComponent implements OnInit {
     const displayResults = document.getElementById('feedMess') as HTMLDivElement;
     while (displayResults.hasChildNodes()) {
       displayResults.removeChild(displayResults.lastChild);
+    }
+  }
+
+  forceInputUppercase(inputText) {
+    const start = inputText.target.selectionStart;
+    const end = inputText.target.selectionEnd;
+    inputText.target.value = inputText.target.value.toUpperCase();
+    inputText.target.setSelectionRange(start, end);
+  }
+
+  showInvoice() {
+    const pay = document.getElementById('paymentForm');
+    const inv = document.getElementById('invoicePayment');
+    if (pay.style.display === 'none') {
+      pay.style.display = 'block';
+    } else {
+      pay.style.display = 'none';
+    }
+    if (inv.style.display === 'block') {
+      inv.style.display = 'none';
+    } else {
+      inv.style.display = 'block';
     }
   }
 }

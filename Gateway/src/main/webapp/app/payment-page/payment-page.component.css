@@ -51,3 +51,82 @@
     margin: 30px 0;
     cursor: pointer;
 }
+
+.card.jh-card {
+    border: none !important;
+}
+
+/* =============================================================
+   PAGE STYLES
+ ============================================================ */
+
+.contact-info span {
+    font-size: 14px;
+    padding: 0px 50px 0px 50px;
+}
+
+.contact-info hr {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.client-info {
+    font-size: 15px;
+}
+
+.ttl-amts {
+    text-align: right;
+    padding-right: 50px;
+}
+
+.strong-text {
+    font-weight: bold;
+}
+
+.alert-success {
+    text-align: center;
+    width: 40%;
+    margin: 50px auto;
+}
+
+/* =============================================================
+   PRINT STYLES
+ ============================================================ */
+
+@media print and (color) {
+    * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+    .main-navigation,
+    .comments,
+    .sidebar,
+    .footer {
+        display: none;
+    }
+    @page {
+        margin: none;
+        orphans: 4;
+        widows: 3;
+        size: A4 landscape;
+    }
+    body {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 16px;
+        line-height: 30px;
+        margin: 1.6cm;
+    }
+    body {
+        color: #000;
+        background: #fff;
+    }
+    #dont-print {
+        display: none;
+    }
+    .jh-card {
+        border: none !important;
+    }
+    .footer {
+        margin-top: 5em;
+    }
+}
