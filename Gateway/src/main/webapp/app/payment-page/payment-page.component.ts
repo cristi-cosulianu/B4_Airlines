@@ -164,7 +164,8 @@ export class PaymentPageComponent implements OnInit {
       this.flightInfos.departTime = this.flight.departureTime;
       this.flightInfos.landLocation = this.flight.arrival;
       this.flightInfos.landTime = this.flight.arrivalTime;
-      this.flightInfos.flightCompany = this.flight.company;    }, () => {
+      this.flightInfos.flightCompany = this.flight.company;
+    }, () => {
       this.target_popup(0, 'Flight microservice not privided...');
       // this.paymentCompensation();
     });
@@ -203,7 +204,7 @@ export class PaymentPageComponent implements OnInit {
       this.passengerIDInfos.card.cvv + ' ' +
       this.totalPrice);
 
-      this.updateBank(this.transaction);
+    this.updateBank(this.transaction);
   }
 
   updateBank(transaction: Transaction): void {
@@ -272,17 +273,18 @@ export class PaymentPageComponent implements OnInit {
         this.order = res.body;
 
         this.finalSagaService.transactionResponse.subscribe((rsp: boolean) => {
-        if ( rsp.valueOf() === true ) {
-          console.log('Order updated succesfully! ' + res.body.id);
-          this.showInvoice();
-          // this.target_popup(200, 'Succesful transaction !');
-        } else {
-          this.target_popup(404, 'Seats are already taken! ' );
-          this.paymentCompensation(this.transaction, this.card, this.order );
-        }
+          if (rsp.valueOf() === true) {
+            console.log('Order updated succesfully! ' + res.body.id);
+            this.showInvoice();
+            // this.target_popup(200, 'Succesful transaction !');
+          } else if (rsp.valueOf() === false) {
+            this.target_popup(404, 'Seats are already taken! ');
+            this.paymentCompensation(this.transaction, this.card, this.order);
+          }
 
-        this.finalSagaService.finaliseTransaction();
-      }); },
+          this.finalSagaService.finaliseTransaction();
+        });
+      },
       (res: HttpErrorResponse) => {
         this.target_popup(404, 'OrderHistory error ' + res.status);
         // rollback

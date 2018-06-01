@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { TicketModel } from './models/ticket-model';
-import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import { SeatsService, Seats } from './entities/seats';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class FinalSagaService {
 
   private ticket: TicketModel;
   private transactionSuccess: boolean;
-  public transactionResponse: Observable<boolean> = Observable.of(this.transactionSuccess);
+  public transactionResponse = new Subject<boolean>();
 
   constructor(
     private dataService: DataService,
@@ -37,6 +37,7 @@ export class FinalSagaService {
         }
         // save
         this.transactionSuccess = true;
+        this.transactionResponse.next(this.transactionSuccess);
       } else {
         let message = 'These seats can not be reserved as they are already taken: ';
         for (let k = 0; k < deniedSeats.length; k++) {
@@ -45,6 +46,7 @@ export class FinalSagaService {
         }
         alert(message);
         this.transactionSuccess = false;
+        this.transactionResponse.next(this.transactionSuccess);
         // fail
       }
     });
