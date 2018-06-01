@@ -31,6 +31,16 @@ export class FlightsService {
         return this.http.get<any>(`${this.resourceUrl}/${path}`, {observe: 'response' });
     }
 
+    getArrivalOptions(departureCity: string): Observable<any> {
+        const departureOption = 'departure';
+        return this.http.get<any>(`${this.resourceUrl}/${departureOption}/${departureCity}`, {observe: 'response' });
+    }
+
+    getDepartureOptions(arrivalCity: string): Observable<any> {
+        const arrivalOption = 'arrival';
+        return this.http.get<any>(`${this.resourceUrl}/${arrivalOption}/${arrivalCity}`, {observe: 'response' });
+    }
+
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<Flights>(`${this.resourceUrl}/${id}`, { observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));

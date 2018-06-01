@@ -44,19 +44,24 @@ export class FlightsPageComponent implements OnInit {
     // (err) => {
     //   console.log(err);
     // });
+    this.flightsService.getArrivalOptions('Iasi').subscribe((_data) => {console.log('Departure from Iasi arrival in: '); console.log(_data.body); });
+    this.flightsService.getDepartureOptions('Iasi').subscribe((_data) => {console.log('Arrival in Iasi departure from: '); console.log(_data.body); });
+
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.user.subscribe((_data) => this.userInfo = _data);
     this.data.updateTicket(this.ticket);
     this.flightsService.query().subscribe((_data) => {
-      this.removeAllRows();
+      this.removeAllChilds(document.getElementById('tableBody'));
       this.createRowsUsingData(_data.body, 'some');
     });
-    this.flightsService.selectOptions('departure').subscribe((_data) => {
-      this.buildSelectOptions('departure', _data.body);
-    });
-    this.flightsService.selectOptions('arrival').subscribe((_data) => {
-      this.buildSelectOptions('arrival', _data.body);
-    });
+
+    this.buildSelectOptions('departure', 'all');
+    const departureSelect = document.getElementById('departure');
+    departureSelect.onchange = ((event) => this.rebuildSelectOptions('departure'));
+
+    this.buildSelectOptions('arrival', 'all');
+    const arrivalSelect = document.getElementById('arrival');
+    arrivalSelect.onchange = ((event) => this.rebuildSelectOptions('arrival'));
   }
 
   calculateRate() {
@@ -67,18 +72,9 @@ export class FlightsPageComponent implements OnInit {
     const departureCity = (<HTMLInputElement>document.getElementById('departure')).value;
     const destinationCity = (<HTMLInputElement>document.getElementById('arrival')).value;
     this.flightsService.submit(departureCity, destinationCity).subscribe((data) => {
-      this.removeAllRows();
+      this.removeAllChilds(document.getElementById('tableBody'));
       this.createRowsUsingData(data.body, 'all');
     });
-  }
-
-  removeAllRows() {
-    // Get parent container <tbody>.
-    const tableBody = document.getElementById('tableBody');
-    // Remove all rows.
-    while (tableBody.firstChild) {
-      tableBody.removeChild(tableBody.firstChild);
-    }
   }
 
   createRowsUsingData(data, howMany) {
@@ -313,12 +309,64 @@ export class FlightsPageComponent implements OnInit {
   }
 
   // option is for departure or arrival
-  buildSelectOptions(selectListName, list) {
-    const selectList = document.getElementById(selectListName);
-    for (let i = 0; i < list.length; i++) {
-      const option = this.createElement('option');
-      option.innerText = list[i];
-      selectList.appendChild(option);
+  buildSelectOptions(selectListName, city) {
+    if (city === 'all') {
+      if (selectListName === 'departure') {
+        this.flightsService.selectOptions('arrival').subscribe((_data) => {
+          this.addSelectOptions('arrival', _data.body);
+        });
+      } else {
+        this.flightsService.selectOptions('departure').subscribe((_data) => {
+          this.addSelectOptions('departure', _data.body);
+        });
+      }
+    } else {
+      if (selectListName === 'departure') {
+        this.flightsService.getArrivalOptions(city).subscribe((_data) => {
+          this.addSelectOptions('arrival', _data.body);
+        });
+      } else {
+        this.flightsService.getDepartureOptions(city).subscribe((_data) => {
+          this.addSelectOptions('departure', _data.body);
+        });
+      }
+    }
+  }
+
+  addSelectOptions(selectListName, list) {
+      const selectList = <HTMLInputElement>document.getElementById(selectListName);
+      const selectedCity = selectList.value;
+      this.removeAllChilds(selectList);
+      const defaultOption = this.createElement('option');
+      defaultOption.innerText = 'Select ' + selectListName;
+      if (defaultOption.innerText !== selectedCity) {
+        selectList.appendChild(defaultOption);
+      }
+      const firstOption = this.createElement('option');
+      firstOption.innerText = selectedCity;
+      selectList.appendChild(firstOption);
+      for (let i = 0; i < list.length; i++) {
+        const option = this.createElement('option');
+        option.innerText = list[i];
+        if (option.innerText !== firstOption.innerText) {
+          selectList.appendChild(option);
+        }
+      }
+      selectList.value = selectedCity;
+  }
+
+  removeAllChilds(element) {
+    while (element.firstChild) {
+      element.removeChild(element.firstChild);
+    }
+  }
+
+  rebuildSelectOptions(selectListName) {
+    const value = (<HTMLInputElement>document.getElementById(selectListName)).value;
+    if (value === 'Select ' + selectListName) {
+      this.buildSelectOptions(selectListName, 'all');
+    } else {
+      this.buildSelectOptions(selectListName, value);
     }
   }
 }
