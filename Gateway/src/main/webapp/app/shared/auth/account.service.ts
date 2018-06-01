@@ -5,6 +5,7 @@ import { SERVER_API_URL } from '../../app.constants';
 
 @Injectable()
 export class AccountService  {
+  [x: string]: any;
     constructor(private http: HttpClient) { }
 
     get(): Observable<HttpResponse<Account>> {

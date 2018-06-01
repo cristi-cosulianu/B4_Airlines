@@ -1,8 +1,8 @@
 export interface ITicket {
-    flightDate: string;
+    flightCompany: string;
     departLocation: string;
     landLocation: string;
-    stops: number;
+    quantity: number;
     departTime: string;
     landTime: string;
 }

@@ -110,4 +110,20 @@ public class FlightsServiceImpl implements FlightsService {
         flights.stream().forEach(flight -> {set.add(flight.getArrival());});
         return set.stream().collect(Collectors.toList());
     }
+
+    @Override
+    public List<String> findDepartureByArrival(String arrival) {
+        List<Flights> flights = flightsRepository.findByArrival(arrival);
+        Set<String> set = new HashSet<>();
+        flights.stream().forEach(flight -> {set.add(flight.getDeparture());});
+        return set.stream().collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findArrivalByDeparture(String departure) {
+        List<Flights> flights = flightsRepository.findByDeparture(departure);
+        Set<String> set = new HashSet<>();
+        flights.stream().forEach(flight -> {set.add(flight.getArrival());});
+        return set.stream().collect(Collectors.toList());
+    }
 }

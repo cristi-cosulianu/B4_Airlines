@@ -16,6 +16,8 @@ import { resolveSoa } from 'dns';
 import { OrderHistory, OrderHistoryService } from '../entities/order-history';
 import { Transaction } from '../models/transaction.model';
 import { FinalSagaService } from '../final-saga.service';
+import { AccountService, Principal } from '../shared';
+import { SettingsComponent } from '../account/settings/settings.component';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -25,6 +27,7 @@ import { FinalSagaService } from '../final-saga.service';
 
 export class PaymentPageComponent implements OnInit {
 
+  [x: string]: any;
   passengerIDInfos: any = {
     firstName: '',
     lastName: '',
@@ -49,13 +52,15 @@ export class PaymentPageComponent implements OnInit {
   private flight: Flights = new Flights;
   private user: Userinfo;
   private order: OrderHistory;
+  private accountInfo: any;
   private bank: Bank;
   private card: Card;
   private transaction: Transaction;
-
+  currentDate = new Date();
+  currentDateMonth = this.currentDate.getMonth() + 1;
   showInfoForm = false;
   private ticketPrice: number;
-  private totalPrice: number;
+  private totalPrice = 0;
   optionalNeeds: any = [
     { name: 'Blind', value: 10.07 },
     { name: 'Deaf', value: 20.14 },
@@ -65,10 +70,10 @@ export class PaymentPageComponent implements OnInit {
   ];
 
   flightInfos: ITicket = {
-    flightDate: '29/02/1996',
+    flightCompany: 'Wizz',
     departLocation: 'London',
     landLocation: 'Bucharest',
-    stops: 1,
+    quantity: 0,
     departTime: '16:30',
     landTime: '18:30'
   };
@@ -121,10 +126,10 @@ export class PaymentPageComponent implements OnInit {
       'cvv': 'CVV'
     },
     'checkCart': {
-      'ticket': 'Ticket (' + 1 + ')',
+      'ticket': 'Ticket',
       'specialNeeds': Array<number>(),
       'total': 'Total',
-      'totalSmall': 'Including taxes and fees',
+      'totalSmall': 'Free taxes and fees',
       'departed': 'Departed'
     }
   };
@@ -135,7 +140,9 @@ export class PaymentPageComponent implements OnInit {
     private dataService: DataService,
     private flightsService: FlightsService,
     private orderHistoryService: OrderHistoryService,
-    private finalSagaService: FinalSagaService
+    private finalSagaService: FinalSagaService,
+    private account: AccountService,
+    private principal: Principal
   ) { }
 
   // Recomandat de facut initializarile aici
@@ -144,7 +151,7 @@ export class PaymentPageComponent implements OnInit {
     this.dataService.ticketInfo.subscribe((ticket: TicketModel) => {
       this.ticket = ticket;
     }, () => {
-      this.target_popup(0, 'Ticket not provided');
+      this.target_popup(0, 'Ticket not provided...');
       // this.paymentCompensation();
     });
 
@@ -153,16 +160,29 @@ export class PaymentPageComponent implements OnInit {
       this.dataService.user.subscribe((_data) => this.user);
       this.ticketPrice = this.flight.priceRangeMax;
       this.totalPrice = this.ticketPrice * this.ticket.ticket_seats.length;
-      // this.totalPrice = 100;
       this.flightInfos.departLocation = this.flight.departure;
       this.flightInfos.departTime = this.flight.departureTime;
       this.flightInfos.landLocation = this.flight.arrival;
       this.flightInfos.landTime = this.flight.arrivalTime;
-      this.flightInfos.flightDate = this.flight.company;    }, () => {
-      this.target_popup(0, 'Flight microservice not privided!');
+      this.flightInfos.flightCompany = this.flight.company;
+    }, () => {
+      this.target_popup(0, 'Flight microservice not privided...');
       // this.paymentCompensation();
     });
 
+    this.dataService.user.subscribe((_data) => {
+      this.user = _data;
+      if (this.user.phoneNumber !== undefined) {
+        this.passengerIDInfos.phoneNo = this.user.phoneNumber;
+        this.passengerIDInfos.firstName = this.user.name;
+        this.passengerIDInfos.lastName = this.user.prenume;
+        this.passengerIDInfos.date = this.user.dateOfBirth.substring(8, 11) + '-' + this.user.dateOfBirth.substring(22, 23) + '-' + this.user.dateOfBirth.substring(32, 33);
+      }
+    });
+
+    if (this.ticket.ticket_seats !== undefined) {
+      this.flightInfos.quantity = this.ticket.ticket_seats.length;
+    }
   }
 
   submit() {
@@ -171,7 +191,7 @@ export class PaymentPageComponent implements OnInit {
       this.passengerIDInfos.card.number,
       this.passengerIDInfos.card.expirationYear,
       this.passengerIDInfos.card.expirationMonth,
-      this.passengerIDInfos.card.name,
+      this.passengerIDInfos.card.name.toUpperCase(),
       this.passengerIDInfos.card.cvv,
       this.totalPrice,
       false
@@ -180,13 +200,11 @@ export class PaymentPageComponent implements OnInit {
     console.log(this.passengerIDInfos.card.number + ' ' +
       this.passengerIDInfos.card.expirationYear + ' ' +
       this.passengerIDInfos.card.expirationMonth + ' ' +
-      this.passengerIDInfos.card.name + ' ' +
+      this.passengerIDInfos.card.name.toUpperCase() + ' ' +
       this.passengerIDInfos.card.cvv + ' ' +
       this.totalPrice);
 
-    if (this.finalSagaService.finaliseTransaction() === true) {
-      this.updateBank(this.transaction);
-    }
+    this.updateBank(this.transaction);
   }
 
   updateBank(transaction: Transaction): void {
@@ -231,11 +249,11 @@ export class PaymentPageComponent implements OnInit {
           this.ticket.ticket_flightID,
           this.ticket.ticket_planeType,
           this.totalPrice,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i++) > -1,
-          this.passengerIDInfos.specialNeeds.indexOf(i) > -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
+          this.passengerIDInfos.specialNeeds.indexOf(i++) !== -1,
           this.card.id
         );
         this.updateOrderHistory(this.order);
@@ -252,9 +270,20 @@ export class PaymentPageComponent implements OnInit {
   updateOrderHistory(order: OrderHistory): void {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
-        console.log('Order updated succesfully! ' + res.body.id);
-        this.target_popup(200, 'Succesful transaction !');
         this.order = res.body;
+
+        this.finalSagaService.transactionResponse.subscribe((rsp: boolean) => {
+          if (rsp.valueOf() === true) {
+            console.log('Order updated succesfully! ' + res.body.id);
+            this.showInvoice();
+            // this.target_popup(200, 'Succesful transaction !');
+          } else if (rsp.valueOf() === false) {
+            this.target_popup(404, 'Seats are already taken! ');
+            this.paymentCompensation(this.transaction, this.card, this.order);
+          }
+
+          this.finalSagaService.finaliseTransaction();
+        });
       },
       (res: HttpErrorResponse) => {
         this.target_popup(404, 'OrderHistory error ' + res.status);
@@ -280,7 +309,7 @@ export class PaymentPageComponent implements OnInit {
       this.historyCompensation(history);
       message = message + ', Order';
     }
-    this.target_popup(0, message);
+    // this.target_popup(0, message);
   }
 
   historyCompensation(history: OrderHistory): void {
@@ -361,8 +390,6 @@ export class PaymentPageComponent implements OnInit {
     this.checkInvalidfields();
     const getFormId = document.getElementById('passangerInfoForm');
     if (this.hasClass(getFormId, 'ng-valid') === true) {
-      console.log('Apelez submit');
-      // In loc de error functia target_popup primeste ca argument this.submit()
       this.submit();
     }
   }
@@ -407,13 +434,13 @@ export class PaymentPageComponent implements OnInit {
         break;
       default:
         innerDiv.classList.add('alert');
-        innerDiv.classList.add('alert-warning');
+        innerDiv.classList.add('alert-dark');
         innerDiv.setAttribute('role', 'alert');
         mTitle.innerHTML = 'Sorry !';
         mTitle.style.fontWeight = 'bold';
         mTitle.style.cssFloat = 'left';
         mTitle.style.paddingRight = '10px';
-        desc.innerHTML = 'Please try again later.';
+        desc.innerHTML = message + '   Please try again later.';
         desc.style.marginBottom = '0';
         innerDiv.appendChild(mTitle);
         innerDiv.appendChild(desc);
@@ -426,6 +453,28 @@ export class PaymentPageComponent implements OnInit {
     const displayResults = document.getElementById('feedMess') as HTMLDivElement;
     while (displayResults.hasChildNodes()) {
       displayResults.removeChild(displayResults.lastChild);
+    }
+  }
+
+  forceInputUppercase(inputText) {
+    const start = inputText.target.selectionStart;
+    const end = inputText.target.selectionEnd;
+    inputText.target.value = inputText.target.value.toUpperCase();
+    inputText.target.setSelectionRange(start, end);
+  }
+
+  showInvoice() {
+    const pay = document.getElementById('paymentForm');
+    const inv = document.getElementById('invoicePayment');
+    if (pay.style.display === 'none') {
+      pay.style.display = 'block';
+    } else {
+      pay.style.display = 'none';
+    }
+    if (inv.style.display === 'block') {
+      inv.style.display = 'none';
+    } else {
+      inv.style.display = 'block';
     }
   }
 }
