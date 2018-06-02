@@ -61,8 +61,12 @@ export function init() {
         let i;
         for (i = 0; i < slide.length; i++) {
             // console.log(i + ' ' + slides[i].className);
-            slides[i].className = 'slide';
-            slidesNav[i + 1].className = 'slider';
+            try {
+                slides[i].className = 'slide';
+                slidesNav[i + 1].className = 'slider';
+            } catch (exception) {
+                return;
+            }
         }
         slideIndex++;
         if (slideIndex > slides.length) {
