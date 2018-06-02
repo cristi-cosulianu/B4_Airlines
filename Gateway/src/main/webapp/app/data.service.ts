@@ -39,6 +39,10 @@ export class DataService {
         this.set = false;
     }
 
+    resetTicket() {
+        this.ticket.next(new TicketModel());
+    }
+
     checkStatus(userinfo) {
         console.log('start to get user');
 

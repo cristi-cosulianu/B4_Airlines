@@ -11,6 +11,7 @@ import { SettingsReview } from './models/review.model';
 import { FlightsService, EntityResponseType, Flights } from '../../entities/flights';
 import { Ticket } from './models/ticket.model';
 import { OrderHistoryService, OrderHistory } from '../../entities/order-history';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'jhi-settings',
@@ -37,7 +38,8 @@ export class SettingsComponent implements OnInit {
         private eventManager: JhiEventManager,
         private reviewService: ReviewService,
         private flightsService: FlightsService,
-        private historyService: OrderHistoryService
+        private historyService: OrderHistoryService,
+        private router: Router
     ) {
     }
 
@@ -219,6 +221,7 @@ export class SettingsComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.userService.create(this.userinfo));
                 alert('succes');
+                this.router.navigate(['']);
         }
         this.dataService.updateUser(this.userinfo);
     }

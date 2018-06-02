@@ -175,7 +175,7 @@
                             required>
                         <small class="text-muted">Full name as displayed on card</small>
                         <div class="invalid-feedback">
-                            Name on card is required
+                            Name on card is incorrect
                         </div>
                     </div>
                     <div class="col-md-6 mb-3">
@@ -184,7 +184,7 @@
                             [(ngModel)]="passengerIDInfos.card.number" [ngModelOptions]="{updateOn: 'blur'}" placeholder="Valid Card Number"
                             required>
                         <div class="invalid-feedback">
-                            Credit card number is required
+                            Credit card number is incorrect
                         </div>
                     </div>
                 </div>
@@ -196,7 +196,7 @@
                             maxlength="7" placeholder="YYYY-MM" onkeypress="if(this.value.length === 4) this.value = this.value + '-';"
                             required>
                         <div class="invalid-feedback">
-                            Expiration date required
+                            Expiration date incorrect
                         </div>
                     </div>
                     <div class="col-md-3 mb-3">
@@ -204,7 +204,7 @@
                         <input pattern="^([0-9]{3})\b" placeholder="123" type="text" maxlength="3" class="form-control" name="passengerIDInfos.card.cvv" class="form-control"
                             [(ngModel)]="passengerIDInfos.card.cvv" [ngModelOptions]="{updateOn: 'blur'}" required>
                         <div class="invalid-feedback">
-                            Security code required
+                            Security code incorrect
                         </div>
                     </div>
                 </div>
@@ -217,7 +217,7 @@
     </div>
 </div>
 <div id="invoicePayment" style="display: none;">
-    <button id="dont-print" routerlink="/payment-page" type="button" class="btn btn-primary">
+    <button id="dont-print" (click)="goHome()" type="button" class="btn btn-primary">
         Go home
     </button>
     <div id="dont-print" class="alert alert-success" role="alert">

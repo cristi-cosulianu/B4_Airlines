@@ -18,6 +18,7 @@ import { Transaction } from '../models/transaction.model';
 import { FinalSagaService } from '../final-saga.service';
 import { AccountService, Principal } from '../shared';
 import { SettingsComponent } from '../account/settings/settings.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'jhi-payment-page',
@@ -142,7 +143,8 @@ export class PaymentPageComponent implements OnInit {
     private orderHistoryService: OrderHistoryService,
     private finalSagaService: FinalSagaService,
     private account: AccountService,
-    private principal: Principal
+    private principal: Principal,
+    private router: Router
   ) { }
 
   // Recomandat de facut initializarile aici
@@ -474,5 +476,9 @@ export class PaymentPageComponent implements OnInit {
     } else {
       inv.style.display = 'block';
     }
+  }
+
+  goHome() {
+    this.router.navigate(['']);
   }
 }
