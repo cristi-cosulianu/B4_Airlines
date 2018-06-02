@@ -479,6 +479,7 @@ export class PaymentPageComponent implements OnInit {
   }
 
   goHome() {
+    this.ticket.ticket_seats = [];
     this.router.navigate(['']);
   }
 }
