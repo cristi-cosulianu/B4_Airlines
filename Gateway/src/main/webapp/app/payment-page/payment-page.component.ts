@@ -317,7 +317,8 @@ export class PaymentPageComponent implements OnInit {
       // history = false;
     }, (error: HttpErrorResponse) => {
       console.log(error.message);
-      this.historyCompensation(history);
+      // this.historyCompensation(history);
+      this.goHome();
     });
   }
 
@@ -326,7 +327,8 @@ export class PaymentPageComponent implements OnInit {
       // card = false;
     }, (error: HttpErrorResponse) => {
       console.log(error.message);
-      this.cardCompensation(card);
+      // this.cardCompensation(card);
+      this.goHome();
     });
   }
 
@@ -337,7 +339,8 @@ export class PaymentPageComponent implements OnInit {
 
     }, (error: HttpErrorResponse) => {
       console.log(error.message);
-      this.bankCompensation(transaction);
+      // this.bankCompensation(transaction);
+      this.goHome();
     });
   }
 
