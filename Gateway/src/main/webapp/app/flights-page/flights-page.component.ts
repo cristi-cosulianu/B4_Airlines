@@ -44,8 +44,8 @@ export class FlightsPageComponent implements OnInit {
     // (err) => {
     //   console.log(err);
     // });
-    this.flightsService.getArrivalOptions('Iasi').subscribe((_data) => {console.log('Departure from Iasi arrival in: '); console.log(_data.body); });
-    this.flightsService.getDepartureOptions('Iasi').subscribe((_data) => {console.log('Arrival in Iasi departure from: '); console.log(_data.body); });
+    // this.flightsService.getArrivalOptions('Iasi').subscribe((_data) => {console.log('Departure from Iasi arrival in: '); console.log(_data.body); });
+    // this.flightsService.getDepartureOptions('Iasi').subscribe((_data) => {console.log('Arrival in Iasi departure from: '); console.log(_data.body); });
 
     this.data.ticketInfo.subscribe((_data) => this.ticket = _data);
     this.data.user.subscribe((_data) => this.userInfo = _data);
