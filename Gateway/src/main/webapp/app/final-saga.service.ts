@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 import { TicketModel } from './models/ticket-model';
-import { Subject } from 'rxjs/Subject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { SeatsService, Seats } from './entities/seats';
 
 @Injectable()
@@ -9,7 +9,7 @@ export class FinalSagaService {
 
   private ticket: TicketModel;
   private transactionSuccess: boolean;
-  public transactionResponse = new Subject<boolean>();
+  public transactionResponse = new BehaviorSubject<boolean>(this.transactionSuccess);
 
   constructor(
     private dataService: DataService,

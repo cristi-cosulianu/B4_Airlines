@@ -272,7 +272,7 @@ export class PaymentPageComponent implements OnInit {
     this.orderHistoryService.update(order).subscribe(
       (res: HttpResponse<OrderHistory>) => {
         this.order = res.body;
-
+        this.finalSagaService.finaliseTransaction();
         this.finalSagaService.transactionResponse.subscribe((rsp: boolean) => {
           if (rsp.valueOf() === true) {
             console.log('Order updated succesfully! ' + res.body.id);
@@ -283,7 +283,6 @@ export class PaymentPageComponent implements OnInit {
             this.paymentCompensation(this.transaction, this.card, this.order);
           }
         });
-        this.finalSagaService.finaliseTransaction();
       },
       (res: HttpErrorResponse) => {
         this.target_popup(404, 'OrderHistory error ' + res.status);
